@@ -1,0 +1,6 @@
+@use 'variables' as v;
+
+.header {
+  border-bottom: v.$border;
+  height: 80px;
+}
