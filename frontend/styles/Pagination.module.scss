@@ -1,0 +1,28 @@
+@use 'foundation/variables' as v;
+@use 'foundation/mixins';
+
+.pagination {
+  display: flex;
+  gap: 0 1px;
+}
+
+.paginationLink {
+  @include mixins.no-select;
+  cursor: pointer;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: v.$light;
+  &:hover {
+    background-color: v.$light-dark;
+  }
+}
+.activeLink {
+  background-color: v.$black;
+  color: v.$white;
+  &:hover {
+    background-color: v.$black-light;
+  }
+}

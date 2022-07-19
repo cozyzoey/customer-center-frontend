@@ -1,13 +1,21 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import qs from 'qs'
 import parse from 'html-react-parser';
 import {motion, AnimatePresence} from 'framer-motion'
+
+import Pagination from '@/components/Pagination';
+
 import { API_URL, PER_PAGE } from "@/static/config";
 import Layout from "@/components/Layout";
 import styles from '@/styles/FAQ.module.scss'
 
-export default function FAQ({items}) {
+export default function FAQ({items, page, total}) {
   const [activeItemId, setActiveItemId] = useState(null)
+
+  // * 페이지가 바뀌면 열린 아이템 닫기
+  useEffect(() => {
+    setActiveItemId(null)
+  }, [page])
 
   const handleClickItem = (id) => {
     if(activeItemId !== id) {
@@ -38,7 +46,7 @@ export default function FAQ({items}) {
           </li>)
         }
       </ul>
-
+      <Pagination page={page} total={total} pageName='faq'  />
     </Layout>
   )
 }

@@ -2,10 +2,25 @@
 
 .button {
   padding: 0 30px;
-  height: 50px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
+
+}
+
+.dark {
   background-color: v.$black;
   color: v.$white;
+  &:hover {
+    background-color: v.$black-light;
+  }
+}
+
+.light {
+  background-color: v.$light;
+  color: v.$black;
+  &:hover {
+    background-color: v.$light-dark;
+  }
 }

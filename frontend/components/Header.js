@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import Button from './Button';
-
 import styles from '@/styles/Header.module.scss';
 
 
@@ -23,7 +22,7 @@ export default function Header() {
       </ul>
       <div className={styles.logo}><Link href="/"><a>고객센터</a></Link></div>
       <div className={styles.myspace}>
-        <Button onClick={() => alert("clicked")}>닉네임 만들기</Button>
+        <Button onClick={() => alert("clicked")} variant='dark'>동의서 제출하기</Button>
       </div>
     </header>
   )

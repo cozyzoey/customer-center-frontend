@@ -2,6 +2,7 @@ import qs from 'qs'
 import moment from 'moment'
 import Link from 'next/link'
 import Layout from '@/components/Layout'
+import Pagination from '@/components/Pagination'
 import { API_URL, PER_PAGE } from '@/static/config'
 
 import styles from '@/styles/Home.module.scss'
@@ -30,6 +31,7 @@ export default function Home({notices, page, total}) {
           </li>)}
         </ul>
       </div>
+      <Pagination page={page} total={total} />
     </Layout>
   )
 }
