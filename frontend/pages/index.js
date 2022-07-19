@@ -18,7 +18,7 @@ export default function Home({notices, page, total}) {
 
         <ul>
           {notices.map((el) => <li>
-            <Link href='/'>
+            <Link href={`/${el.id}`}>
               <a>
                 <dl key={el.id} className={styles.tableRow}>
                   <dd>{el.id}</dd>
@@ -30,8 +30,6 @@ export default function Home({notices, page, total}) {
           </li>)}
         </ul>
       </div>
-
-      
     </Layout>
   )
 }
