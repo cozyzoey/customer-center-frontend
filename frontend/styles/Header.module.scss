@@ -1,6 +1,40 @@
-@use 'variables' as v;
+@use 'foundation/variables' as v;
+
+
+%navItemBase {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
 
 .header {
-  border-bottom: v.$border;
-  height: 80px;
+  border-bottom: v.$border; 
+  display: flex;
+  justify-content: space-between;
+}
+
+.navLinks {
+  height: 100%;
+  display: flex;
+  li {
+    @extend %navItemBase;
+    
+    a {
+      padding: 0 20px;
+    }
+  }
+}
+.inactiveNavLink {
+}
+.activeNavLink {
+  border-bottom: 2px solid v.$black;
+}
+
+.logo {
+  @extend %navItemBase;
+}
+
+.myspace {
+  @extend %navItemBase;
+
 }

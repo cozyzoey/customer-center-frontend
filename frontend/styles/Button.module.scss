@@ -1,0 +1,11 @@
+@use 'foundation/variables' as v;
+
+.button {
+  padding: 0 30px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: v.$black;
+  color: v.$white;
+}
