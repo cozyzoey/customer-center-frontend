@@ -43,8 +43,7 @@ export async function getServerSideProps({query: {page = 1}}) {
       pagination: {
         start: start,
         limit: PER_PAGE
-      },
-      populate: "*"      
+      }
     }
   )
   const res = await fetch(`${API_URL}/api/notices?${query}`)
