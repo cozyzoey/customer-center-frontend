@@ -5,25 +5,27 @@ import Layout from '@/components/Layout'
 import Pagination from '@/components/Pagination'
 import { API_URL, PER_PAGE } from '@/static/config'
 
-import styles from '@/styles/Home.module.scss'
+import styles from '@/styles/QnA.module.scss'
 
-export default function Home({notices, page, total}) {
+export default function QnA({items, page, total}) {
   return (
-    <Layout title='공지사항'>
+    <Layout title='QnA'>
       <div className={styles.table}>
         <dl className={styles.tableHeader}>
         <dd>번호</dd>
         <dd>제목</dd>
+        <dd>작성자</dd>
         <dd>작성일</dd>
         </dl>
 
         <ul>
-          {notices.map((el) => <li>
-            <Link href={`/${el.id}`} key={el.id}>
+          {items.map((el) => <li>
+            <Link href={`/qna/${el.id}`} key={el.id}>
               <a>
                 <dl key={el.id} className={styles.tableRow}>
                   <dd>{el.id}</dd>
-                  <dd>{el.attributes.title}</dd>
+                  <dd>{el.attributes.title}{el.attributes.answers.data.length > 0 && el.attributes.answers.data.length}</dd>
+                  <dd>{el.attributes.name}</dd>
                   <dd>{moment(el.attributes.createdAt).format('YYYY. MM. DD')}</dd>
                 </dl>
               </a>
@@ -45,15 +47,16 @@ export async function getServerSideProps({query: {page = 1}}) {
       pagination: {
         start: start,
         limit: PER_PAGE
-      }
+      },
+      populate: "*"
     }
   )
-  const res = await fetch(`${API_URL}/api/notices?${query}`)
+  const res = await fetch(`${API_URL}/api/questions?${query}`)
   const {data, meta} = await res.json();
 
   return {
     props: {
-      notices: data, page: +page, total: meta.pagination.total
+      items: data, page: +page, total: meta.pagination.total
     }
   }
 }
