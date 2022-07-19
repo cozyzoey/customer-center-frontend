@@ -1,6 +1,6 @@
 const navLinks = [
   { name: "공지사항", 
-   path: "/notice" 
+   path: "/" 
   },
   {
     name: "FAQ",

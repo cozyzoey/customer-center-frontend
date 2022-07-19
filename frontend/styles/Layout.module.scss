@@ -8,14 +8,17 @@
     left: 0;
     right: 0;
     z-index: 100;
-    background-color: v.$gray;
+    background-color: v.$white;
+    padding: 0 4vw;
   }
   main {
     min-height: 100vh;
+    padding: 0 4vw;
     padding-top: calc(v.$header-height + 40px);
   }
   footer {
     border-top: v.$border;
     height: 100px;
+    padding: 0 4vw;
   }
 }
