@@ -12,12 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "name": {
-      "type": "string"
-    },
-    "userId": {
-      "type": "string"
-    },
     "title": {
       "type": "string"
     },
@@ -29,6 +23,12 @@
       "relation": "oneToMany",
       "target": "api::answer.answer",
       "mappedBy": "question"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "questions"
     }
   }
 }
