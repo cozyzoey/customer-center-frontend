@@ -11,10 +11,11 @@
     font-size: calc(10px + 0.390625vw);
   }
 }
+// base size
 @mixin fs2 {
   font-size: 18px;
   @include respond(xl) {
-    font-size: calc(12px + 0.390625vw); // base size
+    font-size: calc(12px + 0.390625vw);
   }
 }
 @mixin fs3 {
@@ -33,6 +34,15 @@
   font-size: 24px;
   @include respond(xl) {
     font-size: calc(18px + 0.390625vw);
+  }
+}
+@mixin fs-lg {
+  font-size: 40px;
+  @include respond(xl) {
+    font-size: calc(34px + 0.390625vw);
+  }
+  @include respond(md) {
+    font-size: calc(20px + 0.390625vw);
   }
 }
 
