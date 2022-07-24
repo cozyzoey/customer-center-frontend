@@ -1,11 +1,11 @@
-$border: 1px solid #e6eaea;
-
-$header-height: 100px;
+$header-height: clamp(80px, 5.2vw, 100px);
 
 // Colors
-$black: rgb(32, 33, 33);
-$black-light: rgb(68, 70, 70);
+$black: #202121;
+$black-light: #444646;
 $white: #fff;
 $gray: #666666;
 $light: #f4f7f6;
-$light-dark: #e7eaea;
+$light-dark: #e6eaea;
+
+$border: 1px solid $light-dark;
