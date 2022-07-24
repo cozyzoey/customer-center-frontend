@@ -1,7 +1,55 @@
-.faq {
+@use '@/styles/foundation/variables' as v;
+@use '@/styles/foundation/mixins';
 
+.faq {
+  // Q 혹은 A 레이블
+  dt {
+    @include mixins.fs3;
+    font-weight: 500;
+    line-height: 1;
+  }
+  li {
+    border-bottom: v.$border;
+    &:first-of-type {
+      border-top: v.$border;
+    }
+  }
+}
+
+.title {
+  height: v.$h2;
+  padding: 0 2ch;
+  cursor: pointer;
+  display: flex;
+  gap: 0 4vw;
+  @media (hover: hover) {
+    &:hover {
+      background-color: v.$light;
+    }
+  }
+  dd {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .arrowIcon {
+      width: 4ch;
+      transition: transform 0.3s;
+      &[data-active='true'] {
+        transform: rotate(180deg);
+      }
+    }
+  }
 }
 
 .contents {
+  background-color: v.$light;
   overflow: hidden;
+  border-top: 2px solid v.$black-light;
+
+  & > div {
+    padding: 4ch 2ch;
+    display: flex;
+    gap: 0 4vw;
+  }
 }
