@@ -6,17 +6,56 @@
 
 // Font Size
 @mixin fs1 {
-  font-size: calc(10px + 0.390625vw);
+  font-size: 16px;
+  @include respond(xl) {
+    font-size: calc(10px + 0.390625vw);
+  }
 }
 @mixin fs2 {
-  font-size: calc(12px + 0.390625vw); // base size
+  font-size: 18px;
+  @include respond(xl) {
+    font-size: calc(12px + 0.390625vw); // base size
+  }
 }
 @mixin fs3 {
-  font-size: calc(14px + 0.390625vw);
+  font-size: 20px;
+  @include respond(xl) {
+    font-size: calc(14px + 0.390625vw);
+  }
 }
 @mixin fs4 {
-  font-size: calc(16px + 0.390625vw);
+  font-size: 22px;
+  @include respond(xl) {
+    font-size: calc(16px + 0.390625vw);
+  }
 }
 @mixin fs5 {
-  font-size: calc(18px + 0.390625vw);
+  font-size: 24px;
+  @include respond(xl) {
+    font-size: calc(18px + 0.390625vw);
+  }
+}
+
+// 반응형
+@mixin respond($breakpoint) {
+  @if ($breakpoint == xl) {
+    @media (max-width: 1500px) {
+      @content;
+    }
+  }
+  @if ($breakpoint == lg) {
+    @media (max-width: 1024px) {
+      @content;
+    }
+  }
+  @if ($breakpoint == md) {
+    @media (max-width: 800px) {
+      @content;
+    }
+  }
+  @if ($breakpoint == sm) {
+    @media (max-width: 500px) {
+      @content;
+    }
+  }
 }

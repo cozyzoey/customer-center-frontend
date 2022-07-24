@@ -13,6 +13,9 @@
   display: flex;
   justify-content: space-between;
   background-color: v.$white;
+  @include mixins.respond(lg) {
+    flex-direction: column;
+  }
 }
 
 .navLinks {
@@ -20,22 +23,32 @@
   display: flex;
   li {
     @extend %navItemBase;
-
+    @include mixins.respond(lg) {
+      width: 100%;
+    }
     a {
       padding: 0 20px;
+      @include mixins.respond(lg) {
+        width: 100%;
+        padding: 0;
+        text-align: center;
+      }
     }
   }
-}
-.inactiveNavLink {
-}
-.activeNavLink {
-  border-bottom: 2px solid v.$black;
+  .inactiveNavLink {
+  }
+  .activeNavLink {
+    border-bottom: 2px solid v.$black;
+  }
 }
 
 .logo {
   @include mixins.fs4;
   @extend %navItemBase;
   font-weight: 400;
+  @include mixins.respond(lg) {
+    display: none;
+  }
 }
 
 .myspace {
@@ -46,5 +59,12 @@
     align-items: center;
     gap: 0 20px;
     margin-right: 40px;
+    @include mixins.respond(lg) {
+      margin-right: 4vw;
+    }
+  }
+  @include mixins.respond(lg) {
+    order: -1;
+    justify-content: flex-end;
   }
 }
