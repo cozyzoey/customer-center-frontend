@@ -1,4 +1,5 @@
 @use 'foundation/variables' as v;
+@use 'foundation/mixins';
 
 .layout {
   header {
@@ -9,6 +10,9 @@
     right: 0;
     z-index: 100;
     padding: 0 4vw;
+    @include mixins.respond(lg) {
+      padding: 0;
+    }
   }
   main {
     min-height: 100vh;
