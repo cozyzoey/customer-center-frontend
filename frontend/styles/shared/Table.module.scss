@@ -29,7 +29,7 @@ dl.tableHeader {
   @include mixins.fs3;
   font-weight: 500;
   height: v.$h2;
-  border-bottom: 2px solid v.$black-light;
+  border-bottom: v.$border2;
   dd {
     text-align: center;
     // 제목
