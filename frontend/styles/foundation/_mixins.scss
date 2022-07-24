@@ -3,3 +3,20 @@
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
 }
+
+// Font Size
+@mixin fs1 {
+  font-size: calc(10px + 0.390625vw);
+}
+@mixin fs2 {
+  font-size: calc(12px + 0.390625vw); // base size
+}
+@mixin fs3 {
+  font-size: calc(14px + 0.390625vw);
+}
+@mixin fs4 {
+  font-size: calc(16px + 0.390625vw);
+}
+@mixin fs5 {
+  font-size: calc(18px + 0.390625vw);
+}
