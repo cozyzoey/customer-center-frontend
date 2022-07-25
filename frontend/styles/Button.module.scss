@@ -9,6 +9,21 @@
   white-space: nowrap;
 }
 
+// Loading
+.loading {
+  opacity: 0.4;
+  cursor: auto;
+  pointer-events: none;
+}
+
+// Disabled
+.disabled {
+  opacity: 0.4;
+  cursor: auto;
+  pointer-events: none;
+}
+
+// Variant
 .dark {
   background-color: v.$black;
   color: v.$white;
@@ -30,4 +45,13 @@
   &:hover {
     color: v.$gray;
   }
+}
+
+// Float
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
 }

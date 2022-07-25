@@ -15,7 +15,7 @@
     }
   }
   main {
-    max-width: 1400px;
+    max-width: v.$max-width;
     margin: 0 auto;
     min-height: 100vh;
     padding: 0 4vw;
