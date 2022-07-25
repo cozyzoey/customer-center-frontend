@@ -34,7 +34,6 @@
 
 input.title {
   @include mixins.fs4;
-  width: 100%;
   height: v.$h2;
 }
 
