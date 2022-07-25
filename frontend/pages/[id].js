@@ -5,7 +5,7 @@ import Layout from '@/components/Layout'
 import { API_URL } from '@/static/config'
 import styles from '@/styles/shared/ContentsDetail.module.scss'
 
-export default function Notice({ notice }) {
+export default function NoticeDetail({ notice }) {
   return (
     <Layout title="공지사항">
       <h1 className={styles.title}>{notice.title}</h1>

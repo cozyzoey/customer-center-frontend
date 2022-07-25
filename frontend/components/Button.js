@@ -7,6 +7,7 @@ export default function Button({
   float = 'none',
   loading = false,
   disabled = false,
+  fullWidth = false,
   ...props
 }) {
   const buttonClass = classNames(
@@ -14,7 +15,8 @@ export default function Button({
     styles[variant],
     styles[float],
     { [styles.loading]: loading },
-    { [styles.disabled]: disabled }
+    { [styles.disabled]: disabled },
+    { [styles.fullWidth]: fullWidth }
   )
   return (
     <button className={buttonClass} disabled={disabled} {...props}>
