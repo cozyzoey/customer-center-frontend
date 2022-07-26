@@ -1,90 +1,91 @@
-import { createContext, useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import { NEXT_URL } from '@/static/config'
+import { createContext, useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { NEXT_URL } from "@/static/config";
+import { resolveHref } from "next/dist/shared/lib/router/router";
 
-const AuthContext = createContext()
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null)
-  const [error, setError] = useState(null)
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
 
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
-    checkUserLoggedIn()
-  }, [])
+    checkUserLoggedIn();
+  }, []);
 
   const register = async (userInfo) => {
-    setError(null)
+    setError(null);
 
     const res = await fetch(`${NEXT_URL}/api/auth/register`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(userInfo),
-    })
+    });
 
-    const { user, message } = await res.json()
+    const { user, message } = await res.json();
 
     if (res.ok) {
-      setUser(user)
-      router.push('/account/dashboard')
+      setUser(user);
+      router.push("/");
     } else {
-      setError(message)
+      setError(message);
     }
-  }
+  };
 
   const login = async ({ email: identifier, password }) => {
-    setError(null)
+    setError(null);
 
     const res = await fetch(`${NEXT_URL}/api/auth/login`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         identifier,
         password,
       }),
-    })
+    });
 
-    const { user, message } = await res.json()
+    const { user, message } = await res.json();
 
     if (res.ok) {
-      setUser(user)
-      router.push('/')
+      setUser(user);
+      router.push("/");
     } else {
-      setError(message)
+      setError(message);
     }
-  }
+  };
 
   const logout = async () => {
     const res = await fetch(`${NEXT_URL}/api/auth/logout`, {
-      method: 'POST',
-    })
+      method: "POST",
+    });
     if (res.ok) {
-      setUser(null)
-      router.push('/')
+      setUser(null);
+      router.push("/");
     }
-  }
+  };
 
   const checkUserLoggedIn = async () => {
-    const res = await fetch(`${NEXT_URL}/api/auth/user`)
-    const { user } = await res.json()
+    const res = await fetch(`${NEXT_URL}/api/auth/user`);
+    const { user } = await res.json();
 
     if (res.ok) {
-      setUser(user)
+      setUser(user);
     } else {
-      setUser(null)
+      setUser(null);
     }
-  }
+  };
 
   return (
     <AuthContext.Provider value={{ user, error, register, login, logout }}>
       {children}
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
-export default AuthContext
+export default AuthContext;
