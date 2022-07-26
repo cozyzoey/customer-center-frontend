@@ -1,46 +1,46 @@
-import { useState, useRef, useEffect } from 'react'
-import dynamic from 'next/dynamic'
-import Head from 'next/head'
-import { useRouter } from 'next/router'
-import { toast } from 'react-toastify'
-import Button from '@/components/Button'
-const Editor = dynamic(() => import('@/components/Editor'), {
+import { useState, useRef, useEffect } from "react";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import Button from "@/components/Button";
+const Editor = dynamic(() => import("@/components/Editor"), {
   ssr: false,
-})
-import { NEXT_URL } from '@/static/config'
-import styles from '@/styles/shared/QnAEditor.module.scss'
+});
+import { NEXT_URL } from "@/static/config";
+import styles from "@/styles/shared/QnAEditor.module.scss";
 
 export default function add() {
-  const router = useRouter()
-  const titleInputRef = useRef(null)
-  const toolBarRef = useRef(null)
-  const [title, setTitle] = useState('')
-  const [contents, setContents] = useState('')
+  const router = useRouter();
+  const titleInputRef = useRef(null);
+  const toolBarRef = useRef(null);
+  const [title, setTitle] = useState("");
+  const [contents, setContents] = useState("");
 
   useEffect(() => {
-    titleInputRef.current.focus()
-  }, [])
+    titleInputRef.current.focus();
+  }, []);
 
   const handleSubmit = async () => {
     try {
       const res = await fetch(`${NEXT_URL}/api/question/create`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ data: { title, contents } }),
-      })
+      });
 
-      const { data, error } = await res.json()
+      const { data, error } = await res.json();
 
-      if (error) throw error
+      if (error) throw error;
 
-      toast.success('등록에 성공했습니다')
-      router.replace('/qna')
+      toast.success("등록에 성공했습니다");
+      router.replace("/qna");
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error.message);
     }
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -71,11 +71,11 @@ export default function add() {
       </div>
       <Button
         onClick={handleSubmit}
-        float="right"
+        align="right"
         disabled={!title || !contents}
       >
         등록하기
       </Button>
     </div>
-  )
+  );
 }
