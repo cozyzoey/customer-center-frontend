@@ -1,33 +1,33 @@
-import { CKEditor } from '@ckeditor/ckeditor5-react'
-import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document'
-import '@ckeditor/ckeditor5-build-decoupled-document/build/translations/ko'
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
+import "@ckeditor/ckeditor5-build-decoupled-document/build/translations/ko";
 
 export default function Editor({ value, onChange, toolBarRef, ...props }) {
   const toolbarConfig = {
     items: [
-      'heading',
-      'fontColor',
-      'fontBackgroundColor',
-      '|',
-      'bold',
-      'italic',
-      'strikethrough',
-      'underline',
-      '|',
-      'outdent',
-      'indent',
-      '|',
-      'bulletedList',
-      'numberedList',
-      '|',
-      'uploadImage',
-      'insertTable',
-      'link',
-      '|',
-      'blockQuote',
+      "heading",
+      "fontColor",
+      "fontBackgroundColor",
+      "|",
+      "bold",
+      "italic",
+      "strikethrough",
+      "underline",
+      "|",
+      "outdent",
+      "indent",
+      "|",
+      "bulletedList",
+      "numberedList",
+      "|",
+      "uploadImage",
+      "insertTable",
+      "link",
+      "|",
+      "blockQuote",
     ],
     shouldNotGroupWhenFull: true, // overflow시 줄바꿈 처라됨
-  }
+  };
 
   return (
     <div {...props}>
@@ -36,22 +36,22 @@ export default function Editor({ value, onChange, toolBarRef, ...props }) {
         data={value}
         onReady={(editor) => {
           if (toolBarRef.current) {
-            toolBarRef.current.appendChild(editor.ui.view.toolbar.element)
+            toolBarRef.current.appendChild(editor.ui.view.toolbar.element);
           }
         }}
         onError={(error, { willEditorRestart }) => {
           if (willEditorRestart) {
-            toolBarRef.current.ui.view.toolbar.element.remove()
+            toolBarRef.current.ui.view.toolbar.element.remove();
           }
         }}
         onChange={(event, editor) => {
-          onChange && onChange(editor.getData())
+          onChange && onChange(editor.getData());
         }}
         config={{
           toolbar: toolbarConfig,
-          language: 'ko',
+          language: "ko",
         }}
       />
     </div>
-  )
+  );
 }

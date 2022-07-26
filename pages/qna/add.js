@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -7,15 +7,19 @@ import Button from "@/components/Button";
 const Editor = dynamic(() => import("@/components/Editor"), {
   ssr: false,
 });
-import { NEXT_URL } from "@/static/config";
+import { API_URL } from "@/static/config";
+import { parseCookies } from "@/helpers/index";
+import AuthContext from "@/context/AuthContext";
+
 import styles from "@/styles/shared/QnAEditor.module.scss";
 
-export default function add() {
+export default function add({ token }) {
   const router = useRouter();
   const titleInputRef = useRef(null);
   const toolBarRef = useRef(null);
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     titleInputRef.current.focus();
@@ -23,12 +27,13 @@ export default function add() {
 
   const handleSubmit = async () => {
     try {
-      const res = await fetch(`${NEXT_URL}/api/question/create`, {
+      const res = await fetch(`${API_URL}/api/questions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ data: { title, contents } }),
+        body: JSON.stringify({ data: { title, contents, user: user.id } }),
       });
 
       const { data, error } = await res.json();
@@ -78,4 +83,13 @@ export default function add() {
       </Button>
     </div>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+  return {
+    props: {
+      token,
+    },
+  };
 }

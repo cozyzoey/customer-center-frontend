@@ -1,16 +1,16 @@
-import { useContext } from 'react'
-import navLinks from '@/static/navLinks'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { GrLogout } from 'react-icons/gr'
+import { useContext } from "react";
+import navLinks from "@/static/navLinks";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { GrLogout } from "react-icons/gr";
 
-import AuthContext from '@/context/AuthContext'
-import Button from './Button'
-import styles from '@/styles/Header.module.scss'
+import AuthContext from "@/context/AuthContext";
+import Button from "./Button";
+import styles from "@/styles/Header.module.scss";
 
 export default function Header() {
-  const router = useRouter()
-  const { user, logout } = useContext(AuthContext)
+  const router = useRouter();
+  const { user, logout } = useContext(AuthContext);
 
   return (
     <header className={styles.header}>
@@ -40,20 +40,18 @@ export default function Header() {
           {user ? (
             <>
               {user.username}
-              <div className="react-icons" title="로그아웃" onClick={logout}>
-                <GrLogout />
-              </div>
+              <GrLogout title="로그아웃" onClick={logout} size="2ch" />
             </>
           ) : (
-            <Button onClick={() => router.push('/auth/login')} variant="text">
+            <Button onClick={() => router.push("/auth/login")} variant="text">
               로그인/회원가입
             </Button>
           )}
         </div>
-        <Button onClick={() => alert('hi')} variant="dark">
+        <Button onClick={() => alert("hi")} variant="dark">
           동의서 제출하기
         </Button>
       </div>
     </header>
-  )
+  );
 }
