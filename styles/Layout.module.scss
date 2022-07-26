@@ -1,5 +1,5 @@
-@use 'foundation/variables' as v;
-@use 'foundation/mixins';
+@use "foundation/variables" as v;
+@use "foundation/mixins";
 
 .layout {
   header {
@@ -18,8 +18,7 @@
     max-width: v.$max-width;
     margin: 0 auto;
     min-height: 100vh;
-    padding: 0 4vw;
-    padding-top: clamp(120px, 8.3vw, 160px);
+    padding: clamp(120px, 8.3vw, 160px) 4vw v.$h2;
   }
   footer {
     border-top: v.$border;
