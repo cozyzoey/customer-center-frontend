@@ -3,15 +3,15 @@ import { useContext } from "react";
 import moment from "moment";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import NoDataHeading from "@/components/NoDataHeading";
-import Button from "@/components/Button";
-import Layout from "@/components/Layout";
-import Pagination from "@/components/Pagination";
+import NoDataHeading from "@/components/no-data-heading";
+import Button from "@/components/button";
+import Layout from "@/components/layout";
+import Pagination from "@/components/pagination";
 import AuthContext from "@/context/AuthContext";
 
 import { API_URL, PER_PAGE } from "@/static/config";
 
-import tableStyles from "@/styles/shared/Table.module.scss";
+import tableStyles from "@/styles/shared/table.module.scss";
 
 export default function QnA({ items, page, total }) {
   const router = useRouter();
