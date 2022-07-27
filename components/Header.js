@@ -3,6 +3,7 @@ import navLinks from "@/static/navLinks";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { GrLogout } from "react-icons/gr";
+import { LOGO } from "@/static/config";
 
 import AuthContext from "@/context/AuthContext";
 import Button from "./button";
@@ -32,7 +33,7 @@ export default function Header() {
       </ul>
       <div className={styles.logo}>
         <Link href="/">
-          <a>고객센터</a>
+          <a>{LOGO}</a>
         </Link>
       </div>
       <div className={styles.myspace}>

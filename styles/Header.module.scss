@@ -46,6 +46,7 @@
 .logo {
   @include mixins.fs5;
   @extend %navItemBase;
+  color: v.$blue-green;
   font-weight: 700;
   position: absolute;
   transform: translate(-50%, -50%);
