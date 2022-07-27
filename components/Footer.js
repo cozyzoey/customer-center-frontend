@@ -1,15 +1,14 @@
 import Link from "next/link";
-import { LOGO } from "@/static/config";
 import styles from "@/styles/footer.module.scss";
 
-export default function Footer() {
+export default function Footer({ logo }) {
   return (
     <footer className={styles.footer}>
-      <div className={styles.logo}>{LOGO}</div>
+      <div className={styles.logo}>{logo}</div>
       <div className={styles.policies}>
         <span>
           &copy;&nbsp;{new Date().getFullYear()}
-          &nbsp;{LOGO}
+          &nbsp;{logo}
         </span>
         <Link href="/policy/terms">
           <a>이용약관</a>
