@@ -26,7 +26,9 @@ export default function QnADetail({ item, id, token }) {
   const [answerContents, setAnswerContents] = useState("");
   const [loading, setLoading] = useState({});
 
-  const handleEditQuestion = async () => {};
+  const handleEditQuestion = async () => {
+    router.push(`/qna/edit/${id}`);
+  };
 
   const handleDeleteQuestion = async () => {
     const result = confirm("글을 삭제하시겠습니까?");
