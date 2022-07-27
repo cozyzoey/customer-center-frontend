@@ -5,8 +5,8 @@ import { useRouter } from "next/router";
 import { GrLogout } from "react-icons/gr";
 
 import AuthContext from "@/context/AuthContext";
-import Button from "./Button";
-import styles from "@/styles/Header.module.scss";
+import Button from "./button";
+import styles from "@/styles/header.module.scss";
 
 export default function Header() {
   const router = useRouter();
