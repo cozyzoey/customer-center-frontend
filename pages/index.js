@@ -21,7 +21,7 @@ export default function Home({ notices, page, total }) {
         <ul>
           {notices.map((el) => (
             <li key={el.id} className={tableStyles.tableRow}>
-              <Link href={`/${el.id}`}>
+              <Link href={`/notice/${el.id}`}>
                 <a>
                   <dl key={el.id}>
                     <dd>{el.id}</dd>
