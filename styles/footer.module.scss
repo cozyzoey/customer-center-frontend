@@ -1,0 +1,42 @@
+@use "foundation/variables" as v;
+@use "foundation/mixins";
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  white-space: nowrap;
+  @include mixins.respond(md) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px 0;
+  }
+}
+
+.logo {
+  color: v.$blue-green;
+  font-weight: 500;
+  @include mixins.respond(md) {
+    @include mixins.fs3;
+  }
+}
+
+.policies {
+  display: flex;
+  gap: 0 3ch;
+  // 저작권
+  span {
+    color: v.$gray;
+  }
+  // 약관, 개인정보 처리방침 링크
+  a {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  @include mixins.respond(sm) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px 0;
+  }
+}
