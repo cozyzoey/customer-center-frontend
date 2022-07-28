@@ -1,57 +1,38 @@
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
-import "@ckeditor/ckeditor5-build-decoupled-document/build/translations/ko";
+import { useEffect, useState, useRef } from "react";
+import classNames from "classnames";
+import styles from "@/styles/editor.module.scss";
 
-export default function Editor({ value, onChange, toolBarRef, ...props }) {
-  const toolbarConfig = {
-    items: [
-      "heading",
-      "fontColor",
-      "fontBackgroundColor",
-      "|",
-      "bold",
-      "italic",
-      "strikethrough",
-      "underline",
-      "|",
-      "outdent",
-      "indent",
-      "|",
-      "bulletedList",
-      "numberedList",
-      "|",
-      "uploadImage",
-      "insertTable",
-      "link",
-      "|",
-      "blockQuote",
-    ],
-    shouldNotGroupWhenFull: true, // overflow시 줄바꿈 처라됨
-  };
+export default function Editor({ value, onChange, size = "lg" }) {
+  const editorRef = useRef();
+  const { CKEditor, ClassicEditor } = editorRef.current || {};
+  const [editorLoaded, setEditorLoaded] = useState(false);
+
+  const editorClass = classNames(styles[size]);
+
+  useEffect(() => {
+    require("@ckeditor/ckeditor5-build-classic/build/translations/ko");
+    editorRef.current = {
+      CKEditor: require("@ckeditor/ckeditor5-react").CKEditor, // v3+
+      ClassicEditor: require("@ckeditor/ckeditor5-build-classic"),
+    };
+    setEditorLoaded(true);
+  }, []);
 
   return (
-    <div {...props}>
-      <CKEditor
-        editor={DecoupledEditor}
-        data={value}
-        onReady={(editor) => {
-          if (toolBarRef.current) {
-            toolBarRef.current.appendChild(editor.ui.view.toolbar.element);
-          }
-        }}
-        onError={(error, { willEditorRestart }) => {
-          if (willEditorRestart) {
-            toolBarRef.current.ui.view.toolbar.element.remove();
-          }
-        }}
-        onChange={(event, editor) => {
-          onChange && onChange(editor.getData());
-        }}
-        config={{
-          toolbar: toolbarConfig,
-          language: "ko",
-        }}
-      />
+    <div className={editorClass}>
+      {editorLoaded && (
+        <CKEditor
+          editor={ClassicEditor}
+          data={value}
+          onChange={(event, editor) => {
+            onChange && onChange(editor.getData());
+          }}
+          config={{
+            language: "ko",
+            placeholder: "내용을 작성하세요",
+          }}
+        />
+      )}
     </div>
   );
 }

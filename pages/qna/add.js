@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import Layout from "@/components/layout";
 import Button from "@/components/button";
 const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
@@ -16,7 +17,6 @@ import styles from "@/styles/shared/qna-editor.module.scss";
 export default function add({ token }) {
   const router = useRouter();
   const titleInputRef = useRef(null);
-  const toolBarRef = useRef(null);
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
   const { user } = useContext(AuthContext);
@@ -48,11 +48,10 @@ export default function add({ token }) {
   };
 
   return (
-    <div className={styles.container}>
+    <Layout>
       <Head>
         <title>질문하기</title>
       </Head>
-      <div ref={toolBarRef} className={styles.editorToolbar} />
       <input
         type="text"
         required
@@ -66,14 +65,11 @@ export default function add({ token }) {
         onChange={(e) => setTitle(e.target.value)}
         className={styles.title}
       />
-      <div className={styles.contentsAreaWrapper}>
-        <Editor
-          toolBarRef={toolBarRef}
-          value={contents}
-          onChange={(value) => setContents(value)}
-          className={styles.contentsArea}
-        />
-      </div>
+      <Editor
+        value={contents}
+        onChange={(value) => setContents(value)}
+        size="lg"
+      />
       <Button
         onClick={handleSubmit}
         align="right"
@@ -81,7 +77,7 @@ export default function add({ token }) {
       >
         등록하기
       </Button>
-    </div>
+    </Layout>
   );
 }
 
