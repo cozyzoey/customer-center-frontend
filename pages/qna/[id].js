@@ -201,6 +201,7 @@ export default function QnADetail({ item, id, token }) {
             value={answerContents}
             onChange={(newValue) => setAnswerContents(newValue)}
             size="sm"
+            token={token}
           />
           <div className={styles.answerControlBtns}>
             <Button
@@ -263,6 +264,7 @@ export default function QnADetail({ item, id, token }) {
                     value={answerContents}
                     onChange={(newValue) => setAnswerContents(newValue)}
                     size="sm"
+                    token={token}
                   />
                   <div className={styles.answerControlBtns}>
                     <Button
