@@ -88,3 +88,7 @@ tbody {
     padding: 0.5ch 1.5ch;
   }
 }
+
+svg polyline {
+  stroke: currentColor;
+}
