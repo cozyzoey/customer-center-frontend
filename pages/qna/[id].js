@@ -60,6 +60,13 @@ export default function QnADetail({ item, id, token }) {
   };
 
   /*
+   * 댓글 작성/수정/삭제후 현재 페이지 업데이트
+   */
+  const refreshData = () => {
+    router.replace(router.asPath);
+  };
+
+  /*
    * 댓글 작성
    */
   const handleAddAnsewr = async () => {
@@ -87,6 +94,8 @@ export default function QnADetail({ item, id, token }) {
       const { error } = await res.json();
 
       if (error) throw error;
+
+      refreshData();
 
       toast.success("댓글을 성공적으로 등록했습니다");
 
@@ -119,6 +128,8 @@ export default function QnADetail({ item, id, token }) {
 
       if (error) throw error;
 
+      refreshData();
+
       toast.success("댓글을 수정했습니다.");
 
       // 클린업
@@ -148,6 +159,8 @@ export default function QnADetail({ item, id, token }) {
       const { error } = await res.json();
 
       if (error) throw error;
+
+      refreshData();
 
       toast.success("댓글을 삭제했습니다.");
     } catch (error) {
