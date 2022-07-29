@@ -3,7 +3,7 @@
 
 .layout {
   header {
-    height: v.$h3;
+    height: 100px;
     position: fixed;
     top: 0;
     left: 0;
@@ -12,13 +12,17 @@
     padding: 0 4vw;
     @include mixins.respond(lg) {
       padding: 0;
+      height: max-content;
     }
   }
   main {
     max-width: v.$max-width;
     margin: 0 auto;
     min-height: 100vh;
-    padding: clamp(120px, 8.3vw, 160px) 4vw v.$h2;
+    padding: 160px 4vw v.$h2;
+    @include mixins.respond(lg) {
+      padding: 130px 4vw v.$h2;
+    }
   }
   footer {
     border-top: v.$border;
