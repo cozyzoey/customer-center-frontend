@@ -47,8 +47,11 @@ export default function QnA({ items, page, total }) {
                       <dd>{el.id}</dd>
                       <dd>
                         {el.attributes.title}
-                        {el.attributes.answers.data.length > 0 &&
-                          el.attributes.answers.data.length}
+                        {el.attributes.answers.data.length > 0 && (
+                          <span className={tableStyles.chat}>
+                            {el.attributes.answers.data.length}
+                          </span>
+                        )}
                       </dd>
                       <dd>{el.attributes.user.data?.attributes.username}</dd>
                       <dd>
