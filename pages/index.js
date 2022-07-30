@@ -5,7 +5,6 @@ import Layout from "@/components/layout";
 import Pagination from "@/components/pagination";
 import { API_URL, PER_PAGE } from "@/static/config";
 
-import styles from "@/styles/home.module.scss";
 import tableStyles from "@/styles/shared/table.module.scss";
 
 export default function Home({ notices, page, total }) {
