@@ -1,5 +1,5 @@
-@use '@/styles/foundation/variables' as v;
-@use '@/styles/foundation/mixins';
+@use "@/styles/foundation/variables" as v;
+@use "@/styles/foundation/mixins";
 
 .table {
   dl {
@@ -13,7 +13,7 @@
       text-overflow: ellipsis;
     }
   }
-  &[data-nocol='4'] dl {
+  &[data-nocol="4"] dl {
     grid-template-columns: 80px 1fr 120px 140px;
   }
   @include mixins.respond(md) {
@@ -88,4 +88,17 @@ li.tableRow {
       border-top: v.$border;
     }
   }
+}
+
+.chat {
+  @include mixins.fs1;
+  color: v.$gray-dark;
+  padding: 0 1ch;
+  height: 2.6ch;
+  margin-left: 2ch;
+  background-color: v.$light;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  border-radius: 0.8ch;
+  border-bottom-left-radius: 0;
+  text-align: center;
 }
