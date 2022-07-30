@@ -81,6 +81,10 @@
     @include mixins.fs3;
     font-weight: 400;
   }
+  img {
+    width: 100%;
+    max-width: 60ch;
+  }
 }
 
 .answerEditorWrapper {
