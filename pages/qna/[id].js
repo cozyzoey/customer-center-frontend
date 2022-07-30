@@ -172,11 +172,11 @@ export default function QnADetail({ item, id, token }) {
     <Layout title="QnA">
       <h1 className={styles.title}>{item.title}</h1>
       <div className={styles.info}>
-        <span>{item.user.data.attributes.username}</span>
+        <span>{item.user.data?.attributes.username}</span>
         <time>{moment(item.createdAt).format("YYYY. MM. DD")}</time>
       </div>
       <div className={styles.divider}>
-        {item.user.data.id === user?.id && (
+        {user && item.user.data?.id === user?.id && (
           <div className={styles.controls}>
             <GrEdit size="4ch" onClick={handleEditQuestion} title="수정하기" />
             <GrTrash
@@ -253,7 +253,7 @@ export default function QnADetail({ item, id, token }) {
                   <span>{el.attributes.username}</span>
                   <time>{moment(item.createdAt).format("YYYY. MM. DD")}</time>
                 </div>
-                {el.attributes.userId === user?.id && (
+                {user && el.attributes.userId === user?.id && (
                   <div>
                     <GrEdit
                       onClick={() => {
