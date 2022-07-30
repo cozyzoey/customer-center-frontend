@@ -19,11 +19,6 @@ export default function Layout({ title, keywords, description, children }) {
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta name="keywords" content={keywords} />
-        {/* HTTPS -> HTTP 호출 허용 */}
-        <meta
-          http-equiv="Content-Security-Policy"
-          content="upgrade-insecure-requests"
-        />
       </Head>
 
       <Header logo={data?.data?.attributes?.logo || ""} />
