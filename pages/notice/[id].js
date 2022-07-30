@@ -17,9 +17,7 @@ export default function NoticeDetail() {
       },
     },
   });
-  const {
-    data: { data },
-  } = useSWR(`${API_URL}/api/notices?${query}`, fetcher, {
+  const { data } = useSWR(`${API_URL}/api/notices?${query}`, fetcher, {
     revalidateIfStale: false,
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
@@ -29,14 +27,14 @@ export default function NoticeDetail() {
     <Layout title="공지사항">
       {data && (
         <>
-          <h1 className={styles.title}>{data[0].attributes.title}</h1>
+          <h1 className={styles.title}>{data.data[0].attributes.title}</h1>
           <div className={styles.info}>
             <time>
-              {moment(data[0].attributes.createdAt).format("YYYY. MM. DD")}
+              {moment(data.data[0].attributes.createdAt).format("YYYY. MM. DD")}
             </time>
           </div>
           <div className={styles.contents}>
-            {parse(data[0].attributes.contents)}
+            {parse(data.data[0].attributes.contents)}
           </div>
         </>
       )}
