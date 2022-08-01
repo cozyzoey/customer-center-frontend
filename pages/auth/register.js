@@ -9,7 +9,7 @@ import Button from "@/components/button";
 import styles from "@/styles/shared/auth.module.scss";
 
 export default function register() {
-  const { register, error } = useContext(AuthContext);
+  const { register, error, loading } = useContext(AuthContext);
 
   useEffect(() => {
     error && toast.error(error);
@@ -28,7 +28,7 @@ export default function register() {
       .required("필수 입력 항목입니다"),
     password: Yup.string()
       .min(6, "6자 이상 입력해주세요")
-      .max(15, "15자 미만으로 입력해주세요")
+      .max(30, "30자 미만으로 입력해주세요")
       .required("필수 입력 항목입니다"),
     passwordConfirm: Yup.string()
       .required("필수 입력 항목입니다")
@@ -107,7 +107,12 @@ export default function register() {
               </Link>
               을 확인했으며 이에 동의합니다.
             </p>
-            <Button type="submit" fullWidth={true} variant="outlined">
+            <Button
+              type="submit"
+              fullWidth={true}
+              variant="outlined"
+              loaading={loading}
+            >
               가입하기
             </Button>
           </Form>

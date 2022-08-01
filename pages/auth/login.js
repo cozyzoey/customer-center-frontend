@@ -9,7 +9,7 @@ import Button from "@/components/button";
 import styles from "@/styles/shared/auth.module.scss";
 
 export default function login() {
-  const { login, error } = useContext(AuthContext);
+  const { login, error, loading } = useContext(AuthContext);
 
   const initialValues = {
     email: "",
@@ -75,7 +75,12 @@ export default function login() {
             />
             <ErrorMessage component="label" name="password" />
 
-            <Button type="submit" fullWidth={true} variant="outlined">
+            <Button
+              type="submit"
+              fullWidth={true}
+              variant="outlined"
+              loading={loading}
+            >
               로그인
             </Button>
             <Link href="/auth/register">
