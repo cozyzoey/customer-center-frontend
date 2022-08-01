@@ -63,25 +63,40 @@
 
 .contents {
   padding: 2ch 0 v.$h2;
-
+  // 컨텐츠 영역 스타일 정의
   & > * {
-    padding: 1ch 0;
+    line-height: 1.8;
+    &:not(p) {
+      margin: 2ch 0;
+    }
   }
   h1 {
-    @include mixins.fs4;
+    @include mixins.fs6;
+    border-bottom: v.$border;
+    padding-bottom: 0.6ch;
     font-weight: 500;
   }
   h2 {
-    @include mixins.fs3;
+    @include mixins.fs5;
     font-weight: 500;
   }
   h3 {
-    @include mixins.fs3;
+    @include mixins.fs5;
     font-weight: 400;
   }
   img {
     width: 100%;
     max-width: 60ch;
+  }
+  strong {
+    font-weight: 500;
+  }
+  ol,
+  ul {
+    padding-left: 2.2ch;
+  }
+  ul li {
+    list-style-type: disc;
   }
 }
 
