@@ -5,8 +5,7 @@ import moment from "moment";
 import dynamic from "next/dynamic";
 import parse from "html-react-parser";
 import { toast } from "react-toastify";
-import { GrTrash, GrEdit } from "react-icons/gr";
-import Avatar from "boring-avatars";
+import { GrTrash, GrEdit, GrUser } from "react-icons/gr";
 import Layout from "@/components/layout";
 import Button from "@/components/button";
 const Editor = dynamic(() => import("@/components/editor"), {
@@ -201,7 +200,7 @@ export default function QnADetail({ item, id, token }) {
             setEditingAnswerId(null);
             setIsAddingAnswer(true);
           }}
-          align="left"
+          align="right"
         >
           댓글쓰기
         </Button>
@@ -240,73 +239,73 @@ export default function QnADetail({ item, id, token }) {
       )}
 
       {/* 댓글 리스트 렌더링 */}
-      {item.answers.data.length > 0 &&
-        item.answers.data
-          .sort((a, b) => a.id - b.id)
-          .map((el) => (
-            <div className={styles.answerItem} key={el.id}>
-              <div className={styles.answerItemIdenticion}>
-                <Avatar name={el.attributes.usernmae} size={30} square={true} />
-              </div>
-              <div className={styles.answerItemHeader}>
-                <div>
-                  <span>{el.attributes.username}</span>
-                  <time>{moment(item.createdAt).format("YYYY. MM. DD")}</time>
-                </div>
-                {user && el.attributes.userId === user?.id && (
+      <div className={styles.anserItems}>
+        {item.answers.data.length > 0 &&
+          item.answers.data
+            .sort((a, b) => a.id - b.id)
+            .map((el) => (
+              <div className={styles.answerItem} key={el.id}>
+                <div className={styles.answerItemHeader}>
                   <div>
-                    <GrEdit
-                      onClick={() => {
-                        // 댓글 수정 에디터 활성화
-                        setIsAddingAnswer(false);
-                        setAnswerContents(el.attributes.contents);
-                        setEditingAnswerId(el.id);
-                      }}
-                      size="20px"
+                    <GrUser />
+                    <span>{el.attributes.username}</span>
+                  </div>
+                  <time>{moment(item.createdAt).format("YYYY. MM. DD")}</time>
+                  {user && el.attributes.userId === user?.id && (
+                    <div className={styles.anserItemControls}>
+                      <GrEdit
+                        onClick={() => {
+                          // 댓글 수정 에디터 활성화
+                          setIsAddingAnswer(false);
+                          setAnswerContents(el.attributes.contents);
+                          setEditingAnswerId(el.id);
+                        }}
+                        size="20px"
+                      />
+                      <GrTrash
+                        onClick={() => handleDeleteAnswer(el.id)}
+                        size="20px"
+                      />
+                    </div>
+                  )}
+                </div>
+                {editingAnswerId === el.id ? (
+                  <div className={styles.answerEditorWrapper}>
+                    <Editor
+                      value={answerContents}
+                      onChange={(newValue) => setAnswerContents(newValue)}
+                      size="sm"
+                      token={token}
                     />
-                    <GrTrash
-                      onClick={() => handleDeleteAnswer(el.id)}
-                      size="20px"
-                    />
+                    <div className={styles.answerControlBtns}>
+                      <Button
+                        onClick={() => {
+                          const result = confirm("댓글 수정을 취소할까요?");
+                          if (result) {
+                            setEditingAnswerId(null);
+                            setAnswerContents("");
+                          }
+                        }}
+                        variant="light"
+                      >
+                        취소
+                      </Button>
+                      <Button
+                        onClick={() => handleEditAnswer(el.id)}
+                        disabled={answerContents.length < 10}
+                      >
+                        수정
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.answerItemContents}>
+                    {parse(el.attributes.contents)}
                   </div>
                 )}
               </div>
-              {editingAnswerId === el.id ? (
-                <div className={styles.answerEditorWrapper}>
-                  <Editor
-                    value={answerContents}
-                    onChange={(newValue) => setAnswerContents(newValue)}
-                    size="sm"
-                    token={token}
-                  />
-                  <div className={styles.answerControlBtns}>
-                    <Button
-                      onClick={() => {
-                        const result = confirm("댓글 수정을 취소할까요?");
-                        if (result) {
-                          setEditingAnswerId(null);
-                          setAnswerContents("");
-                        }
-                      }}
-                      variant="light"
-                    >
-                      취소
-                    </Button>
-                    <Button
-                      onClick={() => handleEditAnswer(el.id)}
-                      disabled={answerContents.length < 10}
-                    >
-                      수정
-                    </Button>
-                  </div>
-                </div>
-              ) : (
-                <div className={styles.answerItemContents}>
-                  {parse(el.attributes.contents)}
-                </div>
-              )}
-            </div>
-          ))}
+            ))}
+      </div>
     </Layout>
   );
 }

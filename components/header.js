@@ -3,7 +3,7 @@ import navLinks from "@/static/navLinks";
 import { motion, LayoutGroup } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { GrLogout, GrPrevious } from "react-icons/gr";
+import { GrLogout, GrPrevious, GrUser } from "react-icons/gr";
 
 import AuthContext from "@/context/AuthContext";
 import styles from "@/styles/header.module.scss";
@@ -25,6 +25,12 @@ export default function Header({ logo }) {
     }
   };
 
+  const handleLogout = () => {
+    const result = confirm("로그아웃 하시겠습니까?");
+    if (!result) return;
+    logout();
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.prevBtn}>
@@ -32,9 +38,9 @@ export default function Header({ logo }) {
       </div>
       <div className={styles.pageTitle}>{pageTitle}</div>
       <LayoutGroup id="nav">
-        <motion.ul className={styles.navLinks}>
+        <ul className={styles.navLinks}>
           {navLinks.map((nav, idx) => (
-            <motion.li key={idx}>
+            <li key={idx}>
               <Link href={nav.path}>
                 <a>{nav.name}</a>
               </Link>
@@ -42,12 +48,13 @@ export default function Header({ logo }) {
                 <motion.div
                   layoutId="underline"
                   className={styles.navUnderline}
+                  initial={false}
                   animate
                 ></motion.div>
               ) : null}
-            </motion.li>
+            </li>
           ))}
-        </motion.ul>
+        </ul>
       </LayoutGroup>
       <div className={styles.logo}>
         <Link href="/">
@@ -59,11 +66,14 @@ export default function Header({ logo }) {
           {user ? (
             <>
               {user.username}
-              <GrLogout title="로그아웃" onClick={logout} size="3ch" />
+              <GrLogout title="로그아웃" onClick={handleLogout} size="3ch" />
             </>
           ) : (
             <Link href="/auth/login">
-              <a>로그인/회원가입</a>
+              <a className={styles.login}>
+                <span>로그인/회원가입</span>
+                <GrUser size="3ch" />
+              </a>
             </Link>
           )}
         </div>
