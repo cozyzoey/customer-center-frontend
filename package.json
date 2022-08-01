@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@ckeditor/ckeditor5-react": "^5.0.2",
-    "boring-avatars": "^1.7.0",
     "ckeditor5-custom-build": "file:ckeditor5",
     "classnames": "^2.3.1",
     "cookie": "^0.5.0",

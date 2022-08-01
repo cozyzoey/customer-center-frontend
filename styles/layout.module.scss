@@ -18,7 +18,7 @@
   main {
     max-width: v.$max-width;
     margin: 0 auto;
-    min-height: 100vh;
+    min-height: 700px;
     padding: 160px 4vw v.$h2;
     @include mixins.respond(lg) {
       padding: 130px 4vw v.$h2;

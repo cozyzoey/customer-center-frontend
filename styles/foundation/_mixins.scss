@@ -1,3 +1,5 @@
+@use "@/styles/foundation/variables" as v;
+
 @mixin no-select {
   -webkit-tap-highlight-color: transparent;
   -webkit-user-select: none; /* Safari */
@@ -7,18 +9,19 @@
 
 // Font Size
 @mixin fs1 {
+  //현재 쓰이지 않음
   font-size: 16px;
   @include respond(xl) {
     font-size: calc(10px + 0.390625vw);
   }
 }
-// base size
 @mixin fs2 {
   font-size: 18px;
   @include respond(xl) {
     font-size: calc(12px + 0.390625vw);
   }
 }
+// base size
 @mixin fs3 {
   font-size: 20px;
   @include respond(xl) {
@@ -73,5 +76,12 @@
     @media (max-width: 400px) {
       @content;
     }
+  }
+}
+
+// Active 상태
+@mixin active {
+  &:active {
+    background-color: v.$light-dark;
   }
 }

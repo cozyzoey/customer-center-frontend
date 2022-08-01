@@ -17,7 +17,7 @@
   position: relative;
   @include mixins.respond(lg) {
     grid-template-columns: auto 1fr auto;
-    grid-template-rows: 40px 40px;
+    grid-template-rows: 50px 50px;
     grid-template-areas:
       "prevBtn . myspace"
       "navLinks navLinks navLinks";
@@ -40,7 +40,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
+    width: 50px;
     color: v.$white;
     background-color: v.$black;
     svg {
@@ -51,6 +51,7 @@
 
 .pageTitle {
   @include mixins.no-select;
+  @include mixins.fs5;
   display: none;
   @include mixins.respond(lg) {
     grid-area: pageTitle;
@@ -71,6 +72,7 @@ ul.navLinks {
   }
   li {
     @extend %navItemBase;
+    @include mixins.active;
     position: relative;
     @include mixins.respond(lg) {
       width: 33.33%;
@@ -123,8 +125,31 @@ ul.navLinks {
     display: flex;
     align-items: center;
     gap: 0 1.6ch;
+    svg {
+      @include mixins.active;
+    }
+
+    //로그인/회원가입 영역
+    .login {
+      svg {
+        display: none;
+      }
+      span {
+        @include mixins.active;
+      }
+      @include mixins.respond(lg) {
+        svg {
+          display: block;
+        }
+        span {
+          display: none;
+        }
+      }
+    }
   }
   @include mixins.respond(lg) {
     padding-right: 4vw;
+    .login {
+    }
   }
 }
