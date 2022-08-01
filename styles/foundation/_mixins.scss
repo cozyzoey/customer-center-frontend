@@ -40,6 +40,12 @@
     font-size: calc(18px + 0.390625vw);
   }
 }
+@mixin fs6 {
+  font-size: 30px;
+  @include respond(xl) {
+    font-size: calc(24px + 0.390625vw);
+  }
+}
 @mixin fs-lg {
   font-size: 40px;
   @include respond(xl) {
