@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect, useContext } from "react";
-import { useSWRConfig } from "swr";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -9,9 +8,8 @@ import Layout from "@/components/layout";
 import Button from "@/components/button";
 const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
-  suspense: true,
 });
-import { API_URL } from "@/static/config";
+import { API_URL } from "@/constants/config";
 import AuthContext from "@/context/AuthContext";
 
 import styles from "@/styles/shared/qna-editor.module.scss";
@@ -22,7 +20,6 @@ export default function add() {
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
   const { user } = useContext(AuthContext);
-  const { mutate } = useSWRConfig();
 
   useEffect(() => {
     titleInputRef.current.focus();
@@ -47,11 +44,6 @@ export default function add() {
       const { data, error } = await res.json();
 
       if (error) throw error;
-
-      // QnA첫페이지 revalidate
-      mutate(
-        `${API_URL}/api/questions?sort[0]=id%3Adesc&pagination[start]=0&pagination[limit]=10&populate=%2A`
-      );
 
       toast.success("등록에 성공했습니다");
       router.replace("/qna");

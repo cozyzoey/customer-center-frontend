@@ -15,8 +15,8 @@ function MyApp({ Component, pageProps }) {
           value={{
             fetcher: fetcher,
             suspense: true,
-            revalidateIfStale: false,
             revalidateOnFocus: false,
+            revalidateOnReconnect: false,
           }}
         >
           <AuthProvider>

@@ -1,5 +1,5 @@
 import cookie from "cookie";
-import { API_URL } from "@/static/config";
+import { API_URL } from "@/constants/config";
 
 const login = async (req, res) => {
   if (req.method === "POST") {

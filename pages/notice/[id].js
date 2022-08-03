@@ -4,7 +4,7 @@ import moment from "moment";
 import parse from "html-react-parser";
 import Layout from "@/components/layout";
 import Loader from "@/components/loader";
-import { API_URL } from "@/static/config";
+import { API_URL } from "@/constants/config";
 import styles from "@/styles/shared/contents-detail.module.scss";
 
 export default function NoticeDetail({ notice }) {

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import navLinks from "@/static/navLinks";
+import navLinks from "@/constants/navLinks";
 import { motion, LayoutGroup } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
