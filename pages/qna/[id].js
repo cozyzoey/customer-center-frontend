@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import qs from "qs";
-import { getCookie } from "cookies-next";
 import useSWR, { useSWRConfig } from "swr";
+import useToken from "@/hooks/useToken";
 
 import moment from "moment";
 import dynamic from "next/dynamic";
@@ -26,7 +26,7 @@ export default function QnADetail() {
   const [isAddingAnswer, setIsAddingAnswer] = useState(false); // 댓글 신규 작성 여부
   const [editingAnswerId, setEditingAnswerId] = useState(null); // 수정중인 댓글 id
   const [answerContents, setAnswerContents] = useState(""); // 신규 작성 or 수정중인 댓글 컨텐츠
-  const token = getCookie("token");
+  const token = useToken();
   const query = qs.stringify({
     filters: {
       id: {
@@ -110,7 +110,7 @@ export default function QnADetail() {
 
       refreshData();
 
-      toast.success("댓글을 성공적으로 등록했습니다");
+      toast.success("댓글을 등록했습니다");
 
       // 클린업
       setIsAddingAnswer(false);
