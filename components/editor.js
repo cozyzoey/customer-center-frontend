@@ -1,14 +1,18 @@
 import { useEffect, useState, useRef } from "react";
 import classNames from "classnames";
 import { API_URL, NEXT_URL } from "@/constants/config";
+import Loader from "@/components/loader";
 import styles from "@/styles/editor.module.scss";
 
 export default function Editor({ value, onChange, size = "lg" }) {
   const editorRef = useRef();
   const { CKEditor, Editor } = editorRef.current || {};
   const [editorLoaded, setEditorLoaded] = useState(false);
+  const [isEditorReady, setIsEditorReady] = useState(false);
 
-  const editorClass = classNames(styles[size]);
+  const editorClass = classNames(styles[size], {
+    [styles.loading]: !isEditorReady,
+  });
 
   useEffect(() => {
     editorRef.current = {
@@ -20,6 +24,7 @@ export default function Editor({ value, onChange, size = "lg" }) {
 
   return (
     <div className={editorClass}>
+      {!isEditorReady && <Loader />}
       {editorLoaded && (
         <CKEditor
           editor={Editor}
@@ -27,6 +32,7 @@ export default function Editor({ value, onChange, size = "lg" }) {
           onChange={(event, editor) => {
             onChange && onChange(editor.getData());
           }}
+          onReady={() => setIsEditorReady(true)}
           config={{
             placeholder: "내용을 작성하세요",
             // simpleUpload: {

@@ -1,6 +1,11 @@
 @use "@/styles/foundation/variables" as v;
 @use "@/styles/foundation/mixins";
 
+.loading {
+  height: 25ch;
+  position: relative;
+}
+
 // 게시글용 ui
 .lg {
   min-height: 25ch;
