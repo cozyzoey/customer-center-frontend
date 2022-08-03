@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { API_URL, NEXT_URL } from "@/static/config";
 import styles from "@/styles/editor.module.scss";
 
-export default function Editor({ value, onChange, size = "lg", token = "" }) {
+export default function Editor({ value, onChange, size = "lg" }) {
   const editorRef = useRef();
   const { CKEditor, Editor } = editorRef.current || {};
   const [editorLoaded, setEditorLoaded] = useState(false);
@@ -15,7 +15,6 @@ export default function Editor({ value, onChange, size = "lg", token = "" }) {
       CKEditor: require("@ckeditor/ckeditor5-react").CKEditor, // v3+
       Editor: require("ckeditor5-custom-build/build/ckeditor"),
     };
-
     setEditorLoaded(true);
   }, []);
 
