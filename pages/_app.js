@@ -4,7 +4,6 @@ import { ToastContainer } from "react-toastify";
 import { AuthProvider } from "@/context/AuthContext";
 import "../styles/globals.scss";
 import "react-toastify/dist/ReactToastify.css";
-
 import Loader from "@/components/loader";
 import { Suspense } from "react";
 
