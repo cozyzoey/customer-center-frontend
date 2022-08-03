@@ -1,5 +1,6 @@
 import useSWR from "swr";
 import Head from "next/head";
+import { motion } from "framer-motion";
 import Header from "./header";
 import Footer from "./footer";
 import { API_URL } from "@/static/config";
@@ -29,7 +30,13 @@ export default function Layout({ title, keywords, description, children }) {
 
       <Header logo={data?.data?.attributes?.logo || ""} />
 
-      <main>{children}</main>
+      <motion.main
+        animate={{ opacity: 1 }}
+        initial={{ opacity: 0 }}
+        transition={{ ease: "linear", duration: 0.3 }}
+      >
+        {children}
+      </motion.main>
 
       <Footer logo={data?.data?.attributes?.logo || ""} />
     </div>

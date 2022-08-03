@@ -2,6 +2,7 @@
 @use "foundation/mixins";
 
 .layout {
+  position: relative;
   header {
     height: 100px;
     position: fixed;
@@ -18,7 +19,7 @@
   main {
     max-width: v.$max-width;
     margin: 0 auto;
-    min-height: 700px;
+    min-height: 100vh;
     padding: 160px 4vw v.$h2;
     @include mixins.respond(lg) {
       padding: 130px 4vw v.$h2;

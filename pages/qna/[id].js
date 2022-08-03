@@ -177,9 +177,9 @@ export default function QnADetail({ item, id, token }) {
       <div className={styles.divider}>
         {user && item.user.data?.id === user?.id && (
           <div className={styles.controls}>
-            <GrEdit size="4ch" onClick={handleEditQuestion} title="수정하기" />
+            <GrEdit size="3ch" onClick={handleEditQuestion} title="수정하기" />
             <GrTrash
-              size="4ch"
+              size="3ch"
               onClick={handleDeleteQuestion}
               title="삭제하기"
             />
