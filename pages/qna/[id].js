@@ -1,7 +1,8 @@
 import { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import qs from "qs";
-import { getCookie, hasCookie } from "cookies-next";
+import { getCookie } from "cookies-next";
+import useSWR, { useSWRConfig } from "swr";
 
 import moment from "moment";
 import dynamic from "next/dynamic";

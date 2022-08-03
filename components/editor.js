@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import classNames from "classnames";
-import { API_URL, NEXT_URL } from "@/static/config";
+import { API_URL, NEXT_URL } from "@/constants/config";
 import styles from "@/styles/editor.module.scss";
 
 export default function Editor({ value, onChange, size = "lg" }) {

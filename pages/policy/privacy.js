@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import parse from "html-react-parser";
 import Layout from "@/components/layout";
-import { API_URL } from "@/static/config";
+import { API_URL } from "@/constants/config";
 
 export default function Privacy() {
   const { data, error } = useSWR(`${API_URL}/api/business`);

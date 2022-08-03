@@ -3,7 +3,7 @@ import Head from "next/head";
 import { motion } from "framer-motion";
 import Header from "./header";
 import Footer from "./footer";
-import { API_URL } from "@/static/config";
+import { API_URL } from "@/constants/config";
 import styles from "@/styles/layout.module.scss";
 
 export default function Layout({ title, keywords, description, children }) {

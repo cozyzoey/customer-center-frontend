@@ -11,7 +11,7 @@ const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
   suspense: true,
 });
-import { API_URL } from "@/static/config";
+import { API_URL } from "@/constants/config";
 import AuthContext from "@/context/AuthContext";
 
 import styles from "@/styles/shared/qna-editor.module.scss";
