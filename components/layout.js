@@ -1,17 +1,13 @@
-import useSWR from "swr";
+import useSWRImmutable from "swr";
 import Head from "next/head";
+import { motion } from "framer-motion";
 import Header from "./header";
 import Footer from "./footer";
 import { API_URL } from "@/static/config";
-import { fetcher } from "@/helpers/index";
 import styles from "@/styles/layout.module.scss";
 
 export default function Layout({ title, keywords, description, children }) {
-  const { data } = useSWR(`${API_URL}/api/business`, fetcher, {
-    revalidateIfStale: false,
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-  });
+  const { data } = useSWRImmutable(`${API_URL}/api/business`);
 
   return (
     <div className={styles.layout}>
@@ -28,9 +24,13 @@ export default function Layout({ title, keywords, description, children }) {
       </Head>
 
       <Header logo={data?.data?.attributes?.logo || ""} />
-
-      <main>{children}</main>
-
+      <motion.main
+        animate={{ opacity: 1 }}
+        initial={{ opacity: 0 }}
+        transition={{ ease: "linear", duration: 0.3 }}
+      >
+        {children}
+      </motion.main>
       <Footer logo={data?.data?.attributes?.logo || ""} />
     </div>
   );
