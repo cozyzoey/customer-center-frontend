@@ -10,6 +10,7 @@ import Layout from "@/components/layout";
 import Button from "@/components/button";
 const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
+  suspense: true,
 });
 import { API_URL } from "@/static/config";
 import { parseCookies } from "@/helpers/index";
