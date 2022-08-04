@@ -10,6 +10,7 @@ const Editor = dynamic(() => import("@/components/editor"), {
 });
 import { API_URL } from "@/constants/config";
 import AuthContext from "@/context/AuthContext";
+import { parseCookies } from "@/helpers/index";
 
 import styles from "@/styles/shared/qna-editor.module.scss";
 
