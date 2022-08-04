@@ -31,7 +31,7 @@ const login = async (req, res) => {
         })
       );
 
-      res.status(200).json({ user });
+      res.status(200).json({ user, token: jwt });
     } else {
       res.status(error.status).json({ message: error.message });
     }
