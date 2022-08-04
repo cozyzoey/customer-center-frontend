@@ -85,10 +85,10 @@ export const AuthProvider = ({ children }) => {
 
   const checkUserLoggedIn = async () => {
     const res = await fetch(`${NEXT_URL}/api/user`);
-    const { user } = await res.json();
+    const data = await res.json();
 
     if (res.ok) {
-      setUser(user);
+      setUser(data.user);
     } else {
       setUser(null);
     }
