@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import qs from "qs";
 import useSWR from "swr";
 import dynamic from "next/dynamic";
@@ -11,11 +11,10 @@ const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
 });
 import { API_URL } from "@/constants/config";
+import AuthContext from "@/context/AuthContext";
 import styles from "@/styles/shared/qna-editor.module.scss";
 
-import { parseCookies } from "@/helpers/index";
-
-export default function EditQuestion({ token }) {
+export default function EditQuestion() {
   const router = useRouter();
   const titleInputRef = useRef(null);
   const [title, setTitle] = useState("");
@@ -27,6 +26,7 @@ export default function EditQuestion({ token }) {
       },
     },
   });
+  const { token } = useContext(AuthContext);
   const { data } = useSWR(`${API_URL}/api/questions?${query}`);
 
   // 페치한 데이터로 상태 업데이트 (useSWR의 onSuccess 옵션이 동작하지 않아서 useEffect로 처리)
@@ -102,11 +102,4 @@ export default function EditQuestion({ token }) {
       </Button>
     </Layout>
   );
-}
-
-export async function getServerSideProps({ req }) {
-  const { token } = parseCookies(req);
-  return {
-    props: { token },
-  };
 }

@@ -7,6 +7,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -28,10 +29,11 @@ export const AuthProvider = ({ children }) => {
       body: JSON.stringify(userInfo),
     });
 
-    const { user, message } = await res.json();
+    const { user, token, message } = await res.json();
 
     if (res.ok) {
       setUser(user);
+      setToken(token);
       router.push("/");
     } else {
       setError(message);
@@ -55,10 +57,11 @@ export const AuthProvider = ({ children }) => {
       }),
     });
 
-    const { user, message } = await res.json();
+    const { user, token, message } = await res.json();
 
     if (res.ok) {
       setUser(user);
+      setToken(token);
       toast.success("반갑습니다:)");
       router.push("/");
     } else {
@@ -77,6 +80,7 @@ export const AuthProvider = ({ children }) => {
 
     if (res.ok) {
       setUser(null);
+      setToken(null);
       router.push("/");
     }
 
@@ -85,18 +89,17 @@ export const AuthProvider = ({ children }) => {
 
   const checkUserLoggedIn = async () => {
     const res = await fetch(`${NEXT_URL}/api/user`);
-    const data = await res.json();
+    const { user, token, message } = await res.json();
 
     if (res.ok) {
-      setUser(data.user);
-    } else {
-      setUser(null);
+      setUser(user);
+      setToken(token);
     }
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, error, loading, register, login, logout }}
+      value={{ user, token, error, loading, register, login, logout }}
     >
       {children}
     </AuthContext.Provider>
