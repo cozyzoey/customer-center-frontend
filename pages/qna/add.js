@@ -10,16 +10,15 @@ const Editor = dynamic(() => import("@/components/editor"), {
 });
 import { API_URL } from "@/constants/config";
 import AuthContext from "@/context/AuthContext";
-import { parseCookies } from "@/helpers/index";
 
 import styles from "@/styles/shared/qna-editor.module.scss";
 
-export default function add({ token }) {
+export default function add() {
   const router = useRouter();
   const titleInputRef = useRef(null);
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
-  const { user } = useContext(AuthContext);
+  const { user, token } = useContext(AuthContext);
 
   useEffect(() => {
     titleInputRef.current.focus();
@@ -84,11 +83,4 @@ export default function add({ token }) {
       </Button>
     </Layout>
   );
-}
-
-export async function getServerSideProps({ req }) {
-  const { token } = parseCookies(req);
-  return {
-    props: { token },
-  };
 }
