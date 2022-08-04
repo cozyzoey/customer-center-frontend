@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import qs from "qs";
 import useSWR, { useSWRConfig } from "swr";
-import useToken from "@/hooks/useToken";
 
 import moment from "moment";
 import dynamic from "next/dynamic";
@@ -17,16 +16,16 @@ const Editor = dynamic(() => import("@/components/editor"), {
 });
 import { API_URL } from "@/constants/config";
 import AuthContext from "@/context/AuthContext";
+import { parseCookies } from "@/helpers/index";
 
 import styles from "@/styles/shared/contents-detail.module.scss";
 
-export default function QnADetail() {
+export default function QnADetail({ token }) {
   const router = useRouter();
   const { user } = useContext(AuthContext);
   const [isAddingAnswer, setIsAddingAnswer] = useState(false); // 댓글 신규 작성 여부
   const [editingAnswerId, setEditingAnswerId] = useState(null); // 수정중인 댓글 id
   const [answerContents, setAnswerContents] = useState(""); // 신규 작성 or 수정중인 댓글 컨텐츠
-  const token = useToken();
   const query = qs.stringify({
     filters: {
       id: {
@@ -327,31 +326,9 @@ export default function QnADetail() {
   );
 }
 
-export async function getStaticPaths() {
-  const res = await fetch(`${API_URL}/api/questions`);
-  const { data } = await res.json();
-
-  const paths = data.map((el) => ({ params: { id: String(el.id) } }));
-
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
   return {
-    paths,
-    fallback: true,
-  };
-}
-
-export async function getStaticProps({ params: { id } }) {
-  const query = qs.stringify({
-    filters: {
-      id: {
-        $eq: id,
-      },
-    },
-    populate: "*",
-  });
-  const res = await fetch(`${API_URL}/api/questions?${query}`);
-  const { data } = await res.json();
-  return {
-    props: { item: data[0].attributes, id },
-    revalidate: 60,
+    props: { token },
   };
 }
