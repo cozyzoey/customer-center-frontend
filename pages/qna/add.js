@@ -3,7 +3,6 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import useToken from "@/hooks/useToken";
 import Layout from "@/components/layout";
 import Button from "@/components/button";
 const Editor = dynamic(() => import("@/components/editor"), {
@@ -14,13 +13,12 @@ import AuthContext from "@/context/AuthContext";
 
 import styles from "@/styles/shared/qna-editor.module.scss";
 
-export default function add() {
+export default function add({ token }) {
   const router = useRouter();
   const titleInputRef = useRef(null);
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
   const { user } = useContext(AuthContext);
-  const token = useToken();
 
   useEffect(() => {
     titleInputRef.current.focus();
@@ -85,4 +83,11 @@ export default function add() {
       </Button>
     </Layout>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+  return {
+    props: { token },
+  };
 }
