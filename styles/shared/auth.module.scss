@@ -20,7 +20,8 @@
       margin-top: 3ch;
     }
     // 에러 메시지
-    input + label {
+    input + label,
+    p + label {
       @include mixins.fs2;
       margin-top: 4px;
       color: v.$error;

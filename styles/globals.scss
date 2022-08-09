@@ -18,7 +18,9 @@ body {
   margin: 0;
 }
 
-input {
+input[type="text"],
+input[type="password"],
+input[type="email"] {
   @include mixins.fs3;
   font-weight: 300;
   font-family: "Noto Sans KR", sans-serif;
@@ -46,6 +48,29 @@ input {
   }
   &:-webkit-autofill {
     font-size: 18px !important;
+  }
+}
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  width: 2.2ch;
+  height: 2.2ch;
+  margin-right: 6px;
+  border: 1px solid v.$black-light;
+  display: inline-block;
+  position: relative;
+  &:checked {
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: 0.4ch;
+      left: 50%;
+      width: 0.6ch;
+      height: 1.2ch;
+      border: solid v.$black-light;
+      border-width: 0 2px 2px 0;
+      transform: translate(-50%, 0) rotate(45deg);
+    }
   }
 }
 

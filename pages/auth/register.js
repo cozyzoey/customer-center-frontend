@@ -20,6 +20,7 @@ export default function register() {
     password: "",
     passwordConfirm: "",
     username: "",
+    agreement: false,
   };
 
   const validationSchema = Yup.object({
@@ -37,6 +38,9 @@ export default function register() {
       .min(3, "3자 이상 입력해주세요")
       .max(15, "15자 미만으로 입력해주세요")
       .required("필수 입력 항목입니다"),
+    agreement: Yup.boolean()
+      .required("동의에 체크해 주세요")
+      .oneOf([true], "동의에 체크해 주세요"),
   });
 
   const handleSubmit = (values) => {
@@ -97,7 +101,7 @@ export default function register() {
             />
             <ErrorMessage component="label" name="username" />
             <p className={styles.agreement}>
-              웹사이트{" "}
+              <Field name="agreement" type="checkbox" /> 웹사이트{" "}
               <Link href="/policy/terms">
                 <a target="_blank">이용약관</a>
               </Link>
@@ -107,6 +111,7 @@ export default function register() {
               </Link>
               을 확인했으며 이에 동의합니다.
             </p>
+            <ErrorMessage component="label" name="agreement" />
             <Button
               type="submit"
               fullWidth={true}
