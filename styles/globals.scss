@@ -119,3 +119,17 @@ tbody {
     }
   }
 }
+
+// 이미지가 마우스 드래그되는 현상 차단
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+}
+// ckeditor 이미지 너비가 %로 설정돼 있어서 작은 스크린에서는 full-width로 설정
+figure {
+  @include mixins.respond(md) {
+    width: 100% !important;
+  }
+}
