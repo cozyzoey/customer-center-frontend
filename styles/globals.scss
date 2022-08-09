@@ -119,8 +119,3 @@ tbody {
     }
   }
 }
-
-// react-icons 패키지의 Grommet-Icons의 stroke 컬러가 안바뀌는 이슈 처리
-svg * {
-  stroke: currentColor;
-}
