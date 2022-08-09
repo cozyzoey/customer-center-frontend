@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
@@ -9,7 +9,7 @@ import Button from "@/components/button";
 import styles from "@/styles/shared/auth.module.scss";
 
 export default function login() {
-  const { login, error, loading } = useContext(AuthContext);
+  const { login, error, resetError, loading } = useContext(AuthContext);
 
   const initialValues = {
     email: "",
@@ -27,7 +27,7 @@ export default function login() {
   });
 
   useEffect(() => {
-    error && toast.error(error);
+    error && toast.error(error, { onOpen: resetError });
   }, [error]);
 
   const handleSubmit = async (values) => {

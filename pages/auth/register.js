@@ -9,10 +9,10 @@ import Button from "@/components/button";
 import styles from "@/styles/shared/auth.module.scss";
 
 export default function register() {
-  const { register, error, loading } = useContext(AuthContext);
+  const { register, error, resetError, loading } = useContext(AuthContext);
 
   useEffect(() => {
-    error && toast.error(error);
+    error && toast.error(error, { onOpen: resetError });
   }, [error]);
 
   const initialValues = {
