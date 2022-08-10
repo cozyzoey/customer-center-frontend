@@ -3,7 +3,7 @@
 
 .container {
   width: 100%;
-  max-width: 360px;
+  max-width: 380px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -43,10 +43,16 @@
   }
 }
 
+.guideMessage {
+  @include mixins.fs5;
+  margin: 4ch 0 6ch;
+}
+
 .errorInput {
   border-bottom: 1px solid v.$error !important;
 }
 
+// 회원가입 페이지 약관 동의 체크박스
 .agreement {
   margin-top: 5ch;
   a {
@@ -54,5 +60,15 @@
     &:hover {
       text-decoration: underline;
     }
+  }
+}
+
+// 로그인페이지 하단 텍스트 메뉴
+.otherAction {
+  display: flex;
+  flex-direction: column;
+  gap: 3ch 0;
+  a:hover {
+    text-decoration: underline;
   }
 }

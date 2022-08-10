@@ -83,12 +83,14 @@ export default function login() {
             >
               로그인
             </Button>
-            <Link href="/auth/register">
-              <a>아직 회원이 아니신가요?</a>
-            </Link>
-            {/* <Link href="">
-              <a>비밀번호를 잊어버리셨나요?</a>
-            </Link> */}
+            <div className={styles.otherAction}>
+              <Link href="/auth/register">
+                <a>아직 회원이 아니신가요?</a>
+              </Link>
+              <Link href="/auth/forgot-password">
+                <a>비밀번호를 잊어버리셨나요?</a>
+              </Link>
+            </div>
           </Form>
         </Formik>
       </div>
