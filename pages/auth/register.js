@@ -3,9 +3,10 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import Link from "next/link";
 import * as Yup from "yup";
 import Layout from "@/components/layout";
+import Button from "@/components/button";
+import MyInput from "@/components/my-input";
 import AuthContext from "@/context/AuthContext";
 import { toast } from "react-toastify";
-import Button from "@/components/button";
 import styles from "@/styles/shared/auth.module.scss";
 
 export default function register() {
@@ -46,20 +47,6 @@ export default function register() {
   const handleSubmit = (values) => {
     const { email, password, username } = values;
     register({ email, password, username });
-  };
-
-  const MyInput = ({ field, form, ...props }) => {
-    return (
-      <input
-        {...field}
-        {...props}
-        className={
-          form.touched?.[field.name] &&
-          form.errors?.[field.name] &&
-          styles.errorInput
-        }
-      />
-    );
   };
 
   return (
@@ -116,7 +103,7 @@ export default function register() {
               type="submit"
               fullWidth={true}
               variant="outlined"
-              loaading={loading}
+              loading={loading}
             >
               가입하기
             </Button>

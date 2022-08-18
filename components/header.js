@@ -7,6 +7,7 @@ import { GrLogout, GrPrevious, GrUser } from "react-icons/gr";
 
 import AuthContext from "@/context/AuthContext";
 import styles from "@/styles/header.module.scss";
+import Button from "./button";
 
 export default function Header({ logo }) {
   const router = useRouter();
@@ -67,6 +68,9 @@ export default function Header({ logo }) {
             <>
               {user.username}
               <GrLogout title="로그아웃" onClick={handleLogout} size="3ch" />
+              <Button onClick={() => router.push("/consent")}>
+                동의서 작성
+              </Button>
             </>
           ) : (
             <Link href="/auth/login">

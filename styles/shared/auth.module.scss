@@ -16,12 +16,23 @@
       text-align: center;
       margin-bottom: 3ch;
     }
-    input:not(:first-of-type) {
+    input:not(:first-of-type),
+    section {
       margin-top: 3ch;
+    }
+    section {
+      background-color: v.$light;
+      display: flex;
+      padding: 1.6ch 0;
+      justify-content: space-around;
+      & > * {
+        cursor: pointer;
+      }
     }
     // 에러 메시지
     input + label,
-    p + label {
+    p + label,
+    div + label {
       @include mixins.fs2;
       margin-top: 4px;
       color: v.$error;
@@ -46,10 +57,6 @@
 .guideMessage {
   @include mixins.fs5;
   margin: 4ch 0 6ch;
-}
-
-.errorInput {
-  border-bottom: 1px solid v.$error !important;
 }
 
 // 회원가입 페이지 약관 동의 체크박스

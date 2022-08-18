@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import Layout from "@/components/layout";
 import Button from "@/components/button";
+import MyInput from "@/components/my-input";
 import { API_URL } from "@/constants/config";
 import styles from "@/styles/shared/auth.module.scss";
 
@@ -58,20 +59,6 @@ export default function ResetPassword() {
 
     router.replace("/auth/login");
     toast.success("비밀번호 재설정을 마쳤습니다. 다시 로그인해주세요.");
-  };
-
-  const MyInput = ({ field, form, ...props }) => {
-    return (
-      <input
-        {...field}
-        {...props}
-        className={
-          form.touched?.[field.name] &&
-          form.errors?.[field.name] &&
-          styles.errorInput
-        }
-      />
-    );
   };
 
   return (

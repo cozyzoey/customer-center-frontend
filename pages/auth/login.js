@@ -3,9 +3,10 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
 import Layout from "@/components/layout";
+import Button from "@/components/button";
+import MyInput from "@/components/my-input";
 import AuthContext from "@/context/AuthContext";
 import { toast } from "react-toastify";
-import Button from "@/components/button";
 import styles from "@/styles/shared/auth.module.scss";
 
 export default function login() {
@@ -33,20 +34,6 @@ export default function login() {
   const handleSubmit = async (values) => {
     const { email, password } = values;
     login({ email, password });
-  };
-
-  const MyInput = ({ field, form, ...props }) => {
-    return (
-      <input
-        {...field}
-        {...props}
-        className={
-          form.touched?.[field.name] &&
-          form.errors?.[field.name] &&
-          styles.errorInput
-        }
-      />
-    );
   };
 
   return (

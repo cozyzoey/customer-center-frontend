@@ -1,4 +1,5 @@
 import cookie from "cookie";
+import qs from "qs";
 import { API_URL } from "@/constants/config";
 
 const user = async (req, res) => {
@@ -10,7 +11,11 @@ const user = async (req, res) => {
 
     const { token } = cookie.parse(req.headers.cookie);
 
-    const strapiRes = await fetch(`${API_URL}/api/users/me`, {
+    const query = qs.stringify({
+      populate: ["privacy_consent_form"],
+    });
+
+    const strapiRes = await fetch(`${API_URL}/api/users/me?${query}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

@@ -5,6 +5,7 @@ import qs from "qs";
 import { toast } from "react-toastify";
 import Layout from "@/components/layout";
 import Button from "@/components/button";
+import MyInput from "@/components/my-input";
 import { API_URL } from "@/constants/config";
 import styles from "@/styles/shared/auth.module.scss";
 
@@ -65,20 +66,6 @@ export default function ForgotPassword() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const MyInput = ({ field, form, ...props }) => {
-    return (
-      <input
-        {...field}
-        {...props}
-        className={
-          form.touched?.[field.name] &&
-          form.errors?.[field.name] &&
-          styles.errorInput
-        }
-      />
-    );
   };
 
   return (

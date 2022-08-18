@@ -20,7 +20,8 @@ body {
 
 input[type="text"],
 input[type="password"],
-input[type="email"] {
+input[type="email"],
+input[type="tel"] {
   @include mixins.fs3;
   font-weight: 300;
   font-family: "Noto Sans KR", sans-serif;
@@ -50,7 +51,8 @@ input[type="email"] {
     font-size: 18px !important;
   }
 }
-input[type="checkbox"] {
+input[type="checkbox"],
+input[type="radio"] {
   -webkit-appearance: none;
   width: 2.2ch;
   height: 2.2ch;

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 export const config = {
-  matcher: ["/auth/:path*", "/qna/edit/:path*", "/qna/add"],
+  matcher: ["/auth/:path*", "/qna/edit/:path*", "/qna/add", "/consent"],
 };
 
 export async function middleware(req) {
@@ -9,8 +9,8 @@ export async function middleware(req) {
   const pathname = req.nextUrl.pathname;
 
   // 로그인 안한 사용자 -> protected 페이지 접속 -> 로그인 페이지로 redirect
-  // /qna/edit/:id, /qna/add
-  if (!token && pathname.includes("qna")) {
+  // /qna/edit/:id, /qna/add, /consent
+  if (!token && (pathname.includes("qna") || pathname.includes("consent"))) {
     return NextResponse.redirect(new URL("/auth/login", req.url));
   }
 
