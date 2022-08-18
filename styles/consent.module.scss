@@ -1,0 +1,124 @@
+@use "foundation/variables" as v;
+@use "foundation/mixins";
+
+.container {
+  width: 100%;
+  max-width: 765px;
+  margin: 0 auto;
+
+  // 2단계에서만 입력 폼 노출
+  form {
+    display: none;
+  }
+  &[data-step="2"] {
+    form {
+      display: block;
+    }
+  }
+
+  svg {
+    path,
+    polyline {
+      stroke-width: 1.4px;
+    }
+  }
+}
+
+.stepGuide {
+  @include mixins.fs4;
+  font-weight: 400;
+  margin-bottom: 4ch;
+  text-align: center;
+  padding: 2ch 1ch;
+  background-color: v.$light;
+  color: v.$blue;
+  word-break: keep-all;
+  svg {
+    margin-right: 8px;
+    transform: translateY(0.3ch);
+  }
+  span {
+    display: inline-block;
+  }
+}
+
+.steps {
+  @include mixins.no-select;
+  max-width: 600px;
+  padding: 0 2ch;
+  margin: 0 auto 9ch;
+  display: flex;
+  align-items: center;
+  gap: 0 2ch;
+  //각 스텝
+  & > div {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.2s;
+    //svg
+    div {
+      width: 6ch;
+      height: 6ch;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    label {
+      @include mixins.fs2;
+      font-weight: 400;
+      position: absolute;
+      white-space: nowrap;
+      transform: translate(-50%, 100%);
+      bottom: -1ch;
+      left: 50%;
+    }
+  }
+  hr {
+    border: none;
+    flex: 1;
+    border-bottom: 1px solid v.$gray;
+  }
+}
+div.activeStep {
+  color: v.$green;
+  //svg
+  div {
+    border: 1px solid v.$green;
+    background-color: v.$green;
+    color: v.$white;
+  }
+  & + hr {
+    border-color: v.$green;
+  }
+}
+div.inactiveStep {
+  color: v.$gray;
+  div {
+    border: 1px solid v.$gray;
+  }
+}
+
+.documents {
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  img {
+    transform: scale(1.2);
+  }
+  button {
+    margin-top: 4ch;
+  }
+}
+
+.completed {
+  p {
+    @include mixins.fs4;
+    padding-top: 4ch;
+    text-align: center;
+  }
+}

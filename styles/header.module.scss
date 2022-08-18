@@ -19,7 +19,7 @@
     grid-template-columns: auto 1fr auto;
     grid-template-rows: 50px 50px;
     grid-template-areas:
-      "prevBtn . myspace"
+      "pageTitle . myspace"
       "navLinks navLinks navLinks";
     align-content: stretch;
   }
@@ -29,42 +29,19 @@
     polyline {
       stroke-width: 1.4px;
     }
-    // react-icons 패키지의 Grommet-Icons의 stroke 컬러가 안바뀌는 이슈 처리
-    * {
-      stroke: currentColor;
-    }
-  }
-}
-
-.prevBtn {
-  display: none;
-  @include mixins.respond(lg) {
-    grid-area: prevBtn;
-    display: block;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    color: v.$white;
-    background-color: v.$black;
-    svg {
-      transform: translateX(-2px);
-    }
   }
 }
 
 .pageTitle {
-  @include mixins.no-select;
-  @include mixins.fs5;
   display: none;
   @include mixins.respond(lg) {
-    grid-area: pageTitle;
-    font-weight: 400;
     display: block;
-    position: absolute;
-    transform: translate(-50%, -50%);
-    left: 50%;
-    top: 25%;
+    @include mixins.no-select;
+    @include mixins.fs5;
+    grid-area: pageTitle;
+    padding-left: 4vw;
+    align-self: center;
+    font-weight: 400;
   }
 }
 
@@ -126,6 +103,7 @@ ul.navLinks {
   grid-area: myspace;
   .auth {
     @include mixins.no-select;
+    height: 100%;
     display: flex;
     align-items: center;
     gap: 0 1.6ch;
@@ -150,10 +128,21 @@ ul.navLinks {
         }
       }
     }
-  }
-  @include mixins.respond(lg) {
-    padding-right: 4vw;
-    .login {
+
+    .username {
+      width: 6ch;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    @include mixins.respond(lg) {
+      .username {
+        display: none;
+      }
+      button {
+        height: 100%;
+      }
     }
   }
 }

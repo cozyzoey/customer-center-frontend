@@ -8,50 +8,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
-  form {
-    width: 100%;
-    h1 {
-      @include mixins.fs4;
-      text-align: center;
-      margin-bottom: 3ch;
-    }
-    input:not(:first-of-type),
-    section {
-      margin-top: 3ch;
-    }
-    section {
-      background-color: v.$light;
-      display: flex;
-      padding: 1.6ch 0;
-      justify-content: space-around;
-      & > * {
-        cursor: pointer;
-      }
-    }
-    // 에러 메시지
-    input + label,
-    p + label,
-    div + label {
-      @include mixins.fs2;
-      margin-top: 4px;
-      color: v.$error;
-    }
-    label a {
-      display: block;
-      text-align: center;
-      &:not(:last-of-type) {
-        margin-bottom: 1.4ch;
-      }
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-    button {
-      margin-top: 3ch;
-      margin-bottom: 6ch;
-    }
-  }
 }
 
 .guideMessage {

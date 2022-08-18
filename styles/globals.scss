@@ -18,6 +18,59 @@ body {
   margin: 0;
 }
 
+form {
+  width: 100%;
+  h1 {
+    @include mixins.fs4;
+    text-align: center;
+    margin-bottom: 3ch;
+  }
+  input:not(:first-of-type),
+  section {
+    margin-top: 3ch;
+  }
+  section {
+    display: flex;
+    padding: 1.6ch 0;
+    gap: 0 3ch;
+    & > * {
+      cursor: pointer;
+    }
+  }
+  // 에러 메시지
+  input + label,
+  p + label,
+  section + label {
+    @include mixins.fs2;
+    margin-top: 4px;
+    color: v.$error;
+  }
+  label a {
+    display: block;
+    text-align: center;
+    &:not(:last-of-type) {
+      margin-bottom: 1.4ch;
+    }
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  & > button {
+    margin-top: 3ch !important;
+    margin-bottom: 6ch !important;
+  }
+}
+
+fieldset {
+  padding-top: 4ch;
+  border: none;
+  margin-bottom: 6ch;
+}
+legend {
+  @include mixins.fs4;
+  @include mixins.no-select;
+}
+
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -134,4 +187,9 @@ figure {
   @include mixins.respond(md) {
     width: 100% !important;
   }
+}
+
+// react-icons 패키지의 Grommet-Icons의 stroke 컬러가 안바뀌는 이슈 처리
+svg * {
+  stroke: currentColor;
 }

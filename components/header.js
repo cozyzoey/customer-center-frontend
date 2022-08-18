@@ -34,9 +34,6 @@ export default function Header({ logo }) {
 
   return (
     <header className={styles.header}>
-      <div className={styles.prevBtn}>
-        <GrPrevious size="3ch" onClick={() => router.back()} />
-      </div>
       <div className={styles.pageTitle}>{pageTitle}</div>
       <LayoutGroup id="nav">
         <ul className={styles.navLinks}>
@@ -66,10 +63,10 @@ export default function Header({ logo }) {
         <div className={styles.auth}>
           {user ? (
             <>
-              {user.username}
+              <span className={styles.username}>{user.username}</span>
               <GrLogout title="로그아웃" onClick={handleLogout} size="3ch" />
               <Button onClick={() => router.push("/consent")}>
-                동의서 작성
+                동의서 제출
               </Button>
             </>
           ) : (

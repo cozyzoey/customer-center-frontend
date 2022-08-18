@@ -10,6 +10,11 @@
   white-space: nowrap;
   transition: all 0.2s;
   position: relative;
+  .content {
+    display: flex;
+    align-items: center;
+    gap: 0 8px;
+  }
 }
 
 // Loading
