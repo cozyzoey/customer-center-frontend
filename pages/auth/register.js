@@ -1,6 +1,5 @@
 import { useContext, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import Link from "next/link";
 import * as Yup from "yup";
 import Layout from "@/components/layout";
 import AuthContext from "@/context/AuthContext";
@@ -96,17 +95,6 @@ export default function register() {
               component={MyInput}
             />
             <ErrorMessage component="label" name="username" />
-            <p className={styles.agreement}>
-              웹사이트{" "}
-              <Link href="/policy/terms">
-                <a target="_blank">이용약관</a>
-              </Link>
-              과{" "}
-              <Link href="/policy/privacy">
-                <a target="_blank">개인정보처리방침</a>
-              </Link>
-              을 확인했으며 이에 동의합니다.
-            </p>
             <Button type="submit" fullWidth={true} variant="outlined">
               가입하기
             </Button>

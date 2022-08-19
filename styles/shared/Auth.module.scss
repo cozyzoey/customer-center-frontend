@@ -19,6 +19,11 @@
     input:not(:first-of-type) {
       margin-top: 3ch;
     }
+    button {
+      margin-top: 4ch;
+      margin-bottom: 6ch;
+    }
+
     // 에러 메시지
     input + label {
       @include mixins.fs1;
@@ -35,23 +40,9 @@
         text-decoration: underline;
       }
     }
-    button {
-      margin-top: 3ch;
-      margin-bottom: 6ch;
-    }
   }
 }
 
 .errorInput {
   border-bottom: 1px solid v.$error !important;
-}
-
-.agreement {
-  margin-top: 5ch;
-  a {
-    font-weight: 400;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
 }
