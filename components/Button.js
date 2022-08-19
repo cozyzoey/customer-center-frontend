@@ -1,10 +1,10 @@
-import classNames from "classnames";
-import styles from "@/styles/Button.module.scss";
+import classNames from 'classnames'
+import styles from '@/styles/Button.module.scss'
 
 export default function Button({
   children,
-  variant = "dark",
-  align = "center",
+  variant = 'dark',
+  float = 'none',
   loading = false,
   disabled = false,
   fullWidth = false,
@@ -13,15 +13,14 @@ export default function Button({
   const buttonClass = classNames(
     styles.button,
     styles[variant],
-    styles[align],
+    styles[float],
     { [styles.loading]: loading },
     { [styles.disabled]: disabled },
     { [styles.fullWidth]: fullWidth }
-  );
+  )
   return (
     <button className={buttonClass} disabled={disabled} {...props}>
-      {loading && <div className={styles.loadingSpinner} />}
-      <div className={styles.content}>{children}</div>
+      {children}
     </button>
-  );
+  )
 }
