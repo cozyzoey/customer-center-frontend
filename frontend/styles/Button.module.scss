@@ -1,12 +1,11 @@
 @use 'foundation/variables' as v;
-@use 'foundation/mixins';
 
 .button {
-  padding: 1.5ch 3ch;
+  padding: 0 30px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  white-space: nowrap;
 }
 
 .dark {
