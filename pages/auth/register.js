@@ -1,11 +1,11 @@
 import { useContext, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import Layout from "@/components/layout";
+import Layout from "@/components/Layout";
 import AuthContext from "@/context/AuthContext";
 import { toast } from "react-toastify";
-import Button from "@/components/button";
-import styles from "@/styles/shared/auth.module.scss";
+import Button from "@/components/Button";
+import styles from "@/styles/shared/Auth.module.scss";
 
 export default function register() {
   const { register, error } = useContext(AuthContext);

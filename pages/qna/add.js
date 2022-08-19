@@ -3,15 +3,15 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import Button from "@/components/button";
-const Editor = dynamic(() => import("@/components/editor"), {
+import Button from "@/components/Button";
+const Editor = dynamic(() => import("@/components/Editor"), {
   ssr: false,
 });
 import { API_URL } from "@/static/config";
 import { parseCookies } from "@/helpers/index";
 import AuthContext from "@/context/AuthContext";
 
-import styles from "@/styles/shared/qna-editor.module.scss";
+import styles from "@/styles/shared/QnAEditor.module.scss";
 
 export default function add({ token }) {
   const router = useRouter();

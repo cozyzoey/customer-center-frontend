@@ -2,11 +2,11 @@ import { useContext, useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
-import Layout from "@/components/layout";
+import Layout from "@/components/Layout";
 import AuthContext from "@/context/AuthContext";
 import { toast } from "react-toastify";
-import Button from "@/components/button";
-import styles from "@/styles/shared/auth.module.scss";
+import Button from "@/components/Button";
+import styles from "@/styles/shared/Auth.module.scss";
 
 export default function login() {
   const { login, error } = useContext(AuthContext);

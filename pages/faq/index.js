@@ -4,12 +4,12 @@ import parse from "html-react-parser";
 import { motion, AnimatePresence } from "framer-motion";
 import { GrUp } from "react-icons/gr";
 
-import NoDataHeading from "@/components/no-data-heading";
-import Pagination from "@/components/pagination";
+import NoDataHeading from "@/components/NoDataHeading";
+import Pagination from "@/components/Pagination";
 
 import { API_URL, PER_PAGE } from "@/static/config";
-import Layout from "@/components/layout";
-import styles from "@/styles/faq.module.scss";
+import Layout from "@/components/Layout";
+import styles from "@/styles/FAQ.module.scss";
 
 export default function FAQ({ items, page, total }) {
   const [activeItemId, setActiveItemId] = useState(null);

@@ -1,7 +1,7 @@
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import "@ckeditor/ckeditor5-build-decoupled-document/build/translations/ko";
-import styles from "@/styles/editor-simple.module.scss";
+import styles from "@/styles/EditorSimple.module.scss";
 
 export default function Editor({ value, onChange }) {
   return (

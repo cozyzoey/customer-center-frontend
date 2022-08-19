@@ -7,16 +7,16 @@ import parse from "html-react-parser";
 import { toast } from "react-toastify";
 import { GrTrash, GrEdit } from "react-icons/gr";
 import Avatar from "boring-avatars";
-import Layout from "@/components/layout";
-import Button from "@/components/button";
-const EditorSimple = dynamic(() => import("@/components/editor-simple"), {
+import Layout from "@/components/Layout";
+import Button from "@/components/Button";
+const EditorSimple = dynamic(() => import("@/components/EditorSimple"), {
   ssr: false,
 });
 import { API_URL } from "@/static/config";
 import { parseCookies } from "@/helpers/index";
 import AuthContext from "@/context/AuthContext";
 
-import styles from "@/styles/shared/contents-detail.module.scss";
+import styles from "@/styles/shared/ContentsDetail.module.scss";
 
 export default function QnADetail({ item, id, token }) {
   const router = useRouter();
