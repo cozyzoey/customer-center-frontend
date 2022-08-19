@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { useRouter } from "next/router";
-import styles from "@/styles/search.module.scss";
+import { useState } from 'react'
+import { useRouter } from 'next/router'
+import styles from '@/styles/Search.module.scss'
 
 export default function Search() {
-  const router = useRouter();
-  const [term, setTerm] = useState("");
+  const router = useRouter()
+  const [term, setTerm] = useState('')
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    router.push(`/qna?term=${term}`);
-    setTerm("");
-  };
+    e.preventDefault()
+    router.push(`/qna?term=${term}`)
+    setTerm('')
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -21,5 +21,5 @@ export default function Search() {
         placeholder="검색해보세요"
       />
     </form>
-  );
+  )
 }

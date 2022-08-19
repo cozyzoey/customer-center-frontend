@@ -4,7 +4,7 @@ import Header from "./header";
 import Footer from "./footer";
 import { API_URL } from "@/static/config";
 import { fetcher } from "@/helpers/index";
-import styles from "@/styles/layout.module.scss";
+import styles from "@/styles/Layout.module.scss";
 
 export default function Layout({ title, keywords, description, children }) {
   const { data } = useSWR(`${API_URL}/api/business`, fetcher, {
