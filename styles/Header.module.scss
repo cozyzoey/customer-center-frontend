@@ -10,102 +10,44 @@
 .header {
   @include mixins.fs3;
   border-bottom: v.$border;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  grid-template-areas: "navLinks . myspace";
+  display: flex;
+  justify-content: space-between;
   background-color: v.$white;
   position: relative;
   @include mixins.respond(lg) {
-    grid-template-columns: auto 1fr auto;
-    grid-template-rows: 40px 40px;
-    grid-template-areas:
-      "prevBtn . myspace"
-      "navLinks navLinks navLinks";
-    align-content: stretch;
-  }
-  svg {
-    cursor: pointer;
-    path,
-    polyline {
-      stroke-width: 1.4px;
-    }
+    flex-direction: column;
   }
 }
 
-.prevBtn {
-  display: none;
-  @include mixins.respond(lg) {
-    grid-area: prevBtn;
-    display: block;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    color: v.$white;
-    background-color: v.$black;
-    svg {
-      transform: translateX(-2px);
-    }
-  }
-}
-
-.pageTitle {
-  @include mixins.no-select;
-  display: none;
-  @include mixins.respond(lg) {
-    grid-area: pageTitle;
-    font-weight: 400;
-    display: block;
-    position: absolute;
-    transform: translate(-50%, -50%);
-    left: 50%;
-    top: 25%;
-  }
-}
-
-ul.navLinks {
-  grid-area: navLinks;
+.navLinks {
+  height: 100%;
   display: flex;
-  @include mixins.respond(lg) {
-    border-top: v.$border;
-  }
   li {
     @extend %navItemBase;
-    position: relative;
     @include mixins.respond(lg) {
-      width: 33.33%;
-      height: max-content;
-      height: 100%;
-      &:not(:last-of-type) {
-        border-right: v.$border;
-      }
+      width: 100%;
     }
     a {
-      padding: 0 2.6ch;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 0 20px;
       @include mixins.respond(lg) {
         width: 100%;
+        padding: 0;
+        text-align: center;
       }
     }
   }
-}
-
-.navUnderline {
-  width: 100%;
-  height: 2px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  background-color: v.$black;
+  .inactiveNavLink {
+  }
+  .activeNavLink {
+    border-bottom: 2px solid v.$black;
+  }
 }
 
 .logo {
-  @include mixins.fs4;
+  @include mixins.fs5;
   @extend %navItemBase;
-  font-weight: 500;
+  color: v.$blue-green;
+  font-weight: 700;
   position: absolute;
   transform: translate(-50%, -50%);
   top: 50%;
@@ -117,14 +59,18 @@ ul.navLinks {
 
 .myspace {
   @extend %navItemBase;
-  grid-area: myspace;
   .auth {
     @include mixins.no-select;
     display: flex;
     align-items: center;
-    gap: 0 1.6ch;
+    gap: 0 20px;
+    margin-right: 40px;
+    @include mixins.respond(lg) {
+      margin-right: 4vw;
+    }
   }
   @include mixins.respond(lg) {
-    padding-right: 4vw;
+    order: -1;
+    justify-content: flex-end;
   }
 }
