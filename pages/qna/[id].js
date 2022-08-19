@@ -120,40 +120,37 @@ export default function QnADetail({ item, id, token }) {
           댓글쓰기
         </Button>
       )}
-
-      <div
-        className={styles.answerEditorWrapper}
-        style={{ display: `${isAnswerEditorOpen ? "block" : "none"}` }}
-      >
-        <EditorSimple
-          value={answerContents}
-          onChange={(newValue) => setAnswerContents(newValue)}
-        />
-        <div className={styles.answerControlBtns}>
-          <Button
-            onClick={() => {
-              const result = confirm("댓글 작성을 취소할까요?");
-              if (result) {
-                setisAnswerEditorOpen(false);
-                setAnswerContents("");
-              }
-            }}
-            variant="light"
-          >
-            취소
-          </Button>
-          <Button
-            onClick={() => {
-              const result = confirm("댓글을 등록하시겠습니까?");
-              result && handleAddAnsewr();
-            }}
-            disabled={answerContents.length < 10}
-          >
-            등록
-          </Button>
+      {isAnswerEditorOpen && (
+        <div className={styles.answerEditorWrapper}>
+          <EditorSimple
+            value={answerContents}
+            onChange={(newValue) => setAnswerContents(newValue)}
+          />
+          <div className={styles.answerControlBtns}>
+            <Button
+              onClick={() => {
+                const result = confirm("댓글 작성을 취소할까요?");
+                if (result) {
+                  setisAnswerEditorOpen(false);
+                  setAnswerContents("");
+                }
+              }}
+              variant="light"
+            >
+              취소
+            </Button>
+            <Button
+              onClick={() => {
+                const result = confirm("댓글을 등록하시겠습니까?");
+                result && handleAddAnsewr();
+              }}
+              disabled={answerContents.length < 10}
+            >
+              등록
+            </Button>
+          </div>
         </div>
-      </div>
-
+      )}
       {item.answers.data.length > 0 &&
         item.answers.data
           .sort((a, b) => a.id - b.id)

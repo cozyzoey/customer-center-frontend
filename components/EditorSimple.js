@@ -9,13 +9,18 @@ export default function Editor({ value, onChange }) {
       <CKEditor
         editor={ClassicEditor}
         data={value}
+        onError={(error, { willEditorRestart }) => {
+          if (willEditorRestart) {
+            toolBarRef.current.ui.view.toolbar.element.remove();
+          }
+        }}
         onChange={(event, editor) => {
           onChange && onChange(editor.getData());
         }}
         config={{
           language: "ko",
-          placeholder: "댓글 내용을 작성하세요",
         }}
+        placeholder="hihi"
       />
     </div>
   );
