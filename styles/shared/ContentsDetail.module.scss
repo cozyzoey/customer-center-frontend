@@ -1,21 +1,5 @@
-@use "@/styles/foundation/variables" as v;
-@use "@/styles/foundation/mixins";
-
-%svg-style {
-  cursor: pointer;
-  path {
-    stroke: v.$gray;
-    stroke-width: 1.5px;
-  }
-  &:hover {
-    path {
-      stroke: v.$black-light;
-    }
-  }
-  &:not(:last-of-type) {
-    margin-right: 1.6ch;
-  }
-}
+@use '@/styles/foundation/variables' as v;
+@use '@/styles/foundation/mixins';
 
 .title {
   @include mixins.fs-lg;
@@ -29,43 +13,12 @@
   display: flex;
   align-items: center;
   gap: 0 10px;
-  margin-bottom: clamp(30px, 2.8vw, 50px);
-}
-
-.divider {
-  position: relative;
-  .controls {
-    position: absolute;
-    right: 0;
-    bottom: 2ch;
-    svg {
-      cursor: pointer;
-      path {
-        stroke: v.$gray;
-        stroke-width: 1.5px;
-      }
-      &:hover {
-        path {
-          stroke: v.$black-light;
-        }
-      }
-      &:not(:last-of-type) {
-        margin-right: 1.6ch;
-      }
-    }
-  }
-  hr {
-    border: none;
-    border-bottom: v.$border2;
-    width: 16ch;
-    @include mixins.respond(md) {
-      width: 100%;
-    }
-  }
+  padding-bottom: v.$h1;
+  border-bottom: v.$border2;
 }
 
 .contents {
-  padding: clamp(30px, 2.1vw, 40px) 0 v.$h2;
+  padding: clamp(30px, 2.1vw, 40px) 0;
   & > * {
     padding: 1ch 0;
   }
@@ -80,71 +33,5 @@
   h3 {
     @include mixins.fs3;
     font-weight: 400;
-  }
-}
-
-.answerEditorWrapper {
-  position: relative;
-  .answerControlBtns {
-    display: flex;
-    justify-content: flex-end;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    button {
-      margin: 0;
-      @include mixins.respond(md) {
-        width: 50%;
-      }
-    }
-  }
-}
-
-.answerItem {
-  display: grid;
-  grid-template-columns: min-content 1fr;
-  gap: 10px 4ch;
-  grid-template-areas:
-    "identicon header"
-    "identicon contents";
-  margin-top: 4ch;
-
-  .answerItemIdenticion {
-    grid-area: identicon;
-    // justify-self: center;
-  }
-  .answerItemHeader {
-    font-weight: 400;
-    grid-area: header;
-    display: flex;
-    align-items: flex-end;
-    gap: 0 4ch;
-    @include mixins.respond(md) {
-      justify-content: space-between;
-    }
-    div {
-      line-height: 1;
-      svg {
-        cursor: pointer;
-        path {
-          stroke: v.$gray;
-          stroke-width: 2px;
-        }
-        &:hover {
-          path {
-            stroke: v.$black-light;
-          }
-        }
-        &:not(:last-of-type) {
-          margin-right: 12px;
-        }
-      }
-      span {
-        margin-right: 10px;
-      }
-    }
-  }
-  .answerItemContents {
-    grid-area: contents;
   }
 }

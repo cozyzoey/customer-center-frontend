@@ -1,5 +1,5 @@
-@use "foundation/variables" as v;
-@use "foundation/mixins";
+@use 'foundation/variables' as v;
+@use 'foundation/mixins';
 
 %navItemBase {
   height: 100%;
@@ -8,7 +8,6 @@
 }
 
 .header {
-  @include mixins.fs3;
   border-bottom: v.$border;
   display: flex;
   justify-content: space-between;
