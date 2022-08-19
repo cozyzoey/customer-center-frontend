@@ -11,11 +11,10 @@ const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
 });
 import { API_URL } from "@/constants/config";
+import useToken from "@/hooks/useToken";
 import styles from "@/styles/shared/qna-editor.module.scss";
 
-import { parseCookies } from "@/helpers/index";
-
-export default function EditQuestion({ token }) {
+export default function EditQuestion() {
   const router = useRouter();
   const titleInputRef = useRef(null);
   const [title, setTitle] = useState("");
@@ -28,6 +27,7 @@ export default function EditQuestion({ token }) {
     },
   });
   const { data } = useSWR(`${API_URL}/api/questions?${query}`);
+  const token = useToken();
 
   // 페치한 데이터로 상태 업데이트 (useSWR의 onSuccess 옵션이 동작하지 않아서 useEffect로 처리)
   useEffect(() => {
@@ -42,10 +42,6 @@ export default function EditQuestion({ token }) {
   }, []);
 
   const handleSubmit = async () => {
-    if (!token) {
-      router.replace(`/auth/login`);
-    }
-
     const result = confirm("수정한 내용을 등록할까요?");
     if (!result) return;
 
@@ -102,11 +98,4 @@ export default function EditQuestion({ token }) {
       </Button>
     </Layout>
   );
-}
-
-export async function getServerSideProps({ req }) {
-  const { token } = parseCookies(req);
-  return {
-    props: { token },
-  };
 }
