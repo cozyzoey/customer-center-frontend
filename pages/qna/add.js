@@ -1,45 +1,37 @@
 import { useState, useRef, useEffect, useContext } from "react";
-import { useSWRConfig } from "swr";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { getCookie, hasCookie } from "cookies-next";
 import { toast } from "react-toastify";
 import Layout from "@/components/layout";
 import Button from "@/components/button";
 const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
-  suspense: true,
 });
 import { API_URL } from "@/static/config";
+import { parseCookies } from "@/helpers/index";
 import AuthContext from "@/context/AuthContext";
 
 import styles from "@/styles/shared/qna-editor.module.scss";
 
-export default function add() {
+export default function add({ token }) {
   const router = useRouter();
   const titleInputRef = useRef(null);
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
   const { user } = useContext(AuthContext);
-  const { mutate } = useSWRConfig();
 
   useEffect(() => {
     titleInputRef.current.focus();
   }, []);
 
   const handleSubmit = async () => {
-    if (!user || !hasCookie("token")) return;
-
-    const result = confirm("등록하시겠습니까?");
-    if (!result) return;
-
     try {
       const res = await fetch(`${API_URL}/api/questions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${getCookie("token")}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ data: { title, contents, user: user.id } }),
       });
@@ -47,11 +39,6 @@ export default function add() {
       const { data, error } = await res.json();
 
       if (error) throw error;
-
-      // QnA첫페이지 revalidate
-      mutate(
-        `${API_URL}/api/questions?sort[0]=id%3Adesc&pagination[start]=0&pagination[limit]=10&populate=%2A`
-      );
 
       toast.success("등록에 성공했습니다");
       router.replace("/qna");
@@ -92,4 +79,13 @@ export default function add() {
       </Button>
     </Layout>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+  return {
+    props: {
+      ...(token && { token }),
+    },
+  };
 }

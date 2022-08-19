@@ -7,19 +7,15 @@ export default function useFetchPage({ endpoint = "", populate = false }) {
   const router = useRouter();
   const page = router.query?.page || 1; // 시작페이지 계산
   const start = +page === 1 ? 0 : (+page - 1) * PER_PAGE;
-  const query = qs.stringify(
-    {
-      sort: ["id:desc"],
-      pagination: {
-        start: start,
-        limit: PER_PAGE,
-      },
-      ...(!!populate && { populate: "*" }),
+  const query = qs.stringify({
+    sort: ["id:desc"],
+    pagination: {
+      start: start,
+      limit: PER_PAGE,
     },
-    {
-      encodeValuesOnly: true, // prettify URL
-    }
-  );
+    ...(!!populate && { populate: "*" }),
+  });
+  console.log(query);
   const { data, error } = useSWR(
     !!endpoint ? `${API_URL}${endpoint}?${query}` : null
   );
