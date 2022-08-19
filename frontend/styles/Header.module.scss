@@ -1,5 +1,5 @@
 @use 'foundation/variables' as v;
-@use 'foundation/mixins';
+
 
 %navItemBase {
   height: 100%;
@@ -8,8 +8,7 @@
 }
 
 .header {
-  @include mixins.fs3;
-  border-bottom: v.$border;
+  border-bottom: v.$border; 
   display: flex;
   justify-content: space-between;
   background-color: v.$white;
@@ -20,7 +19,7 @@
   display: flex;
   li {
     @extend %navItemBase;
-
+    
     a {
       padding: 0 20px;
     }
@@ -33,18 +32,12 @@
 }
 
 .logo {
-  @include mixins.fs4;
   @extend %navItemBase;
+  font-size: 24px;
   font-weight: 400;
 }
 
 .myspace {
   @extend %navItemBase;
-  .auth {
-    @include mixins.no-select;
-    display: flex;
-    align-items: center;
-    gap: 0 20px;
-    margin-right: 40px;
-  }
+
 }
