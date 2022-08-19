@@ -10,6 +10,7 @@ import AuthContext from '@/context/AuthContext'
 
 import { API_URL, PER_PAGE } from '@/static/config'
 
+import styles from '@/styles/QnA.module.scss'
 import tableStyles from '@/styles/shared/Table.module.scss'
 
 export default function QnA({ items, page, total }) {
@@ -19,9 +20,7 @@ export default function QnA({ items, page, total }) {
   return (
     <Layout title="QnA">
       {user && (
-        <Button onClick={() => router.push('/qna/add')} float="right">
-          작성하기
-        </Button>
+        <Button onClick={() => router.push('/qna/add')}>작성하기</Button>
       )}
 
       <div className={tableStyles.table} data-nocol={4}>

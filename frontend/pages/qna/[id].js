@@ -7,16 +7,34 @@ import Button from '@/components/Button'
 import { API_URL } from '@/static/config'
 import styles from '@/styles/shared/ContentsDetail.module.scss'
 
-export default function QnADetail({ item, id }) {
+export default function Notice({ item, id }) {
+  const handleVerifyPassword = async () => {
+    try {
+      const res = await fetch(`${API_URL}/api/question/verify-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id, password: '1234' }),
+      })
+      const { data, error } = await res.json()
+
+      if (error) {
+        toast.error(error.message)
+      }
+    } catch (error) {
+      toast.error(error)
+    }
+  }
+
   return (
-    <Layout title="QnA">
-      <h1 className={styles.title}>{item.title}</h1>
-      <div className={styles.info}>
-        <span>{item.user.data.attributes.username}</span>
+    <Layout title="공지사항">
+      <div className={styles.item}>
         <time>{moment(item.createdAt).format('YYYY. MM. DD')}</time>
+        <h1>{item.title}</h1>
+        <div className={styles.contents}>{parse(item.contents)}</div>
       </div>
-      <div className={styles.contents}>{parse(item.contents)}</div>
-      <Button onClick={() => alert('hi')}>수정하기</Button>
+      <Button onClick={handleVerifyPassword}>수정하기</Button>
     </Layout>
   )
 }

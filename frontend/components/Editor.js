@@ -2,7 +2,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react'
 import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document'
 import '@ckeditor/ckeditor5-build-decoupled-document/build/translations/ko'
 
-export default function Editor({ value, onChange, toolBarRef, ...props }) {
+export default function Editor({ value, onChange, toolBarRef }) {
   const toolbarConfig = {
     items: [
       'heading',
@@ -30,7 +30,7 @@ export default function Editor({ value, onChange, toolBarRef, ...props }) {
   }
 
   return (
-    <div {...props}>
+    <div>
       <CKEditor
         editor={DecoupledEditor}
         data={value}

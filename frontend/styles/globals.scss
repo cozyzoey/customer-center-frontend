@@ -18,20 +18,6 @@ body {
   margin: 0;
 }
 
-input {
-  -webkit-appearance: none;
-  border: none;
-  border-radius: 0;
-  outline: none;
-  border-bottom: v.$border;
-  &::placeholder {
-    opacity: 0.6;
-  }
-  &:focus {
-    border-bottom: 1px solid v.$black-light;
-  }
-}
-
 a {
   @include mixins.no-select;
   color: inherit;
