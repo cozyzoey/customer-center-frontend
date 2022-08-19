@@ -1,11 +1,18 @@
-import useSWR from "swr";
 import Head from "next/head";
 import Header from "./header";
 import Footer from "./footer";
+import { API_URL } from "@/static/config";
 
 import styles from "@/styles/Layout.module.scss";
 
-export default function Layout({ title, keywords, description, children }) {
+export default function Layout({
+  title,
+  keywords,
+  description,
+  children,
+  data,
+}) {
+  console.log(data);
   return (
     <div className={styles.layout}>
       <Head>
@@ -21,4 +28,15 @@ export default function Layout({ title, keywords, description, children }) {
       <Footer />
     </div>
   );
+}
+
+export async function getStaticProps() {
+  const res = await fetch(`${API_URL}/api/business`);
+  const { data, meta } = await res.json();
+
+  return {
+    props: {
+      data,
+    },
+  };
 }
