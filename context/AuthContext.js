@@ -31,8 +31,6 @@ export const AuthProvider = ({ children }) => {
 
     const { user, token, message } = await res.json();
 
-    setLoading(false);
-
     if (res.ok) {
       setUser(user);
       setToken(token);
@@ -41,10 +39,11 @@ export const AuthProvider = ({ children }) => {
     } else {
       setError(
         message == "Email or Username are already taken"
-          ? "이메일이나 이름이 이미 사용중입니다."
+          ? "이름 혹은 닉네임이 이미 사용중입니다."
           : message
       );
     }
+    setLoading(false);
   };
 
   const login = async ({ email: identifier, password }) => {
@@ -72,7 +71,7 @@ export const AuthProvider = ({ children }) => {
     } else {
       setError(
         message === "Invalid identifier or password"
-          ? "이메일이나 비밀번호를 확인해주세요."
+          ? "이메일 혹은 비밀번호를 확인해주세요."
           : message
       );
     }
@@ -103,6 +102,8 @@ export const AuthProvider = ({ children }) => {
     if (res.ok) {
       setUser(user);
       setToken(token);
+    } else if (message === "Missing or invalid credentials") {
+      logout();
     }
   };
 
@@ -118,6 +119,7 @@ export const AuthProvider = ({ children }) => {
         register,
         login,
         logout,
+        setUser,
       }}
     >
       {children}

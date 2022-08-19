@@ -8,6 +8,7 @@ import MyInput from "@/components/my-input";
 import AuthContext from "@/context/AuthContext";
 import { toast } from "react-toastify";
 import styles from "@/styles/shared/auth.module.scss";
+import user from "pages/api/logout";
 
 export default function register() {
   const { register, error, resetError, loading } = useContext(AuthContext);
@@ -17,14 +18,18 @@ export default function register() {
   }, [error]);
 
   const initialValues = {
+    username: "",
     email: "",
     password: "",
     passwordConfirm: "",
-    username: "",
     agreement: false,
   };
 
   const validationSchema = Yup.object({
+    username: Yup.string()
+      .min(2, "2자 이상 입력해주세요")
+      .max(15, "15자 미만으로 입력해주세요")
+      .required("필수 입력 항목입니다"),
     email: Yup.string()
       .email("이메일 형식을 확인해주세요")
       .required("필수 입력 항목입니다"),
@@ -35,18 +40,18 @@ export default function register() {
     passwordConfirm: Yup.string()
       .required("필수 입력 항목입니다")
       .oneOf([Yup.ref("password"), null], "비밀번호가 다릅니다"),
-    username: Yup.string()
-      .min(3, "3자 이상 입력해주세요")
-      .max(15, "15자 미만으로 입력해주세요")
-      .required("필수 입력 항목입니다"),
     agreement: Yup.boolean()
       .required("동의에 체크해 주세요")
       .oneOf([true], "동의에 체크해 주세요"),
   });
 
   const handleSubmit = (values) => {
-    const { email, password, username } = values;
-    register({ email, password, username });
+    const { username, email, password } = values;
+    register({
+      username: username.trim(),
+      email,
+      password,
+    });
   };
 
   return (
@@ -57,36 +62,39 @@ export default function register() {
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          <Form className={styles.form} autoComplete="new-password">
+          <Form className={styles.form}>
             <h1>회원가입하기</h1>
+
+            <Field
+              name="username"
+              type="text"
+              placeholder="닉네임"
+              component={MyInput}
+            />
+            <ErrorMessage component="label" name="username" />
             <Field
               name="email"
               type="email"
-              placeholder="이메일을 입력하세요"
+              placeholder="이메일"
               component={MyInput}
             />
             <ErrorMessage component="label" name="email" />
             <Field
               name="password"
               type="password"
-              placeholder="비밀번호를 입력하세요"
+              placeholder="비밀번호"
               component={MyInput}
+              autoComplete="new-password"
             />
             <ErrorMessage component="label" name="password" />
             <Field
               name="passwordConfirm"
               type="password"
-              placeholder="비밀번호를 확인해주세요"
+              placeholder="비밀번호 확인"
               component={MyInput}
             />
             <ErrorMessage component="label" name="passwordConfirm" />
-            <Field
-              name="username"
-              type="text"
-              placeholder="이름을 입력하세요"
-              component={MyInput}
-            />
-            <ErrorMessage component="label" name="username" />
+
             <p className={styles.agreement}>
               <Field name="agreement" type="checkbox" /> 웹사이트{" "}
               <Link href="/policy/terms">

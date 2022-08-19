@@ -26,19 +26,19 @@
 
 .stepGuide {
   @include mixins.fs4;
+  text-align: left;
   font-weight: 400;
   margin-bottom: 4ch;
-  text-align: center;
-  padding: 2ch 1ch;
+  padding: 2ch;
   background-color: v.$light;
   color: v.$blue;
   word-break: keep-all;
+  display: flex;
+  align-items: flex-start;
+  letter-spacing: -0.6px;
   svg {
     margin-right: 8px;
     transform: translateY(0.3ch);
-  }
-  span {
-    display: inline-block;
   }
 }
 

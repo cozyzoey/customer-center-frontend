@@ -1,5 +1,4 @@
 import cookie from "cookie";
-import qs from "qs";
 import { API_URL } from "@/constants/config";
 
 const user = async (req, res) => {
@@ -11,11 +10,7 @@ const user = async (req, res) => {
 
     const { token } = cookie.parse(req.headers.cookie);
 
-    const query = qs.stringify({
-      populate: ["privacy_consent_form"],
-    });
-
-    const strapiRes = await fetch(`${API_URL}/api/users/me?${query}`, {
+    const strapiRes = await fetch(`${API_URL}/api/users/me`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -27,7 +22,9 @@ const user = async (req, res) => {
     if (strapiRes.ok) {
       res.status(200).json({ user, token });
     } else {
-      res.status(403).json({ message: "User forbidden" });
+      res
+        .status(strapiRes.status)
+        .json({ message: user?.error?.message || "User Forbidden" });
     }
   } else {
     res.setHeader("Allow", ["GET"]);

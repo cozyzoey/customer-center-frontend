@@ -59,7 +59,7 @@ export default function ForgotPassword() {
       const data2 = await res2.json();
 
       if (data2.ok) {
-        toast.success("메일을 성공적으로 보냈어요. 메일을 확인해주세요.");
+        toast.success("메일을 보냈습니다.");
       }
     } catch (error) {
       toast.error(error?.message || "내부 문제가 생겼어요 :(");

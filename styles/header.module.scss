@@ -120,8 +120,10 @@ ul.navLinks {
         @include mixins.active;
       }
       @include mixins.respond(lg) {
+        // 사람 아이콘
         svg {
           display: block;
+          margin-right: 4vw;
         }
         span {
           display: none;

@@ -62,13 +62,14 @@ form {
 }
 
 fieldset {
-  padding-top: 4ch;
+  padding-top: 3ch;
   border: none;
   margin-bottom: 6ch;
 }
 legend {
   @include mixins.fs4;
   @include mixins.no-select;
+  font-weight: 400;
 }
 
 input[type="text"],

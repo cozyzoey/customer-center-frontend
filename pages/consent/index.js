@@ -16,15 +16,28 @@ import { toast } from "react-toastify";
 import Button from "@/components/button";
 import MyInput from "@/components/my-input";
 import { API_URL } from "@/constants/config";
-// import kakao_channel from "/kakao-channel.png";
 import styles from "@/styles/consent.module.scss";
 
 export default function consent() {
-  const { user, token } = useContext(AuthContext);
+  const { user, token, setUser } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [completed, setCompleted] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    if (
+      user &&
+      user.name &&
+      user.schoolName &&
+      user.phoneNumber &&
+      user.gender &&
+      user.parentName &&
+      user.parentEmail
+    ) {
+      setCompleted(true);
+    }
+  }, [user]);
 
   // 페이지 이동 핸들링
   useEffect(() => {
@@ -47,22 +60,23 @@ export default function consent() {
   }, [step]);
 
   const initialValues = {
-    name: "",
-    schoolName: "",
-    gender: "",
-    phoneNumber: "",
-    email: user?.email || "",
-    parentName: "",
-    parentEmail: "",
+    name: user?.name || "",
+    schoolName: user?.schoolName || "",
+    gender: user?.gender || "",
+    phoneNumber: user?.phoneNumber || "",
+    parentName: user?.parentName || "",
+    parentEmail: user?.parentEmail || "",
   };
 
   const validationSchema = Yup.object({
     name: Yup.string()
-      .matches(/^[가-힣]{2,4}$/, "2~4자로 실명을 입력해주세요")
+      .matches(/^[가-힣]{2,4}$/, "2~4자의 실명을 입력해주세요")
       .required("필수 입력 항목입니다"),
-    schoolName: Yup.string().required("필수 입력 항목입니다"),
-    gender: Yup.mixed()
-      .oneOf(["male", "female"])
+    schoolName: Yup.string()
+      .matches(
+        /^[가-힣|a-z|A-Z|0-9|\s]+$/,
+        "한글/영어/숫자/공백만 입력 가능해요"
+      )
       .required("필수 입력 항목입니다"),
     phoneNumber: Yup.string()
       .matches(
@@ -70,11 +84,11 @@ export default function consent() {
         "예시 010-0000-0000"
       )
       .required("필수 입력 항목입니다"),
-    email: Yup.string()
-      .email("이메일 형식을 확인해주세요")
+    gender: Yup.mixed()
+      .oneOf(["male", "female"])
       .required("필수 입력 항목입니다"),
     parentName: Yup.string()
-      .matches(/^[가-힣]{2,4}$/, "2~4자로 실명을 입력해주세요")
+      .matches(/^[가-힣]{2,4}$/, "2~4자의 실명을 입력해주세요")
       .required("필수 입력 항목입니다"),
     parentEmail: Yup.string()
       .email("이메일 형식을 확인해주세요")
@@ -87,26 +101,26 @@ export default function consent() {
     try {
       setLoading(true);
 
-      // 입력정보 등록하기
-      const res = await fetch(`${API_URL}/api/privacy-consent-forms`, {
-        method: "POST",
+      // 입력정보로 유저 업데이트하기
+      const res = await fetch(`${API_URL}/api/users/${user.id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ data: { ...values, user: user.id } }),
+        body: JSON.stringify(values),
       });
 
-      const { data, error } = await res.json();
+      const updatedUserRes = await res.json();
 
-      if (error) throw error;
+      setUser(updatedUserRes);
 
-      // 이메일 전송
+      // TODO 이메일 전송
 
       setStep(3);
       setCompleted(true);
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error?.message || "내부 문제가 생겼어요 :(");
     } finally {
       setLoading(false);
     }
@@ -150,8 +164,8 @@ export default function consent() {
           <div className={styles.documents}>
             <div className={styles.stepGuide}>
               <GrCircleInformation size="2.2ch" />
-              <span>사업 참여를 위한 동의서 내용을 확인해주세요.</span>{" "}
-              <span>서명할 때 다시 확인할 수 있어요.</span>
+              사업 참여를 위한 동의서 내용을 확인해주세요. 서명할 때 다시 확인할
+              수 있어요.
             </div>
             <Image
               alt="개인정보 수집-활용 동의서 페이지1"
@@ -178,6 +192,7 @@ export default function consent() {
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
+          enableReinitialize={true}
         >
           <Form className={styles.form}>
             <div className={styles.stepGuide}>
@@ -189,31 +204,24 @@ export default function consent() {
               <Field
                 name="name"
                 type="text"
-                placeholder="이름을 입력하세요(실명)"
+                placeholder="이름(실명)"
                 component={MyInput}
               />
               <ErrorMessage component="label" name="name" />
               <Field
                 name="schoolName"
                 type="text"
-                placeholder="소속 학교를 입력하세요"
+                placeholder="소속 학교 이름"
                 component={MyInput}
               />
               <ErrorMessage component="label" name="schoolName" />
               <Field
                 name="phoneNumber"
                 type="tel"
-                placeholder="핸드폰 번호를 입력하세요"
+                placeholder="핸드폰 번호"
                 component={MyInput}
               />
               <ErrorMessage component="label" name="phoneNumber" />
-              <Field
-                name="email"
-                type="email"
-                placeholder="이메일을 입력하세요"
-                component={MyInput}
-              />
-              <ErrorMessage component="label" name="email" />
 
               <section>
                 성별:
@@ -234,14 +242,14 @@ export default function consent() {
               <Field
                 name="parentName"
                 type="text"
-                placeholder="학부모님 성함을 입력하세요(실명)"
+                placeholder="학부모님 이름(실명)"
                 component={MyInput}
               />
               <ErrorMessage component="label" name="parentName" />
               <Field
                 name="parentEmail"
                 type="email"
-                placeholder="학부모님 이메일을 입력하세요"
+                placeholder="학부모님 이메일"
                 component={MyInput}
               />
               <ErrorMessage component="label" name="parentEmail" />
@@ -258,8 +266,8 @@ export default function consent() {
           <div className={styles.completed}>
             <div className={styles.stepGuide}>
               <GrCircleInformation size="2.2ch" />
-              <span>입력하신 이메일로 전자계약 링크를 보냈어요.</span>{" "}
-              <span>메일함을 확인하여 서명을 완료해주세요.</span>
+              입력하신 이메일로 전자계약 링크를 보냈어요. 메일함을 확인하여
+              서명을 완료해주세요.
             </div>
             <p>아직 메일을 받지 못하셨나요?</p>
             <Button variant="text">
