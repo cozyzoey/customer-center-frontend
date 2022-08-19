@@ -9,8 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-build-decoupled-document": "^34.2.0",
-    "@ckeditor/ckeditor5-react": "^5.0.2",
     "boring-avatars": "^1.7.0",
     "classnames": "^2.3.1",
     "framer-motion": "^6.5.1",
