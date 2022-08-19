@@ -1,9 +1,9 @@
-@use "@/styles/foundation/variables" as v;
-@use "@/styles/foundation/mixins";
+@use '@/styles/foundation/variables' as v;
+@use '@/styles/foundation/mixins';
 
 .container {
   width: 100%;
-  max-width: 360px;
+  max-width: 400px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -16,21 +16,16 @@
       text-align: center;
       margin-bottom: 3ch;
     }
-    input:not(:first-of-type) {
-      margin-top: 3ch;
+    input:not(:last-of-type) {
+      margin-bottom: 3ch;
+    }
+    input:last-of-type {
+      margin-bottom: 4ch;
     }
     button {
-      margin-top: 4ch;
       margin-bottom: 6ch;
     }
-
-    // 에러 메시지
-    input + label {
-      @include mixins.fs1;
-      margin-top: 4px;
-      color: v.$error;
-    }
-    label a {
+    a {
       display: block;
       text-align: center;
       &:not(:last-of-type) {
@@ -41,8 +36,4 @@
       }
     }
   }
-}
-
-.errorInput {
-  border-bottom: 1px solid v.$error !important;
 }
