@@ -19,12 +19,6 @@ export default function Layout({ title, keywords, description, children }) {
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta name="keywords" content={keywords} />
-        {/* 화면 확대 차단 */}
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-          key="viewport"
-        />
       </Head>
 
       <Header logo={data?.data?.attributes?.logo || ""} />
