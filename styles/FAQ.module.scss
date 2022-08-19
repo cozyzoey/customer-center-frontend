@@ -1,5 +1,5 @@
-@use "@/styles/foundation/variables" as v;
-@use "@/styles/foundation/mixins";
+@use '@/styles/foundation/variables' as v;
+@use '@/styles/foundation/mixins';
 
 .faq {
   // Q 혹은 A 레이블
@@ -35,7 +35,7 @@
     .arrowIcon {
       width: 4ch;
       transition: transform 0.3s;
-      &[data-active="true"] {
+      &[data-active='true'] {
         transform: rotate(180deg);
       }
     }
