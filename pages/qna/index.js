@@ -72,7 +72,7 @@ export async function getServerSideProps({ query: { page = 1 } }) {
   const start = +page === 1 ? 0 : (+page - 1) * PER_PAGE;
 
   const query = qs.stringify({
-    sort: ["id:desc"],
+    sort: "createdAt:desc",
     pagination: {
       start: start,
       limit: PER_PAGE,
