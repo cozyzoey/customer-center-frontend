@@ -19,12 +19,7 @@ export default function Header({ logo }) {
           <li
             key={idx}
             className={
-              nav.path === "/"
-                ? router.pathname === "/" || router.pathname.includes("notice")
-                  ? styles.activeNavLink
-                  : styles.inactiveNavLink
-                : router.pathname === nav.path ||
-                  router.pathname.includes(nav.path)
+              router.pathname === nav.path
                 ? styles.activeNavLink
                 : styles.inactiveNavLink
             }
