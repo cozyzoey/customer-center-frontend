@@ -18,23 +18,18 @@ import AuthContext from "@/context/AuthContext";
 
 import styles from "@/styles/shared/ContentsDetail.module.scss";
 
+// TODO 댓글 작성 누르면 에디터가 안나타남
 export default function QnADetail({ item, id, token }) {
   const router = useRouter();
   const { user } = useContext(AuthContext);
-  const [isAddingAnswer, setIsAddingAnswer] = useState(false); // 댓글 신규 작성 여부
-  const [editingAnswerId, setEditingAnswerId] = useState(null); // 수정중인 댓글 id
-  const [answerContents, setAnswerContents] = useState(""); // 신규 작성 or 수정중인 댓글 컨텐츠
+  const [isAnswerEditorOpen, setisAnswerEditorOpen] = useState(false);
+  const [answerContents, setAnswerContents] = useState("");
+  const [loading, setLoading] = useState({});
 
-  /*
-   * 질문 수정
-   */
   const handleEditQuestion = async () => {
     router.push(`/qna/edit/${id}`);
   };
 
-  /*
-   * 질문 삭제
-   */
   const handleDeleteQuestion = async () => {
     const result = confirm("글을 삭제하시겠습니까?");
     if (!result) return;
@@ -59,12 +54,8 @@ export default function QnADetail({ item, id, token }) {
     }
   };
 
-  /*
-   * 댓글 작성
-   */
   const handleAddAnsewr = async () => {
-    const result = confirm("댓글을 등록할까요?");
-    if (!result) return;
+    //TODO 글을 등록후 자동으로 업데이트가 안됨
 
     try {
       const res = await fetch(`${API_URL}/api/answers`, {
@@ -84,72 +75,14 @@ export default function QnADetail({ item, id, token }) {
         }),
       });
 
-      const { error } = await res.json();
+      const { data, error } = await res.json();
 
       if (error) throw error;
 
       toast.success("댓글을 성공적으로 등록했습니다");
 
-      // 클린업
-      setIsAddingAnswer(false);
-      setAnswerContents("");
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
-
-  /*
-   * 댓글 수정
-   */
-  const handleEditAnswer = async (answerId) => {
-    const result = confirm("댓글을 수정하시겠습니까?");
-    if (!result) return;
-
-    try {
-      const res = await fetch(`${API_URL}/api/answers/${answerId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ data: { contents: answerContents } }),
-      });
-
-      const { error } = await res.json();
-
-      if (error) throw error;
-
-      toast.success("댓글을 수정했습니다.");
-
-      // 클린업
-      setEditingAnswerId(null);
-      setAnswerContents("");
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
-
-  /*
-   * 댓글 삭제
-   */
-  const handleDeleteAnswer = async (answerId) => {
-    const result = confirm("댓글을 삭제하시겠습니까?");
-    if (!result) return;
-
-    try {
-      const res = await fetch(`${API_URL}/api/answers/${answerId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const { error } = await res.json();
-
-      if (error) throw error;
-
-      toast.success("댓글을 삭제했습니다.");
+      //성공후
+      setisAnswerEditorOpen(false);
     } catch (error) {
       toast.error(error.message);
     }
@@ -176,15 +109,13 @@ export default function QnADetail({ item, id, token }) {
         <hr />
       </div>
       <div className={styles.contents}>{parse(item.contents)}</div>
-
-      {/* 액션 버튼 */}
-      {!isAddingAnswer && (
+      {!isAnswerEditorOpen && (
         <Button
           onClick={() => {
             if (!user || !token) {
-              return alert("로그인 후 이용할 수 있어요");
+              return alert("로그인 이후 이용할 수 있어요");
             }
-            setIsAddingAnswer(true);
+            setisAnswerEditorOpen(true);
           }}
           align="left"
         >
@@ -192,10 +123,9 @@ export default function QnADetail({ item, id, token }) {
         </Button>
       )}
 
-      {/* 신규 댓글 작성 */}
       <div
         className={styles.answerEditorWrapper}
-        style={{ display: `${isAddingAnswer ? "block" : "none"}` }}
+        style={{ display: `${isAnswerEditorOpen ? "block" : "none"}` }}
       >
         <EditorSimple
           value={answerContents}
@@ -206,7 +136,7 @@ export default function QnADetail({ item, id, token }) {
             onClick={() => {
               const result = confirm("댓글 작성을 취소할까요?");
               if (result) {
-                setIsAddingAnswer(false);
+                setisAnswerEditorOpen(false);
                 setAnswerContents("");
               }
             }}
@@ -215,7 +145,10 @@ export default function QnADetail({ item, id, token }) {
             취소
           </Button>
           <Button
-            onClick={handleAddAnsewr}
+            onClick={() => {
+              const result = confirm("댓글을 등록하시겠습니까?");
+              result && handleAddAnsewr();
+            }}
             disabled={answerContents.length < 10}
           >
             등록
@@ -223,7 +156,6 @@ export default function QnADetail({ item, id, token }) {
         </div>
       </div>
 
-      {/* 댓글 리스트 렌더링 */}
       {item.answers.data.length > 0 &&
         item.answers.data
           .sort((a, b) => a.id - b.id)
@@ -239,53 +171,14 @@ export default function QnADetail({ item, id, token }) {
                 </div>
                 {el.attributes.userId === user?.id && (
                   <div>
-                    <GrEdit
-                      onClick={() => {
-                        // 댓글 수정 에디터 활성화
-                        setAnswerContents(el.attributes.contents);
-                        setEditingAnswerId(el.id);
-                      }}
-                      size="20px"
-                    />
-                    <GrTrash
-                      onClick={() => handleDeleteAnswer(el.id)}
-                      size="20px"
-                    />
+                    <GrEdit size="20px" />
+                    <GrTrash size="20px" />
                   </div>
                 )}
               </div>
-              {editingAnswerId === el.id ? (
-                <div className={styles.answerEditorWrapper}>
-                  <EditorSimple
-                    value={answerContents}
-                    onChange={(newValue) => setAnswerContents(newValue)}
-                  />
-                  <div className={styles.answerControlBtns}>
-                    <Button
-                      onClick={() => {
-                        const result = confirm("댓글 수정을 취소할까요?");
-                        if (result) {
-                          setEditingAnswerId(null);
-                          setAnswerContents("");
-                        }
-                      }}
-                      variant="light"
-                    >
-                      취소
-                    </Button>
-                    <Button
-                      onClick={() => handleEditAnswer(el.id)}
-                      disabled={answerContents.length < 10}
-                    >
-                      수정
-                    </Button>
-                  </div>
-                </div>
-              ) : (
-                <div className={styles.answerItemContents}>
-                  {parse(el.attributes.contents)}
-                </div>
-              )}
+              <div className={styles.answerItemContents}>
+                {parse(el.attributes.contents)}
+              </div>
             </div>
           ))}
     </Layout>
