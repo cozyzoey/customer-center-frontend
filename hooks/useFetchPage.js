@@ -1,7 +1,7 @@
 import qs from "qs";
 import useSWR from "swr";
 import { useRouter } from "next/router";
-import { API_URL, PER_PAGE } from "@/constants/config";
+import { API_URL, PER_PAGE } from "@/static/config";
 
 export default function useFetchPage({ endpoint = "", populate = false }) {
   const router = useRouter();

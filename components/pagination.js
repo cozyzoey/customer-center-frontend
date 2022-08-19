@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import classNames from "classnames";
-import { PER_PAGE } from "@/constants/config";
+import { PER_PAGE } from "@/static/config";
 import styles from "@/styles/pagination.module.scss";
 
 export default function Pagination({ page, total, pageName = "" }) {

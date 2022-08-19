@@ -1,15 +1,13 @@
-import useSWR from "swr";
+import useSWRImmutable from "swr";
 import Head from "next/head";
 import { motion } from "framer-motion";
 import Header from "./header";
 import Footer from "./footer";
-import { API_URL } from "@/constants/config";
+import { API_URL } from "@/static/config";
 import styles from "@/styles/layout.module.scss";
 
 export default function Layout({ title, keywords, description, children }) {
-  const { data } = useSWR(`${API_URL}/api/business`, {
-    revalidateIfStale: false,
-  });
+  const { data } = useSWRImmutable(`${API_URL}/api/business`);
 
   return (
     <div className={styles.layout}>

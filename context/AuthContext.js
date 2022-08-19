@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { NEXT_URL } from "@/constants/config";
+import { NEXT_URL } from "@/static/config";
 import { toast } from "react-toastify";
 
 const AuthContext = createContext();

@@ -1,5 +1,5 @@
 import cookie from "cookie";
-import { API_URL } from "@/constants/config";
+import { API_URL } from "@/static/config";
 
 const register = async (req, res) => {
   if (req.method === "POST") {
