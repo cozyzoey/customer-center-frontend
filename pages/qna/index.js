@@ -50,7 +50,7 @@ export default function QnA({ items, page, total }) {
                         {el.attributes.answers.data.length > 0 &&
                           el.attributes.answers.data.length}
                       </dd>
-                      <dd>{el.attributes.user.data?.attributes.username}</dd>
+                      <dd>{el.attributes.user.data.attributes.username}</dd>
                       <dd>
                         {moment(el.attributes.createdAt).format("YYYY. MM. DD")}
                       </dd>
