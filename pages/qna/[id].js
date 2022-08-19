@@ -10,7 +10,6 @@ import Layout from "@/components/layout";
 import Button from "@/components/button";
 const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
-  suspense: true,
 });
 import { API_URL } from "@/static/config";
 import { parseCookies } from "@/helpers/index";
@@ -178,9 +177,9 @@ export default function QnADetail({ item, id, token }) {
       <div className={styles.divider}>
         {user && item.user.data?.id === user?.id && (
           <div className={styles.controls}>
-            <GrEdit size="3ch" onClick={handleEditQuestion} title="수정하기" />
+            <GrEdit size="4ch" onClick={handleEditQuestion} title="수정하기" />
             <GrTrash
-              size="3ch"
+              size="4ch"
               onClick={handleDeleteQuestion}
               title="삭제하기"
             />

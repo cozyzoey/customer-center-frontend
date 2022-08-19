@@ -1,7 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { NEXT_URL } from "@/static/config";
-import { toast } from "react-toastify";
 
 const AuthContext = createContext();
 
@@ -59,7 +58,6 @@ export const AuthProvider = ({ children }) => {
 
     if (res.ok) {
       setUser(user);
-      toast.success("반갑습니다:)");
       router.push("/");
     } else {
       setError(message);

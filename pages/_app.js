@@ -1,30 +1,14 @@
-import { SWRConfig } from "swr";
-import { fetcher } from "@/helpers/index";
-import { ToastContainer } from "react-toastify";
-import { AuthProvider } from "@/context/AuthContext";
-import "../styles/globals.scss";
-import "react-toastify/dist/ReactToastify.css";
-
-import Loader from "@/components/loader";
-import { Suspense } from "react";
+import { ToastContainer } from 'react-toastify'
+import { AuthProvider } from '@/context/AuthContext'
+import '../styles/globals.scss'
+import 'react-toastify/dist/ReactToastify.css'
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
-      <Suspense fallback={<Loader />}>
-        <SWRConfig
-          value={{
-            fetcher: fetcher,
-            suspense: true,
-            revalidateIfStale: false,
-            revalidateOnFocus: false,
-          }}
-        >
-          <AuthProvider>
-            <Component {...pageProps} />
-          </AuthProvider>
-        </SWRConfig>
-      </Suspense>
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -37,7 +21,7 @@ function MyApp({ Component, pageProps }) {
         pauseOnHover
       />
     </>
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp

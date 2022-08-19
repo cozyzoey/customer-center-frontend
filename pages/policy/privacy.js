@@ -1,10 +1,15 @@
 import useSWR from "swr";
 import parse from "html-react-parser";
 import Layout from "@/components/layout";
+import { fetcher } from "@/helpers/index";
 import { API_URL } from "@/static/config";
 
 export default function Privacy() {
-  const { data, error } = useSWR(`${API_URL}/api/business`);
+  const { data, error } = useSWR(`${API_URL}/api/business`, fetcher, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
 
   return (
     <Layout title="개인정보 처리방침">
