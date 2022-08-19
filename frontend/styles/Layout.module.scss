@@ -15,11 +15,9 @@
     }
   }
   main {
-    max-width: 1400px;
-    margin: 0 auto;
     min-height: 100vh;
     padding: 0 4vw;
-    padding-top: calc(v.$header-height + 50px);
+    padding-top: calc(v.$header-height + 40px);
   }
   footer {
     border-top: v.$border;

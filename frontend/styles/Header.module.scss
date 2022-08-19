@@ -8,6 +8,7 @@
 }
 
 .header {
+  @include mixins.fs3;
   border-bottom: v.$border;
   display: flex;
   justify-content: space-between;
