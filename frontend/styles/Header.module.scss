@@ -12,7 +12,6 @@
   display: flex;
   justify-content: space-between;
   background-color: v.$white;
-  position: relative;
   @include mixins.respond(lg) {
     flex-direction: column;
   }
@@ -43,13 +42,9 @@
 }
 
 .logo {
-  @include mixins.fs5;
+  @include mixins.fs4;
   @extend %navItemBase;
-  font-weight: 700;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  top: 50%;
-  left: 50%;
+  font-weight: 400;
   @include mixins.respond(lg) {
     display: none;
   }

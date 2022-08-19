@@ -24,21 +24,11 @@ input {
   border-radius: 0;
   outline: none;
   border-bottom: v.$border;
-  display: block;
-  width: 100%;
-  height: v.$h1;
   &::placeholder {
     opacity: 0.6;
   }
   &:focus {
     border-bottom: 1px solid v.$black-light;
-  }
-  // autofill 배경색 제거
-  &:-webkit-autofill,
-  &:-webkit-autofill:hover,
-  &:-webkit-autofill:focus,
-  &:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
   }
 }
 

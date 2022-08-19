@@ -7,7 +7,6 @@
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  transition: all 0.2s;
 }
 
 // Loading
@@ -41,15 +40,6 @@
   }
 }
 
-.outlined {
-  background-color: transparent;
-  border: 1px solid v.$black;
-  &:hover {
-    background-color: v.$black-light;
-    color: v.$white;
-  }
-}
-
 .text {
   background-color: transparent;
   &:hover {
@@ -64,9 +54,4 @@
 
 .right {
   float: right;
-}
-
-// fullWidth
-.fullWidth {
-  width: 100%;
 }
