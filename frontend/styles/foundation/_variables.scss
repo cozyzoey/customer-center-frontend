@@ -1,3 +1,5 @@
+$header-height: clamp(80px, 5.2vw, 100px);
+
 // Colors
 $black: #202121;
 $black-light: #444646;
@@ -7,7 +9,3 @@ $light: #f4f7f6;
 $light-dark: #e6eaea;
 
 $border: 1px solid $light-dark;
-
-$h1: clamp(50px, 3.2vw, 60px);
-$h2: clamp(70px, 4.2vw, 80px);
-$h3: clamp(80px, 5.2vw, 100px);

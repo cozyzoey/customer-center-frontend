@@ -4,14 +4,14 @@
 .pagination {
   display: flex;
   gap: 0 1px;
-  margin-top: v.$h1;
+  margin-top: clamp(50px, 3.2vw, 60px);
 }
 
 .paginationLink {
   @include mixins.no-select;
   cursor: pointer;
-  width: v.$h1;
-  height: v.$h1;
+  width: clamp(50px, 3.2vw, 60px);
+  height: clamp(50px, 3.2vw, 60px);
   display: flex;
   align-items: center;
   justify-content: center;

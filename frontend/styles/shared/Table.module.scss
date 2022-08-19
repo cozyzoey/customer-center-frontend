@@ -28,7 +28,7 @@
 dl.tableHeader {
   @include mixins.fs3;
   font-weight: 500;
-  height: v.$h2;
+  height: clamp(70px, 4.2vw, 80px);
   border-bottom: 2px solid v.$black-light;
   dd {
     text-align: center;
@@ -43,7 +43,7 @@ dl.tableHeader {
 }
 
 li.tableRow {
-  height: v.$h3;
+  height: clamp(80px, 5.2vw, 100px);
   border-bottom: v.$border;
   transition: background 0.2s;
   @media (hover: hover) {
