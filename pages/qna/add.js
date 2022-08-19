@@ -2,8 +2,8 @@ import { useState, useRef, useEffect, useContext } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { getCookie, hasCookie } from "cookies-next";
 import { toast } from "react-toastify";
-import useToken from "@/hooks/useToken";
 import Layout from "@/components/layout";
 import Button from "@/components/button";
 const Editor = dynamic(() => import("@/components/editor"), {
@@ -20,14 +20,13 @@ export default function add() {
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
   const { user } = useContext(AuthContext);
-  const token = useToken();
 
   useEffect(() => {
     titleInputRef.current.focus();
   }, []);
 
   const handleSubmit = async () => {
-    if (!user || !token) return;
+    if (!user || !hasCookie("token")) return;
 
     const result = confirm("등록하시겠습니까?");
     if (!result) return;
@@ -37,7 +36,7 @@ export default function add() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getCookie("token")}`,
         },
         body: JSON.stringify({ data: { title, contents, user: user.id } }),
       });
