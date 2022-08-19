@@ -42,22 +42,6 @@ dl {
   align-items: center;
 }
 
-table {
-  border: v.$border;
-  border-collapse: collapse;
-}
-th {
-  font-weight: 500;
-}
-tbody {
-  tr:nth-of-type(odd) {
-    background-color: v.$light;
-  }
-  td {
-    padding: 0.5ch 1.5ch;
-  }
-}
-
 .react-icons {
   cursor: pointer;
   width: min-content;
