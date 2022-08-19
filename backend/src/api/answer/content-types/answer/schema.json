@@ -12,6 +12,12 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "userId": {
+      "type": "string"
+    },
     "contents": {
       "type": "richtext"
     },
@@ -19,12 +25,6 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::question.question",
-      "inversedBy": "answers"
-    },
-    "user": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
       "inversedBy": "answers"
     }
   }
