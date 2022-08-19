@@ -16,12 +16,13 @@ const Editor = dynamic(() => import("@/components/editor"), {
 });
 import { API_URL } from "@/constants/config";
 import AuthContext from "@/context/AuthContext";
+import { parseCookies } from "@/helpers/index";
 
 import styles from "@/styles/shared/contents-detail.module.scss";
 
-export default function QnADetail() {
+export default function QnADetail({ token }) {
   const router = useRouter();
-  const { user, token } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [isAddingAnswer, setIsAddingAnswer] = useState(false); // 댓글 신규 작성 여부
   const [editingAnswerId, setEditingAnswerId] = useState(null); // 수정중인 댓글 id
   const [answerContents, setAnswerContents] = useState(""); // 신규 작성 or 수정중인 댓글 컨텐츠
@@ -323,4 +324,11 @@ export default function QnADetail() {
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+  return {
+    props: { token },
+  };
 }

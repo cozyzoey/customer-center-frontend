@@ -28,7 +28,7 @@ function MyApp({ Component, pageProps }) {
         position="top-right"
         autoClose={3000}
         hideProgressBar={false}
-        newestOnTop={true}
+        newestOnTop={false}
         closeOnClick
         rtl={false}
         pauseOnFocusLoss

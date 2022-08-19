@@ -20,7 +20,7 @@ const user = async (req, res) => {
     const user = await strapiRes.json();
 
     if (strapiRes.ok) {
-      res.status(200).json({ user, token });
+      res.status(200).json({ user });
     } else {
       res.status(403).json({ message: "User forbidden" });
     }

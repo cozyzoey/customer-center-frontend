@@ -32,7 +32,7 @@ const register = async (req, res) => {
         })
       );
 
-      res.status(200).json({ user, token: jwt });
+      res.status(200).json({ user });
     } else {
       res.status(error.status).json({ message: error.message });
     }
