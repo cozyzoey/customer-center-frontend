@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { NEXT_URL } from "@/static/config";
+import { resolveHref } from "next/dist/shared/lib/router/router";
 
 const AuthContext = createContext();
 
@@ -17,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (userInfo) => {
     setError(null);
 
-    const res = await fetch(`${NEXT_URL}/api/register`, {
+    const res = await fetch(`${NEXT_URL}/api/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +39,7 @@ export const AuthProvider = ({ children }) => {
   const login = async ({ email: identifier, password }) => {
     setError(null);
 
-    const res = await fetch(`${NEXT_URL}/api/login`, {
+    const res = await fetch(`${NEXT_URL}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -60,7 +61,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    const res = await fetch(`${NEXT_URL}/api/logout`, {
+    const res = await fetch(`${NEXT_URL}/api/auth/logout`, {
       method: "POST",
     });
     if (res.ok) {
@@ -70,7 +71,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const checkUserLoggedIn = async () => {
-    const res = await fetch(`${NEXT_URL}/api/user`);
+    const res = await fetch(`${NEXT_URL}/api/auth/user`);
     const { user } = await res.json();
 
     if (res.ok) {
