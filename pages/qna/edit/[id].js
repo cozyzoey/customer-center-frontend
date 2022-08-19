@@ -105,7 +105,7 @@ export async function getServerSideProps({ params: { id }, req }) {
     props: {
       item: data[0].attributes,
       id: data[0].id,
-      ...(token && { token }),
+      token,
     },
   };
 }

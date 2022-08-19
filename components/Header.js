@@ -3,12 +3,13 @@ import navLinks from "@/static/navLinks";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { GrLogout } from "react-icons/gr";
+import { LOGO } from "@/static/config";
 
 import AuthContext from "@/context/AuthContext";
 import Button from "./button";
 import styles from "@/styles/header.module.scss";
 
-export default function Header({ logo }) {
+export default function Header() {
   const router = useRouter();
   const { user, logout } = useContext(AuthContext);
 
@@ -32,7 +33,7 @@ export default function Header({ logo }) {
       </ul>
       <div className={styles.logo}>
         <Link href="/">
-          <a>{logo} 고객센터</a>
+          <a>{LOGO}</a>
         </Link>
       </div>
       <div className={styles.myspace}>
