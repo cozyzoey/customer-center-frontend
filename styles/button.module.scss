@@ -2,8 +2,7 @@
 @use "foundation/mixins";
 
 .button {
-  font-weight: 400;
-  padding: 1.6ch 3ch;
+  padding: 1.5ch 3ch;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -44,8 +43,7 @@
 .dark {
   background-color: v.$black;
   color: v.$white;
-  &:hover,
-  &:active {
+  &:hover {
     background-color: v.$black-light;
   }
 }
@@ -53,18 +51,15 @@
 .light {
   background-color: v.$light;
   color: v.$black;
-  &:hover,
-  &:active {
+  &:hover {
     background-color: v.$light-dark;
   }
 }
 
 .outlined {
-  color: v.$black;
   background-color: transparent;
   border: 1px solid v.$black;
-  &:hover,
-  &:active {
+  &:hover {
     background-color: v.$black-light;
     color: v.$white;
   }
@@ -72,8 +67,7 @@
 
 .text {
   background-color: transparent;
-  &:hover,
-  &:active {
+  &:hover {
     color: v.$gray;
   }
 }

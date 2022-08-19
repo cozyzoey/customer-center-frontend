@@ -52,7 +52,6 @@ li.tableRow {
     }
   }
   a {
-    @include mixins.active;
     height: 100%;
     display: flex;
     align-items: center;
@@ -92,7 +91,7 @@ li.tableRow {
 }
 
 .chat {
-  @include mixins.fs2;
+  @include mixins.fs1;
   color: v.$gray-dark;
   padding: 0 1ch;
   height: 2.6ch;

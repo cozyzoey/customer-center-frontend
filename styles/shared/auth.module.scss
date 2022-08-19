@@ -21,7 +21,7 @@
     }
     // 에러 메시지
     input + label {
-      @include mixins.fs2;
+      @include mixins.fs1;
       margin-top: 4px;
       color: v.$error;
     }

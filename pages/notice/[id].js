@@ -33,9 +33,6 @@ export default function NoticeDetail() {
               {moment(data.data[0].attributes.createdAt).format("YYYY. MM. DD")}
             </time>
           </div>
-          <div className={styles.divider}>
-            <hr />
-          </div>
           <div className={styles.contents}>
             {parse(data.data[0].attributes.contents)}
           </div>

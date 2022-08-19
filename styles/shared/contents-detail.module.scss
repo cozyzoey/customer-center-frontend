@@ -24,12 +24,12 @@
 }
 
 .info {
-  @include mixins.fs2;
+  @include mixins.fs1;
   color: v.$gray;
   display: flex;
   align-items: center;
   gap: 0 10px;
-  margin-bottom: 6ch;
+  margin-bottom: clamp(30px, 2.8vw, 50px);
 }
 
 .divider {
@@ -57,13 +57,15 @@
   hr {
     border: none;
     border-bottom: v.$border2;
-    width: 8.4ch;
+    width: 16ch;
+    @include mixins.respond(md) {
+      width: 100%;
+    }
   }
 }
 
 .contents {
-  padding: 2ch 0 v.$h2;
-
+  padding: clamp(30px, 2.1vw, 40px) 0 v.$h2;
   & > * {
     padding: 1ch 0;
   }
@@ -102,54 +104,29 @@
   }
 }
 
-.anserItems {
-  margin-top: 6ch;
-}
 .answerItem {
-  &:not(:last-of-type) {
-    margin-bottom: 6ch;
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  gap: 10px 4ch;
+  grid-template-areas:
+    "identicon header"
+    "identicon contents";
+  margin-top: 10ch;
+
+  .answerItemIdenticion {
+    grid-area: identicon;
   }
   .answerItemHeader {
-    @include mixins.fs4;
     font-weight: 400;
-    color: v.$blue-green;
-    padding: 4px 1ch;
-    margin-bottom: 1.2ch;
-    box-sizing: border-box;
-    position: relative;
+    grid-area: header;
     display: flex;
-    align-items: baseline;
-    gap: 0 1ch;
-    &::after {
-      content: "";
-      width: 100%;
-      height: 100%;
-      border: v.$border;
-      background-color: v.$light;
-      position: absolute;
-      transform: translate(0, -50%);
-      left: 0;
-      top: 50%;
-      z-index: -1;
+    align-items: flex-end;
+    gap: 0 4ch;
+    @include mixins.respond(md) {
+      justify-content: space-between;
     }
-    // 유저 아이콘
-    svg {
-      margin-right: 6px;
-      path {
-        stroke: currentColor;
-        stroke-width: 2px;
-      }
-    }
-
-    time {
-      @include mixins.fs2;
-      font-weight: 300;
-    }
-
-    // 수정, 삭제 아이콘
-    .anserItemControls {
+    div {
       line-height: 1;
-      margin-left: 2ch;
       svg {
         cursor: pointer;
         path {
@@ -165,8 +142,12 @@
           margin-right: 12px;
         }
       }
+      span {
+        margin-right: 10px;
+      }
     }
   }
   .answerItemContents {
+    grid-area: contents;
   }
 }
