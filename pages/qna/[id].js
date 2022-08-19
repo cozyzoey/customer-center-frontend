@@ -9,7 +9,7 @@ import { GrTrash, GrEdit } from "react-icons/gr";
 import Avatar from "boring-avatars";
 import Layout from "@/components/layout";
 import Button from "@/components/button";
-const Editor = dynamic(() => import("@/components/editor"), {
+const EditorSimple = dynamic(() => import("@/components/editor-simple"), {
   ssr: false,
 });
 import { API_URL } from "@/static/config";
@@ -184,8 +184,6 @@ export default function QnADetail({ item, id, token }) {
             if (!user || !token) {
               return alert("로그인 후 이용할 수 있어요");
             }
-            setAnswerContents("");
-            setEditingAnswerId(null);
             setIsAddingAnswer(true);
           }}
           align="left"
@@ -195,35 +193,35 @@ export default function QnADetail({ item, id, token }) {
       )}
 
       {/* 신규 댓글 작성 */}
-      {isAddingAnswer && (
-        <div className={styles.answerEditorWrapper}>
-          <Editor
-            value={answerContents}
-            onChange={(newValue) => setAnswerContents(newValue)}
-            size="sm"
-          />
-          <div className={styles.answerControlBtns}>
-            <Button
-              onClick={() => {
-                const result = confirm("댓글 작성을 취소할까요?");
-                if (result) {
-                  setIsAddingAnswer(false);
-                  setAnswerContents("");
-                }
-              }}
-              variant="light"
-            >
-              취소
-            </Button>
-            <Button
-              onClick={handleAddAnsewr}
-              disabled={answerContents.length < 10}
-            >
-              등록
-            </Button>
-          </div>
+      <div
+        className={styles.answerEditorWrapper}
+        style={{ display: `${isAddingAnswer ? "block" : "none"}` }}
+      >
+        <EditorSimple
+          value={answerContents}
+          onChange={(newValue) => setAnswerContents(newValue)}
+        />
+        <div className={styles.answerControlBtns}>
+          <Button
+            onClick={() => {
+              const result = confirm("댓글 작성을 취소할까요?");
+              if (result) {
+                setIsAddingAnswer(false);
+                setAnswerContents("");
+              }
+            }}
+            variant="light"
+          >
+            취소
+          </Button>
+          <Button
+            onClick={handleAddAnsewr}
+            disabled={answerContents.length < 10}
+          >
+            등록
+          </Button>
         </div>
-      )}
+      </div>
 
       {/* 댓글 리스트 렌더링 */}
       {item.answers.data.length > 0 &&
@@ -244,7 +242,6 @@ export default function QnADetail({ item, id, token }) {
                     <GrEdit
                       onClick={() => {
                         // 댓글 수정 에디터 활성화
-                        setIsAddingAnswer(false);
                         setAnswerContents(el.attributes.contents);
                         setEditingAnswerId(el.id);
                       }}
@@ -259,10 +256,9 @@ export default function QnADetail({ item, id, token }) {
               </div>
               {editingAnswerId === el.id ? (
                 <div className={styles.answerEditorWrapper}>
-                  <Editor
+                  <EditorSimple
                     value={answerContents}
                     onChange={(newValue) => setAnswerContents(newValue)}
-                    size="sm"
                   />
                   <div className={styles.answerControlBtns}>
                     <Button

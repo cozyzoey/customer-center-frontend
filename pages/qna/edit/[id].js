@@ -4,20 +4,22 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import Layout from "@/components/layout";
 import Button from "@/components/button";
 const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
 });
 import { API_URL } from "@/static/config";
 import { parseCookies } from "@/helpers/index";
-import styles from "@/styles/shared/qna-editor.module.scss";
+import AuthContext from "@/context/AuthContext";
+import styles from "@/styles/shared/QnAEditor.module.scss";
 
 export default function EditQuestion({ item, id, token }) {
   const router = useRouter();
   const titleInputRef = useRef(null);
+  const toolBarRef = useRef(null);
   const [title, setTitle] = useState(item.title);
   const [contents, setContents] = useState(item.contents);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     titleInputRef.current.focus();
@@ -49,10 +51,11 @@ export default function EditQuestion({ item, id, token }) {
   };
 
   return (
-    <Layout>
+    <div className={styles.container}>
       <Head>
-        <title>질문 수정</title>
+        <title>질문하기</title>
       </Head>
+      <div ref={toolBarRef} className={styles.editorToolbar} />
       <input
         type="text"
         required
@@ -66,11 +69,14 @@ export default function EditQuestion({ item, id, token }) {
         onChange={(e) => setTitle(e.target.value)}
         className={styles.title}
       />
-      <Editor
-        value={contents}
-        onChange={(value) => setContents(value)}
-        size="lg"
-      />
+      <div className={styles.contentsAreaWrapper}>
+        <Editor
+          toolBarRef={toolBarRef}
+          value={contents}
+          onChange={(value) => setContents(value)}
+          className={styles.contentsArea}
+        />
+      </div>
       <Button
         onClick={handleSubmit}
         align="right"
@@ -78,7 +84,7 @@ export default function EditQuestion({ item, id, token }) {
       >
         등록하기
       </Button>
-    </Layout>
+    </div>
   );
 }
 

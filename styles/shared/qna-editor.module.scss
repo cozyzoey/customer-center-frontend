@@ -1,7 +1,51 @@
-@use "@/styles/foundation/variables" as v;
-@use "@/styles/foundation/mixins";
+@use '@/styles/foundation/variables' as v;
+@use '@/styles/foundation/mixins';
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 4vw;
+  padding-top: clamp(110px, 8.3vw, 160px);
+  @include mixins.respond(xs) {
+    padding-top: 140px;
+  }
+}
+
+.editorToolbar {
+  width: 100%;
+  min-height: v.$h3;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: v.$border;
+  & > div {
+    width: 100% !important;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 4vw !important;
+    border: none !important;
+    background-color: white !important;
+  }
+}
 
 input.title {
-  @include mixins.fs5;
+  @include mixins.fs4;
   height: v.$h2;
+}
+
+.contentsAreaWrapper {
+  min-height: 200px;
+}
+.contentsArea {
+  & > div {
+    padding: 3ch 0 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    min-height: 200px;
+  }
 }
