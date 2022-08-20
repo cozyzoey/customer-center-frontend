@@ -34,14 +34,13 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
 
     if (res.ok) {
-      return true;
+      router.replace(`/auth/after-register?email=${user.email}`);
     } else {
       setError(
         message == "Email or Username are already taken"
           ? "이름 혹은 닉네임이 이미 사용중입니다."
           : message
       );
-      return false;
     }
   };
 
@@ -78,10 +77,9 @@ export const AuthProvider = ({ children }) => {
     if (res.ok) {
       setUser(user);
       setToken(token);
-      return true;
+      toast.success("반갑습니다:)");
     } else {
       setError(convertErrorMessage(message));
-      return false;
     }
   };
 
@@ -95,7 +93,6 @@ export const AuthProvider = ({ children }) => {
     if (res.ok) {
       setUser(null);
       setToken(null);
-      router.push("/");
     }
 
     setLoading(false);

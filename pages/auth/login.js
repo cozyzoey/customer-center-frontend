@@ -13,7 +13,6 @@ import styles from "@/styles/shared/auth.module.scss";
 
 export default function login() {
   const router = useRouter();
-  const redirect = router.query?.redirect || "/";
   const { login, error, resetError, loading } = useContext(AuthContext);
 
   const initialValues = {
@@ -37,12 +36,7 @@ export default function login() {
 
   const handleSubmit = async (values) => {
     const { email, password } = values;
-    const loginSuccess = await login({ email, password });
-
-    if (loginSuccess) {
-      router.replace(redirect);
-      toast.success("반갑습니다:)");
-    }
+    login({ email, password });
   };
 
   return (

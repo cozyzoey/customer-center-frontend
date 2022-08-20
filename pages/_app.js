@@ -1,12 +1,15 @@
+import { Suspense } from "react";
 import { SWRConfig } from "swr";
 import { fetcher } from "@/helpers/index";
 import { ToastContainer } from "react-toastify";
 import Head from "next/head";
+
+import PrivateRoute from "@/components/private-route";
+
 import { AuthProvider } from "@/context/AuthContext";
 import "../styles/globals.scss";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "@/components/loader";
-import { Suspense } from "react";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -44,7 +47,9 @@ function MyApp({ Component, pageProps }) {
           }}
         >
           <AuthProvider>
-            <Component {...pageProps} />
+            <PrivateRoute>
+              <Component {...pageProps} />
+            </PrivateRoute>
           </AuthProvider>
         </SWRConfig>
       </Suspense>

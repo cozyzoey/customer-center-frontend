@@ -48,15 +48,11 @@ export default function register() {
 
   const handleSubmit = async (values) => {
     const { username, email, password } = values;
-    const registerSuccess = await register({
+    register({
       username: username.trim(),
       email,
       password,
     });
-
-    if (registerSuccess) {
-      router.replace(`/auth/after-register?email=${email}`);
-    }
   };
 
   return (

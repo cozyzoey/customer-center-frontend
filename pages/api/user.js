@@ -20,15 +20,17 @@ const user = async (req, res) => {
     const user = await strapiRes.json();
 
     if (strapiRes.ok) {
-      res.status(200).json({ user, token });
+      return res.status(200).json({ user, token });
     } else {
-      res
+      return res
         .status(strapiRes.status)
         .json({ message: user?.error?.message || "User Forbidden" });
     }
   } else {
     res.setHeader("Allow", ["GET"]);
-    res.status(405).json({ message: `Method ${req.method} not allowed` });
+    return res
+      .status(405)
+      .json({ message: `Method ${req.method} not allowed` });
   }
 };
 

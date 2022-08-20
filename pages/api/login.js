@@ -25,19 +25,21 @@ const login = async (req, res) => {
         cookie.serialize("token", jwt, {
           httpOnly: true,
           secure: process.env.NODE_ENV !== "development",
-          maxAge: 60 * 60 * 24 * 7, // 1 week
+          maxAge: 60 * 60 * 24 * 30, // 30 days
           sameSite: "strict",
           path: "/",
         })
       );
 
-      res.status(200).json({ user, token: jwt });
+      return res.status(200).json({ user, token: jwt });
     } else {
-      res.status(error.status).json({ message: error.message });
+      return res.status(error.status).json({ message: error.message });
     }
   } else {
     res.setHeader("Allow", ["POST"]);
-    res.status(405).json({ message: `Method ${req.method} not allowed` });
+    return res
+      .status(405)
+      .json({ message: `Method ${req.method} not allowed` });
   }
 };
 

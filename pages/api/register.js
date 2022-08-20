@@ -1,4 +1,3 @@
-import cookie from "cookie";
 import { API_URL } from "@/constants/config";
 
 const register = async (req, res) => {
@@ -20,13 +19,15 @@ const register = async (req, res) => {
     const { jwt, user, error } = await strapiRes.json();
 
     if (strapiRes.ok) {
-      res.status(200).json({ user, token: jwt });
+      return res.status(200).json({ user, token: jwt });
     } else {
-      res.status(error.status).json({ message: error.message });
+      return res.status(error.status).json({ message: error.message });
     }
   } else {
     res.setHeader("Allow", ["POST"]);
-    res.status(405).json({ message: `Method ${req.method} not allowed` });
+    return res
+      .status(405)
+      .json({ message: `Method ${req.method} not allowed` });
   }
 };
 
