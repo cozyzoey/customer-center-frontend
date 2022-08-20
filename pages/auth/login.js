@@ -1,5 +1,7 @@
 import { useContext, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useRouter } from "next/router";
+
 import * as Yup from "yup";
 import Link from "next/link";
 import Layout from "@/components/layout";
@@ -10,6 +12,8 @@ import { toast } from "react-toastify";
 import styles from "@/styles/shared/auth.module.scss";
 
 export default function login() {
+  const router = useRouter();
+  const redirect = router.query?.redirect || "/";
   const { login, error, resetError, loading } = useContext(AuthContext);
 
   const initialValues = {
@@ -33,7 +37,12 @@ export default function login() {
 
   const handleSubmit = async (values) => {
     const { email, password } = values;
-    login({ email, password });
+    const loginSuccess = await login({ email, password });
+
+    if (loginSuccess) {
+      router.replace(redirect);
+      toast.success("반갑습니다:)");
+    }
   };
 
   return (

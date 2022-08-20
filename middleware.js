@@ -11,7 +11,9 @@ export async function middleware(req) {
   // 로그인 안한 사용자 -> protected 페이지 접속 -> 로그인 페이지로 redirect
   // /qna/edit/:id, /qna/add, /consent
   if (!token && (pathname.includes("qna") || pathname.includes("consent"))) {
-    return NextResponse.redirect(new URL("/auth/login", req.url));
+    return NextResponse.redirect(
+      new URL(`/auth/login?redirect=${pathname}`, req.url)
+    );
   }
 
   // 로그인한 사용자 -> auth 관련 페이지 접속 -> 메인 페이지로 redirect
