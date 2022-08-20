@@ -183,7 +183,7 @@ export default function QnADetail() {
     <Layout title="QnA">
       <h1 className={styles.title}>{data.data[0].attributes.title}</h1>
       <div className={styles.info}>
-        <span>{data.data[0].attributes.user.data?.attributes.username}</span>
+        <span>{data.data[0].attributes.username}</span>
         <time>
           {moment(data.data[0].attributes.createdAt).format("YYYY. MM. DD")}
         </time>

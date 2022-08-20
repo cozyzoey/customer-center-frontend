@@ -37,7 +37,15 @@ export default function add() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ data: { title, contents, user: user.id } }),
+        body: JSON.stringify({
+          data: {
+            title,
+            contents,
+            user: user.id,
+            userId: user.id,
+            username: user.username,
+          },
+        }),
       });
 
       const { data, error } = await res.json();

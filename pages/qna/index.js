@@ -56,7 +56,7 @@ export default function QnA() {
                           </span>
                         )}
                       </dd>
-                      <dd>{el.attributes.user.data?.attributes.username}</dd>
+                      <dd>{el.attributes.username}</dd>
                       <dd>
                         {moment(el.attributes.createdAt).format("YYYY. MM. DD")}
                       </dd>
