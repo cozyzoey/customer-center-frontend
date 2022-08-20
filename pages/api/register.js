@@ -20,18 +20,6 @@ const register = async (req, res) => {
     const { jwt, user, error } = await strapiRes.json();
 
     if (strapiRes.ok) {
-      // Set cookie, JWT를 클라이언트에 저장하지 않음
-      res.setHeader(
-        "Set-Cookie",
-        cookie.serialize("token", jwt, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV !== "development",
-          maxAge: 60 * 60 * 24 * 7, // 1 week
-          sameSite: "strict",
-          path: "/",
-        })
-      );
-
       res.status(200).json({ user, token: jwt });
     } else {
       res.status(error.status).json({ message: error.message });

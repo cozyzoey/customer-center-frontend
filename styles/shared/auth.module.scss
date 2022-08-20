@@ -35,3 +35,21 @@
     text-decoration: underline;
   }
 }
+
+.checkMarkIcon {
+  color: v.$green;
+  svg {
+    display: block;
+    margin: 0 auto 6ch;
+  }
+}
+
+.successTitle {
+  @include mixins.fs-lg;
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 4ch;
+  span {
+    color: v.$blue;
+  }
+}

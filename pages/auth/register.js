@@ -1,4 +1,5 @@
 import { useContext, useEffect } from "react";
+import { useRouter } from "next/router";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Link from "next/link";
 import * as Yup from "yup";
@@ -8,9 +9,9 @@ import MyInput from "@/components/my-input";
 import AuthContext from "@/context/AuthContext";
 import { toast } from "react-toastify";
 import styles from "@/styles/shared/auth.module.scss";
-import user from "pages/api/logout";
 
 export default function register() {
+  const router = useRouter();
   const { register, error, resetError, loading } = useContext(AuthContext);
 
   useEffect(() => {
@@ -45,13 +46,17 @@ export default function register() {
       .oneOf([true], "동의에 체크해 주세요"),
   });
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     const { username, email, password } = values;
-    register({
+    const registerSuccess = await register({
       username: username.trim(),
       email,
       password,
     });
+
+    if (registerSuccess) {
+      router.replace(`/auth/after-register?email=${email}`);
+    }
   };
 
   return (
@@ -75,7 +80,7 @@ export default function register() {
             <Field
               name="email"
               type="email"
-              placeholder="이메일"
+              placeholder="이메일(정확히 입력)"
               component={MyInput}
             />
             <ErrorMessage component="label" name="email" />

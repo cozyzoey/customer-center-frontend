@@ -65,9 +65,6 @@ export default function Header({ logo }) {
             <>
               <span className={styles.username}>{user.username}</span>
               <GrLogout title="로그아웃" onClick={handleLogout} size="3ch" />
-              <Button onClick={() => router.push("/consent")}>
-                동의서 제출
-              </Button>
             </>
           ) : (
             <Link href="/auth/login">
@@ -77,6 +74,7 @@ export default function Header({ logo }) {
               </a>
             </Link>
           )}
+          <Button onClick={() => router.push("/consent")}>동의서 제출</Button>
         </div>
       </div>
     </header>

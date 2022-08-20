@@ -26,6 +26,7 @@ export default function consent() {
   const router = useRouter();
 
   useEffect(() => {
+    // 정보입력으로 user를 업데이트한 경우 or 이미 정보가 있는 user가 진입한 경우
     if (
       user &&
       user.name &&
@@ -36,6 +37,7 @@ export default function consent() {
       user.parentEmail
     ) {
       setCompleted(true);
+      setStep(3);
     }
   }, [user]);
 
@@ -114,11 +116,6 @@ export default function consent() {
       const updatedUserRes = await res.json();
 
       setUser(updatedUserRes);
-
-      // TODO 이메일 전송
-
-      setStep(3);
-      setCompleted(true);
     } catch (error) {
       toast.error(error?.message || "내부 문제가 생겼어요 :(");
     } finally {
@@ -164,8 +161,7 @@ export default function consent() {
           <div className={styles.documents}>
             <div className={styles.stepGuide}>
               <GrCircleInformation size="2.2ch" />
-              사업 참여를 위한 동의서 내용을 확인해주세요. 서명할 때 다시 확인할
-              수 있어요.
+              사업 참여를 위한 동의서 내용을 확인해주세요.
             </div>
             <Image
               alt="개인정보 수집-활용 동의서 페이지1"
@@ -266,10 +262,10 @@ export default function consent() {
           <div className={styles.completed}>
             <div className={styles.stepGuide}>
               <GrCircleInformation size="2.2ch" />
-              입력하신 이메일로 전자계약 링크를 보냈어요. 메일함을 확인하여
-              서명을 완료해주세요.
+              가입하신 이메일로 서명할 수 있는 링크를 보내드릴게요. 메일함을
+              확인하여 서명을 완료해주세요.
             </div>
-            <p>아직 메일을 받지 못하셨나요?</p>
+            <p>하루가 지났는데도 아직 메일을 받지 못하셨나요?</p>
             <Button variant="text">
               <div style={{ width: "3ch" }}>
                 <Image

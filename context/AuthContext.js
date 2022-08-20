@@ -31,19 +31,18 @@ export const AuthProvider = ({ children }) => {
 
     const { user, token, message } = await res.json();
 
+    setLoading(false);
+
     if (res.ok) {
-      setUser(user);
-      setToken(token);
-      router.replace("/");
-      toast.success("반갑습니다:)");
+      return true;
     } else {
       setError(
         message == "Email or Username are already taken"
           ? "이름 혹은 닉네임이 이미 사용중입니다."
           : message
       );
+      return false;
     }
-    setLoading(false);
   };
 
   const login = async ({ email: identifier, password }) => {
@@ -63,20 +62,27 @@ export const AuthProvider = ({ children }) => {
 
     const { user, token, message } = await res.json();
 
+    const convertErrorMessage = (msg) => {
+      switch (msg) {
+        case "Invalid identifier or password":
+          return "이메일 혹은 비밀번호를 확인해주세요.";
+        case "Your account email is not confirmed":
+          return "보내드린 메일을 확인해주세요.";
+        default:
+          return msg;
+      }
+    };
+
+    setLoading(false);
+
     if (res.ok) {
       setUser(user);
       setToken(token);
-      router.replace("/");
-      toast.success("반갑습니다:)");
+      return true;
     } else {
-      setError(
-        message === "Invalid identifier or password"
-          ? "이메일 혹은 비밀번호를 확인해주세요."
-          : message
-      );
+      setError(convertErrorMessage(message));
+      return false;
     }
-
-    setLoading(false);
   };
 
   const logout = async () => {
@@ -102,7 +108,10 @@ export const AuthProvider = ({ children }) => {
     if (res.ok) {
       setUser(user);
       setToken(token);
-    } else if (message === "Missing or invalid credentials") {
+    } else if (
+      message === "Missing or invalid credentials" ||
+      message === "Invalid credentials"
+    ) {
       logout();
     }
   };
