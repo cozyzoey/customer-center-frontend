@@ -58,6 +58,9 @@
           border: none !important;
           padding: 1ch 2ch;
           background-color: v.$white !important;
+          svg * {
+            stroke: initial;
+          }
         }
       }
       // 컨텐츠 영역
@@ -84,6 +87,9 @@
         & > div > div > div {
           border: none !important;
           background-color: v.$light-dark !important;
+          svg * {
+            stroke: initial;
+          }
         }
       }
       // 컨텐츠 영역
