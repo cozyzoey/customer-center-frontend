@@ -30,9 +30,12 @@ export default function consent() {
     if (
       user &&
       user.name &&
-      user.schoolName &&
       user.phoneNumber &&
       user.gender &&
+      user.schoolName &&
+      user.schoolYear &&
+      user.schoolClass &&
+      user.studentNumber &&
       user.parentName &&
       user.parentEmail
     ) {
@@ -63,9 +66,12 @@ export default function consent() {
 
   const initialValues = {
     name: user?.name || "",
-    schoolName: user?.schoolName || "",
-    gender: user?.gender || "",
     phoneNumber: user?.phoneNumber || "",
+    gender: user?.gender || "",
+    schoolName: user?.schoolName || "",
+    schoolYear: user?.schoolYear || "",
+    schoolClass: user?.schoolClass || "",
+    studentNumber: user?.studentNumber || "",
     parentName: user?.parentName || "",
     parentEmail: user?.parentEmail || "",
   };
@@ -73,12 +79,6 @@ export default function consent() {
   const validationSchema = Yup.object({
     name: Yup.string()
       .matches(/^[가-힣]{2,4}$/, "2~4자의 실명을 입력해주세요")
-      .required("필수 입력 항목입니다"),
-    schoolName: Yup.string()
-      .matches(
-        /^[가-힣|a-z|A-Z|0-9|\s]+$/,
-        "한글/영어/숫자/공백만 입력 가능해요"
-      )
       .required("필수 입력 항목입니다"),
     phoneNumber: Yup.string()
       .matches(
@@ -89,6 +89,24 @@ export default function consent() {
     gender: Yup.mixed()
       .oneOf(["male", "female"])
       .required("필수 입력 항목입니다"),
+    schoolName: Yup.string()
+      .matches(
+        /^[가-힣|a-z|A-Z|0-9|\s]+$/,
+        "한글/영어/숫자/공백만 입력 가능해요"
+      )
+      .required("필수 입력 항목입니다"),
+    schoolYear: Yup.number()
+      .min(1, "학년은 1~3 사이의 값을 입력해주세요")
+      .max(3, "학년은 1~3 사의 값을 입력해주세요")
+      .required("학년은 필수 입력 항목입니다"),
+    schoolClass: Yup.number()
+      .typeError("반은 숫자만 입력 가능해요")
+      .min(1, "반은 1 이상의 값을 입력해주세요")
+      .required("반은 필수 입력 항목입니다"),
+    studentNumber: Yup.number()
+      .typeError("번호는 숫자만 입력 가능해요")
+      .min(1, "번호는 1 이상의 값을 입력해주세요")
+      .required("번호는 필수 입력 항목입니다"),
     parentName: Yup.string()
       .matches(/^[가-힣]{2,4}$/, "2~4자의 실명을 입력해주세요")
       .required("필수 입력 항목입니다"),
@@ -190,71 +208,114 @@ export default function consent() {
           onSubmit={handleSubmit}
           enableReinitialize={true}
         >
-          <Form className={styles.form}>
-            <div className={styles.stepGuide}>
-              <GrCircleInformation size="2.2ch" />
-              서명을 하기 전에 몇 가지 정보가 필요해요.
-            </div>
-            <fieldset>
-              <legend>참여 학생 정보</legend>
-              <Field
-                name="name"
-                type="text"
-                placeholder="이름(실명)"
-                component={MyInput}
-              />
-              <ErrorMessage component="label" name="name" />
-              <Field
-                name="schoolName"
-                type="text"
-                placeholder="소속 학교 이름"
-                component={MyInput}
-              />
-              <ErrorMessage component="label" name="schoolName" />
-              <Field
-                name="phoneNumber"
-                type="tel"
-                placeholder="핸드폰 번호"
-                component={MyInput}
-              />
-              <ErrorMessage component="label" name="phoneNumber" />
+          {({ errors, touched }) => (
+            <Form className={styles.form}>
+              <div className={styles.stepGuide}>
+                <GrCircleInformation size="2.2ch" />
+                서명을 하기 전에 몇 가지 정보가 필요해요.
+              </div>
+              <fieldset>
+                <legend>참여 학생 정보</legend>
+                <Field
+                  name="name"
+                  type="text"
+                  placeholder="이름(실명)"
+                  component={MyInput}
+                />
+                <ErrorMessage component="label" name="name" />
 
-              <section>
-                성별:
-                <label>
-                  <Field type="radio" name="gender" value="male" />
-                  남자
-                </label>
-                <label>
-                  <Field type="radio" name="gender" value="female" />
-                  여자
-                </label>
-              </section>
-              <ErrorMessage component="label" name="gender" />
-            </fieldset>
+                <Field
+                  name="phoneNumber"
+                  type="tel"
+                  placeholder="핸드폰 번호"
+                  component={MyInput}
+                />
+                <ErrorMessage component="label" name="phoneNumber" />
 
-            <fieldset>
-              <legend>학부모님 정보</legend>
-              <Field
-                name="parentName"
-                type="text"
-                placeholder="학부모님 이름(실명)"
-                component={MyInput}
-              />
-              <ErrorMessage component="label" name="parentName" />
-              <Field
-                name="parentEmail"
-                type="email"
-                placeholder="학부모님 이메일"
-                component={MyInput}
-              />
-              <ErrorMessage component="label" name="parentEmail" />
-            </fieldset>
+                <section>
+                  성별:
+                  <label>
+                    <Field type="radio" name="gender" value="male" />
+                    남자
+                  </label>
+                  <label>
+                    <Field type="radio" name="gender" value="female" />
+                    여자
+                  </label>
+                </section>
+                <ErrorMessage component="label" name="gender" />
 
-            <Button type="submit" fullWidth={true} loading={loading}>
-               다음
-            </Button>
-          </Form>
+                <Field
+                  name="schoolName"
+                  type="text"
+                  placeholder="소속 학교 이름"
+                  component={MyInput}
+                />
+                <ErrorMessage component="label" name="schoolName" />
+
+                <section className={styles.studentInfo}>
+                  <label>
+                    학년:&nbsp;
+                    <Field
+                      as="select"
+                      name="schoolYear"
+                      className={
+                        touched.schoolYear && errors.schoolYear
+                          ? styles.errorBorder
+                          : ""
+                      }
+                    >
+                      <option value="">선택</option>
+                      <option value={1}>1학년</option>
+                      <option value={2}>2학년</option>
+                      <option value={3}>3학년</option>
+                    </Field>
+                  </label>
+                  <label>
+                    반:&nbsp;
+                    <Field name="schoolClass" type="tel" component={MyInput} />
+                  </label>
+                  <label>
+                    번호:&nbsp;
+                    <Field
+                      name="studentNumber"
+                      type="tel"
+                      component={MyInput}
+                    />
+                  </label>
+                </section>
+                {touched.schoolYear && errors.schoolYear ? (
+                  <ErrorMessage component="label" name="schoolYear" />
+                ) : touched.schoolClass && errors.schoolClass ? (
+                  <ErrorMessage component="label" name="schoolClass" />
+                ) : touched.studentNumber && errors.studentNumber ? (
+                  <ErrorMessage component="label" name="studentNumber" />
+                ) : null}
+              </fieldset>
+
+              <fieldset>
+                <legend>학부모님 정보</legend>
+                <Field
+                  name="parentName"
+                  type="text"
+                  placeholder="학부모님 이름(실명)"
+                  component={MyInput}
+                />
+                <ErrorMessage component="label" name="parentName" />
+                <Field
+                  name="parentEmail"
+                  type="email"
+                  placeholder="학부모님 이메일"
+                  component={MyInput}
+                />
+                <ErrorMessage component="label" name="parentEmail" />
+              </fieldset>
+
+              <Button type="submit" fullWidth={true} loading={loading}>
+                 다음
+              </Button>
+            </Form>
+          )}
         </Formik>
 
         {/*  3단계: 서명 안내 */}

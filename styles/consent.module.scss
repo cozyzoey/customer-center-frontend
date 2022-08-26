@@ -122,3 +122,19 @@ div.inactiveStep {
     text-align: center;
   }
 }
+
+section.studentInfo label {
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  flex: 1;
+  select {
+    padding-left: calc(50% - 4ch);
+  }
+  input {
+    text-align: center;
+  }
+}
+.errorBorder {
+  border-bottom: 1px solid v.$error !important;
+}

@@ -75,7 +75,8 @@ legend {
 input[type="text"],
 input[type="password"],
 input[type="email"],
-input[type="tel"] {
+input[type="tel"],
+select {
   @include mixins.fs3;
   font-weight: 300;
   font-family: "Noto Sans KR", sans-serif;
