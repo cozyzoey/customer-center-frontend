@@ -3,8 +3,9 @@ import styles from "@/styles/button.module.scss";
 
 export default function Button({
   children,
-  variant = "dark",
+  variant = "yellow",
   align = "center",
+  size = "md",
   loading = false,
   disabled = false,
   fullWidth = false,
@@ -14,6 +15,7 @@ export default function Button({
     styles.button,
     styles[variant],
     styles[align],
+    styles[size],
     { [styles.loading]: loading },
     { [styles.disabled]: disabled },
     { [styles.fullWidth]: fullWidth }

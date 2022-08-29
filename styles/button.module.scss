@@ -1,15 +1,18 @@
 @use "foundation/variables" as v;
 @use "foundation/mixins";
 
+$amount: 10%;
+
 .button {
   font-weight: 400;
-  padding: 1.6ch 3ch;
+  padding: 0 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   white-space: nowrap;
   transition: all 0.2s;
   position: relative;
+  border-radius: 8px;
   .content {
     display: flex;
     align-items: center;
@@ -22,8 +25,8 @@
   .loadingSpinner:after {
     content: "";
     box-sizing: border-box;
-    width: 3.6ch;
-    height: 3.6ch;
+    width: 3ch;
+    height: 3ch;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -46,12 +49,12 @@
 }
 
 // Variant
-.dark {
-  background-color: v.$black;
+.yellow {
+  background-color: v.$yellow;
   color: v.$white;
   &:hover,
   &:active {
-    background-color: v.$black-light;
+    background-color: darken(v.$yellow, $amount);
   }
 }
 
@@ -60,7 +63,7 @@
   color: v.$black;
   &:hover,
   &:active {
-    background-color: v.$light-dark;
+    background-color: darken(v.$light, $amount);
   }
 }
 
@@ -106,4 +109,15 @@
   100% {
     transform: translate(-50%, -50%) rotate(360deg);
   }
+}
+
+// Size
+.sm {
+  height: 47px;
+}
+.md {
+  height: 52px;
+}
+.lg {
+  height: 64px;
 }

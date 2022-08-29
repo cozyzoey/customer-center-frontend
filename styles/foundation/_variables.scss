@@ -1,7 +1,14 @@
 // Colors
-$black: #202121;
-$black-light: #444646;
+$black: #000;
 $white: #fff;
+$yellow: #fbd841;
+$gray1: #f4f4f4;
+$gray2: #e3e3e3;
+$gray3: #c9c9c9;
+$gray4: #828282;
+$gray5: #565656;
+
+$black-light: #444646;
 $gray: #c4c4c4;
 $gray-dark: #666666;
 $light: #f4f7f6;
@@ -19,3 +26,4 @@ $h2: clamp(70px, 4.2vw, 80px);
 $h3: clamp(80px, 5.2vw, 100px);
 
 $max-width: 1200px;
+$bp: 1024;

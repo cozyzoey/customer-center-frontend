@@ -3,30 +3,41 @@
 
 .layout {
   position: relative;
-  header {
-    height: 100px;
+  & > * {
+    background-color: v.$white;
+  }
+  @include mixins.respond(xl) {
+    & > * {
+      padding-left: 4vw;
+      padding-right: 4vw;
+    }
+  }
+  .header {
+    height: 117px;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 100;
-    padding: 0 4vw;
     @include mixins.respond(lg) {
-      padding: 0;
-      height: max-content;
+      height: 59px;
     }
   }
   main {
-    max-width: v.$max-width;
     margin: 0 auto;
+    padding-top: 200px;
+    padding-bottom: 200px;
     min-height: 100vh;
-    padding: 160px 4vw v.$h2;
+    width: 100%;
+    max-width: v.$max-width;
     @include mixins.respond(lg) {
-      padding: 130px 4vw v.$h2;
+      padding-top: 59px; // 헤더 높이만큼
+      padding-bottom: 70px;
     }
   }
   footer {
+    padding-top: 2ch;
+    padding-bottom: 2ch;
     border-top: v.$border;
-    padding: 3ch 4vw;
   }
 }

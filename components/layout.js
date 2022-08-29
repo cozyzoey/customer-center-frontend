@@ -25,7 +25,9 @@ export default function Layout({ title, keywords, description, children }) {
         />
       </Head>
 
-      <Header logo={data?.data?.attributes?.logo || ""} />
+      <div className={styles.header}>
+        <Header logo={data?.data?.attributes?.logo || ""} />
+      </div>
       <motion.main
         animate={{ opacity: 1 }}
         initial={{ opacity: 0 }}
