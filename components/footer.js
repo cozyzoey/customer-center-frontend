@@ -1,14 +1,72 @@
 import Link from "next/link";
+import Image from "next/image";
 import styles from "@/styles/footer.module.scss";
 
-export default function Footer({ logo }) {
+export default function Footer() {
   return (
     <footer className={styles.footer}>
-      <div className={styles.logo}>{logo}</div>
+      <div className={styles.logos}>
+        <Image
+          alt="NIA"
+          src="/icons/footer_logo_1.png"
+          layout="fixed"
+          width={245}
+          height={29}
+          objectFit="contain"
+        />
+        <Image
+          alt="NIA"
+          src="/icons/footer_logo_2.png"
+          layout="fixed"
+          width={242}
+          height={48}
+          objectFit="contain"
+        />
+        <Image
+          alt="NIA"
+          src="/icons/footer_logo_3.png"
+          layout="fixed"
+          width={267}
+          height={28}
+          objectFit="contain"
+        />
+        <Image
+          alt="NIA"
+          src="/icons/footer_logo_4.png"
+          layout="fixed"
+          width={162}
+          height={48}
+          objectFit="contain"
+        />
+        <Image
+          alt="NIA"
+          src="/icons/footer_logo_5.png"
+          layout="fixed"
+          width={64}
+          height={57}
+          objectFit="contain"
+        />
+        <Image
+          alt="NIA"
+          src="/icons/footer_logo_6.png"
+          layout="fixed"
+          width={67}
+          height={61}
+          objectFit="contain"
+        />
+        <Image
+          alt="NIA"
+          src="/icons/footer_logo_7.png"
+          layout="fixed"
+          width={131}
+          height={60}
+          objectFit="contain"
+        />
+      </div>
       <div className={styles.policies}>
         <span>
-          &copy;&nbsp;{new Date().getFullYear()}
-          &nbsp;{logo}
+          Copyright&nbsp;&copy;&nbsp;{new Date().getFullYear()}
+          &nbsp;AI감성튜터. All Rights Reserved.
         </span>
         <Link href="/policy/terms">
           <a>이용약관</a>
