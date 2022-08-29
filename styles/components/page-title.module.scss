@@ -1,0 +1,21 @@
+@use "@/styles/foundation/variables" as v;
+@use "@/styles/foundation/mixins";
+
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 5ch 1ch 6px;
+  margin-bottom: 4ch;
+
+  h1 {
+    @include mixins.fs5;
+    font-weight: 700;
+  }
+
+  border-bottom: 4px solid v.$yellow;
+
+  @include mixins.respond(lg) {
+    justify-content: center;
+  }
+}

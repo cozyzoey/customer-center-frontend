@@ -29,6 +29,10 @@
     align-items: start;
     & > div {
       grid-column: 2 / 3;
+      @include mixins.respond(xl) {
+        padding-right: 4vw;
+        padding-left: 4vw;
+      }
     }
     @include mixins.respond(lg) {
       padding-top: 59px;
