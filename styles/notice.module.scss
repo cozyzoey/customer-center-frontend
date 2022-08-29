@@ -1,0 +1,95 @@
+@use "@/styles/foundation/variables" as v;
+@use "@/styles/foundation/mixins";
+
+.notice {
+  grid-column: 1 / 4;
+  display: grid;
+  grid-template-columns: 1fr minmax(auto, v.$max-width) 1fr;
+  grid-template-rows: min-content;
+  align-items: start;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.hero {
+  grid-column: 2 / 3;
+  width: 100%;
+  position: relative;
+  z-index: 0;
+  @include mixins.respond(lg) {
+    grid-column: 1 / 4;
+  }
+  .logo {
+    width: 40ch;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    @include mixins.respond(lg) {
+      display: none;
+    }
+  }
+  .overlay {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    img {
+      outline: none;
+    }
+  }
+}
+
+.body {
+  grid-column: 2/ 3;
+  display: flex;
+  gap: 0 10px;
+  position: relative;
+  margin-top: -5ch;
+  background-color: transparent;
+  @include mixins.respond(xl) {
+    padding-right: 4vw;
+    padding-left: 4vw;
+  }
+  @include mixins.respond(lg) {
+    flex-direction: column;
+    gap: 20px 0;
+  }
+  & > * {
+    padding: 2ch;
+    border: 5px solid v.$gray2;
+    border-radius: 25px;
+    flex: 1;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    h2 {
+      @include mixins.fs4;
+      font-weight: 400;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+  }
+  .list {
+    li {
+      padding: 14px 30px;
+      background-color: v.$gray1;
+      border-radius: 23px;
+      box-shadow: 1px 4px 3px 2px rgba(0, 0, 0, 0.25);
+      margin-bottom: 20px;
+      h4 {
+        @include mixins.fs4;
+        font-weight: 400;
+      }
+      div {
+        margin-bottom: 1ch;
+      }
+      time {
+      }
+    }
+  }
+  .video {
+    video {
+      width: 100%;
+    }
+  }
+}

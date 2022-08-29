@@ -40,52 +40,54 @@ export default function FAQ() {
 
   return (
     <Layout title="FAQ">
-      <ul className={styles.faq}>
-        {data.data.length === 0 && (
-          <NoDataHeading>아직 등록된 FAQ가 없습니다.</NoDataHeading>
-        )}
-        {data.data.length > 0 &&
-          data.data.map((item) => (
-            <li key={item.id}>
-              <dl
-                className={styles.title}
-                onClick={() => handleClickItem(item.id)}
-              >
-                <dt>Q</dt>
-                <dd>
-                  {item.attributes.title}{" "}
-                  <GrUp
-                    className={styles.arrowIcon}
-                    data-active={activeItemId === item.id}
-                  />{" "}
-                </dd>
-              </dl>
-              {
-                <AnimatePresence>
-                  {activeItemId === item.id && (
-                    <motion.div
-                      variants={motionVariants}
-                      initial="hidden"
-                      animate="visible"
-                      exit="hidden"
-                      className={styles.contents}
-                    >
-                      <div>
-                        <dt>A</dt>
-                        <dd>{parse(item.attributes.contents)}</dd>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              }
-            </li>
-          ))}
-      </ul>
-      <Pagination
-        page={page}
-        total={data.meta.pagination.total}
-        pageName="faq"
-      />
+      <div>
+        <ul className={styles.faq}>
+          {data.data.length === 0 && (
+            <NoDataHeading>아직 등록된 FAQ가 없습니다.</NoDataHeading>
+          )}
+          {data.data.length > 0 &&
+            data.data.map((item) => (
+              <li key={item.id}>
+                <dl
+                  className={styles.title}
+                  onClick={() => handleClickItem(item.id)}
+                >
+                  <dt>Q</dt>
+                  <dd>
+                    {item.attributes.title}{" "}
+                    <GrUp
+                      className={styles.arrowIcon}
+                      data-active={activeItemId === item.id}
+                    />{" "}
+                  </dd>
+                </dl>
+                {
+                  <AnimatePresence>
+                    {activeItemId === item.id && (
+                      <motion.div
+                        variants={motionVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="hidden"
+                        className={styles.contents}
+                      >
+                        <div>
+                          <dt>A</dt>
+                          <dd>{parse(item.attributes.contents)}</dd>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                }
+              </li>
+            ))}
+        </ul>
+        <Pagination
+          page={page}
+          total={data.meta.pagination.total}
+          pageName="faq"
+        />
+      </div>
     </Layout>
   );
 }

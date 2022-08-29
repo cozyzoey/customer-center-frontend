@@ -3,9 +3,10 @@ import classNames from "classnames";
 import { PER_PAGE } from "@/constants/config";
 import styles from "@/styles/pagination.module.scss";
 
-export default function Pagination({ page, total, pageName = "" }) {
+export default function Pagination({ page, total, pageName = "", perPage }) {
+  const ADJUSTED_PER_PAGE = perPage || PER_PAGE;
   const router = useRouter();
-  const lastPage = Math.ceil(total / PER_PAGE);
+  const lastPage = Math.ceil(total / ADJUSTED_PER_PAGE);
   const NO_LINKS_TO_SHOW = 5;
 
   const handleLinkClick = (clickedPage) => {

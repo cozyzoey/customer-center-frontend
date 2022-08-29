@@ -181,145 +181,151 @@ export default function QnADetail() {
 
   return (
     <Layout title="QnA">
-      <h1 className={styles.title}>{data.data[0].attributes.title}</h1>
-      <div className={styles.info}>
-        <span>{data.data[0].attributes.username}</span>
-        <time>
-          {moment(data.data[0].attributes.createdAt).format("YYYY. MM. DD")}
-        </time>
-      </div>
-      <div className={styles.divider}>
-        {user && data.data[0].attributes.user.data?.id === user?.id && (
-          <div className={styles.controls}>
-            <GrEdit size="3ch" onClick={handleEditQuestion} title="수정하기" />
-            <GrTrash
-              size="3ch"
-              onClick={handleDeleteQuestion}
-              title="삭제하기"
+      <div>
+        <h1 className={styles.title}>{data.data[0].attributes.title}</h1>
+        <div className={styles.info}>
+          <span>{data.data[0].attributes.username}</span>
+          <time>
+            {moment(data.data[0].attributes.createdAt).format("YYYY. MM. DD")}
+          </time>
+        </div>
+        <div className={styles.divider}>
+          {user && data.data[0].attributes.user.data?.id === user?.id && (
+            <div className={styles.controls}>
+              <GrEdit
+                size="3ch"
+                onClick={handleEditQuestion}
+                title="수정하기"
+              />
+              <GrTrash
+                size="3ch"
+                onClick={handleDeleteQuestion}
+                title="삭제하기"
+              />
+            </div>
+          )}
+          <hr />
+        </div>
+        <div className={styles.contents}>
+          {parse(data.data[0].attributes.contents)}
+        </div>
+        {/* 액션 버튼 */}
+        {!isAddingAnswer && (
+          <Button
+            onClick={() => {
+              if (!user || !token) {
+                return alert("로그인 후 이용할 수 있어요");
+              }
+              setAnswerContents("");
+              setEditingAnswerId(null);
+              setIsAddingAnswer(true);
+            }}
+            align="right"
+          >
+            댓글쓰기
+          </Button>
+        )}
+        {/* 신규 댓글 작성 */}
+        {isAddingAnswer && (
+          <div className={styles.answerEditorWrapper}>
+            <Editor
+              value={answerContents}
+              onChange={(newValue) => setAnswerContents(newValue)}
+              size="sm"
             />
+            <div className={styles.answerControlBtns}>
+              <Button
+                onClick={() => {
+                  const result = confirm("댓글 작성을 취소할까요?");
+                  if (result) {
+                    setIsAddingAnswer(false);
+                    setAnswerContents("");
+                  }
+                }}
+                variant="light"
+              >
+                취소
+              </Button>
+              <Button
+                onClick={handleAddAnsewr}
+                disabled={answerContents.length < 10}
+              >
+                등록
+              </Button>
+            </div>
           </div>
         )}
-        <hr />
-      </div>
-      <div className={styles.contents}>
-        {parse(data.data[0].attributes.contents)}
-      </div>
-      {/* 액션 버튼 */}
-      {!isAddingAnswer && (
-        <Button
-          onClick={() => {
-            if (!user || !token) {
-              return alert("로그인 후 이용할 수 있어요");
-            }
-            setAnswerContents("");
-            setEditingAnswerId(null);
-            setIsAddingAnswer(true);
-          }}
-          align="right"
-        >
-          댓글쓰기
-        </Button>
-      )}
-      {/* 신규 댓글 작성 */}
-      {isAddingAnswer && (
-        <div className={styles.answerEditorWrapper}>
-          <Editor
-            value={answerContents}
-            onChange={(newValue) => setAnswerContents(newValue)}
-            size="sm"
-          />
-          <div className={styles.answerControlBtns}>
-            <Button
-              onClick={() => {
-                const result = confirm("댓글 작성을 취소할까요?");
-                if (result) {
-                  setIsAddingAnswer(false);
-                  setAnswerContents("");
-                }
-              }}
-              variant="light"
-            >
-              취소
-            </Button>
-            <Button
-              onClick={handleAddAnsewr}
-              disabled={answerContents.length < 10}
-            >
-              등록
-            </Button>
-          </div>
-        </div>
-      )}
-      {/* 댓글 리스트 렌더링 */}
-      <div className={styles.anserItems}>
-        {data.data[0].attributes.answers.data.length > 0 &&
-          data.data[0].attributes.answers.data
-            .sort((a, b) => a.id - b.id)
-            .map((el) => (
-              <div className={styles.answerItem} key={el.id}>
-                <div className={styles.answerItemHeader}>
-                  <div>
-                    <GrUser />
-                    <span>{el.attributes.username}</span>
-                  </div>
-                  <time>
-                    {moment(data.data[0].attributes.createdAt).format(
-                      "YYYY. MM. DD"
+        {/* 댓글 리스트 렌더링 */}
+        <div className={styles.anserItems}>
+          {data.data[0].attributes.answers.data.length > 0 &&
+            data.data[0].attributes.answers.data
+              .sort((a, b) => a.id - b.id)
+              .map((el) => (
+                <div className={styles.answerItem} key={el.id}>
+                  <div className={styles.answerItemHeader}>
+                    <div>
+                      <GrUser />
+                      <span>{el.attributes.username}</span>
+                    </div>
+                    <time>
+                      {moment(data.data[0].attributes.createdAt).format(
+                        "YYYY. MM. DD"
+                      )}
+                    </time>
+                    {user && el.attributes.userId === user?.id && (
+                      <div className={styles.anserItemControls}>
+                        <GrEdit
+                          onClick={() => {
+                            // 댓글 수정 에디터 활성화
+                            setIsAddingAnswer(false);
+                            setAnswerContents(el.attributes.contents);
+                            setEditingAnswerId(el.id);
+                          }}
+                          size="20px"
+                        />
+                        <GrTrash
+                          onClick={() => handleDeleteAnswer(el.id)}
+                          size="20px"
+                        />
+                      </div>
                     )}
-                  </time>
-                  {user && el.attributes.userId === user?.id && (
-                    <div className={styles.anserItemControls}>
-                      <GrEdit
-                        onClick={() => {
-                          // 댓글 수정 에디터 활성화
-                          setIsAddingAnswer(false);
-                          setAnswerContents(el.attributes.contents);
-                          setEditingAnswerId(el.id);
-                        }}
-                        size="20px"
+                  </div>
+                  {editingAnswerId === el.id ? (
+                    <div className={styles.answerEditorWrapper}>
+                      <Editor
+                        value={answerContents}
+                        onChange={(newValue) => setAnswerContents(newValue)}
+                        size="sm"
                       />
-                      <GrTrash
-                        onClick={() => handleDeleteAnswer(el.id)}
-                        size="20px"
-                      />
+                      <div className={styles.answerControlBtns}>
+                        <Button
+                          onClick={() => {
+                            const result = confirm("댓글 수정을 취소할까요?");
+                            if (result) {
+                              setEditingAnswerId(null);
+                              setAnswerContents("");
+                            }
+                          }}
+                          variant="light"
+                        >
+                          취소
+                        </Button>
+                        <Button
+                          onClick={() => handleEditAnswer(el.id)}
+                          disabled={answerContents.length < 10}
+                        >
+                          수정
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className={styles.answerItemContents}>
+                      {parse(el.attributes.contents)}
                     </div>
                   )}
                 </div>
-                {editingAnswerId === el.id ? (
-                  <div className={styles.answerEditorWrapper}>
-                    <Editor
-                      value={answerContents}
-                      onChange={(newValue) => setAnswerContents(newValue)}
-                      size="sm"
-                    />
-                    <div className={styles.answerControlBtns}>
-                      <Button
-                        onClick={() => {
-                          const result = confirm("댓글 수정을 취소할까요?");
-                          if (result) {
-                            setEditingAnswerId(null);
-                            setAnswerContents("");
-                          }
-                        }}
-                        variant="light"
-                      >
-                        취소
-                      </Button>
-                      <Button
-                        onClick={() => handleEditAnswer(el.id)}
-                        disabled={answerContents.length < 10}
-                      >
-                        수정
-                      </Button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className={styles.answerItemContents}>
-                    {parse(el.attributes.contents)}
-                  </div>
-                )}
-              </div>
-            ))}
+              ))}
+        </div>
       </div>
     </Layout>
   );

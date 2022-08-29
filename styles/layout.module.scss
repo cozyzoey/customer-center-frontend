@@ -6,12 +6,6 @@
   & > * {
     background-color: v.$white;
   }
-  @include mixins.respond(xl) {
-    & > * {
-      padding-left: 4vw;
-      padding-right: 4vw;
-    }
-  }
   .header {
     height: 117px;
     position: fixed;
@@ -24,19 +18,29 @@
     }
   }
   main {
-    margin: 0 auto;
-    padding-top: 200px;
-    padding-bottom: 200px;
+    padding-top: 117px;
+    padding-bottom: 100px;
     min-height: 100vh;
     width: 100%;
-    max-width: v.$max-width;
+
+    display: grid;
+    grid-template-columns: 1fr minmax(auto, v.$max-width) 1fr;
+    grid-template-rows: min-content;
+    align-items: start;
+    & > div {
+      grid-column: 2 / 3;
+    }
     @include mixins.respond(lg) {
-      padding-top: 59px; // 헤더 높이만큼
+      padding-top: 59px;
       padding-bottom: 70px;
     }
   }
   footer {
     padding-top: 50px;
     padding-bottom: 50px;
+    @include mixins.respond(xl) {
+      padding-right: 4vw;
+      padding-left: 4vw;
+    }
   }
 }

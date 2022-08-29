@@ -24,6 +24,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  @include mixins.respond(xl) {
+    padding-left: 4vw;
+    padding-right: 4vw;
+  }
 }
 
 .desktop {

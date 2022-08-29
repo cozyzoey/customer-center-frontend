@@ -12,20 +12,22 @@ export default function NoticeDetail({ notice }) {
 
   return (
     <Layout title="공지사항">
-      {router.isFallback ? (
-        <Loader />
-      ) : (
-        <>
-          <h1 className={styles.title}>{notice.title}</h1>
-          <div className={styles.info}>
-            <time>{moment(notice.createdAt).format("YYYY. MM. DD")}</time>
-          </div>
-          <div className={styles.divider}>
-            <hr />
-          </div>
-          <div className={styles.contents}>{parse(notice.contents)}</div>
-        </>
-      )}
+      <div>
+        {router.isFallback ? (
+          <Loader />
+        ) : (
+          <>
+            <h1 className={styles.title}>{notice.title}</h1>
+            <div className={styles.info}>
+              <time>{moment(notice.createdAt).format("YYYY. MM. DD")}</time>
+            </div>
+            <div className={styles.divider}>
+              <hr />
+            </div>
+            <div className={styles.contents}>{parse(notice.contents)}</div>
+          </>
+        )}
+      </div>
     </Layout>
   );
 }
