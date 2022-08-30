@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import Image from "next/image";
 import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
 import * as Yup from "yup";
@@ -150,6 +149,10 @@ export default function consent() {
   });
 
   const handleSubmit = async (values) => {
+    if (completed) {
+      setStep(3);
+      return;
+    }
     try {
       setLoading(true);
 
