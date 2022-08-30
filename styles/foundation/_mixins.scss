@@ -88,6 +88,6 @@
 // Active 상태
 @mixin active {
   &:active {
-    background-color: v.$light-dark;
+    background-color: v.$gray1;
   }
 }

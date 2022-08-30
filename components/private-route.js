@@ -7,7 +7,7 @@ export default function PrivateRoute({ children }) {
   const redirect = router.query?.redirect || "/";
   const { token } = useContext(AuthContext);
 
-  const protectedRoutes = ["/qna/edit", "/qna/add", "/consent"];
+  const protectedRoutes = ["/qna/edit", "/qna/add"];
 
   const pathIsProtected = protectedRoutes.some((protectedRoute) =>
     router.pathname.includes(protectedRoute)

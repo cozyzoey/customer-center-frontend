@@ -2,27 +2,18 @@
 @use "foundation/mixins";
 
 %navItemBase {
-  height: 100%;
   display: flex;
   align-items: center;
+  white-space: nowrap;
 }
 
 .header {
   @include mixins.fs3;
-  border-bottom: v.$border;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  grid-template-areas: "navLinks . myspace";
-  background-color: v.$white;
+  width: 100%;
+  height: 100%;
+  max-width: v.$max-width;
+  margin: 0 auto;
   position: relative;
-  @include mixins.respond(lg) {
-    grid-template-columns: auto 1fr auto;
-    grid-template-rows: 50px 50px;
-    grid-template-areas:
-      "pageTitle . myspace"
-      "navLinks navLinks navLinks";
-    align-content: stretch;
-  }
   svg {
     cursor: pointer;
     path,
@@ -30,120 +21,239 @@
       stroke-width: 1.4px;
     }
   }
-}
-
-.pageTitle {
-  display: none;
-  @include mixins.respond(lg) {
-    display: block;
-    @include mixins.no-select;
-    @include mixins.fs5;
-    grid-area: pageTitle;
-    padding-left: 4vw;
-    align-self: center;
-    font-weight: 400;
-  }
-}
-
-ul.navLinks {
-  grid-area: navLinks;
   display: flex;
-  @include mixins.respond(lg) {
-    border-top: v.$border;
-  }
-  li {
-    @extend %navItemBase;
-    @include mixins.active;
-    position: relative;
-    @include mixins.respond(lg) {
-      width: 33.33%;
-      height: max-content;
-      height: 100%;
-      &:not(:last-of-type) {
-        border-right: v.$border;
-      }
-    }
-    a {
-      padding: 0 2.6ch;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      @include mixins.respond(lg) {
-        width: 100%;
-      }
-    }
+  align-items: center;
+  justify-content: center;
+  @include mixins.respond(xl) {
+    padding-left: 4vw;
+    padding-right: 4vw;
   }
 }
 
-.navUnderline {
+.desktop {
   width: 100%;
-  height: 2px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  background-color: v.$black;
-}
-
-.logo {
-  @include mixins.fs4;
-  @extend %navItemBase;
-  font-weight: 500;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  top: 50%;
-  left: 50%;
+  display: grid;
   @include mixins.respond(lg) {
     display: none;
   }
+  grid-template-columns: auto auto 1fr auto;
+  grid-template-areas: "logo navLinks . myspace";
+  align-items: center;
+  & > * {
+    transform: translateY(8);
+  }
+
+  .logo {
+    grid-area: logo;
+    width: 105px;
+    margin-right: 9ch;
+    @include mixins.fs4;
+    @extend %navItemBase;
+    font-weight: 500;
+    a {
+      width: 100%;
+    }
+  }
+
+  .nav {
+    grid-area: navLinks;
+    ul.navLinks {
+      display: flex;
+      gap: 0 5ch;
+      li {
+        @extend %navItemBase;
+        @include mixins.active;
+        color: v.$gray4;
+        position: relative;
+        a {
+          padding: 0 1ch;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .navUnderline {
+          width: 100%;
+          height: 4px;
+          position: absolute;
+          bottom: -16px;
+          left: 0;
+          border-radius: 100px;
+          background-color: v.$yellow;
+        }
+      }
+    }
+  }
+
+  .myspace {
+    grid-area: myspace;
+    @extend %navItemBase;
+    .auth {
+      @include mixins.no-select;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 0 3ch;
+      margin-right: 3ch;
+
+      //로그인 영역
+      .authItem {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        &:last-of-type {
+          @include mixins.active;
+          cursor: pointer;
+        }
+      }
+
+      .username {
+        max-width: 7ch;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
 }
 
-.myspace {
-  @extend %navItemBase;
-  grid-area: myspace;
-  .auth {
-    @include mixins.no-select;
-    height: 100%;
+//====================== Mobile ======================//
+
+.mobile {
+  width: 100%;
+  display: none;
+  @include mixins.respond(lg) {
+    display: grid;
+  }
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: "hamburger . myspace";
+  align-items: center;
+
+  .hamburger {
+    grid-area: hamburger;
+    position: relative;
+    width: 20px;
+    span {
+      display: block;
+      width: 100%;
+      height: 3px;
+      margin-bottom: 5px;
+      position: relative;
+      background: v.$yellow;
+      border-radius: 3px;
+      z-index: 1;
+      opacity: 1;
+      transform-origin: 4px 0px;
+      transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
+        background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
+      &:nth-of-type(1) {
+        transform-origin: 0% 0%;
+      }
+      &:nth-of-type(3) {
+        transform-origin: 0% 100%;
+        margin-bottom: 0;
+      }
+    }
+    &[data-open="true"] {
+      span {
+        opacity: 1;
+        transform: rotate(45deg) translate(4px, -2px);
+      }
+      span:nth-of-type(2) {
+        opacity: 0;
+        transform: rotate(0deg) scale(0.2, 0.2);
+      }
+      span:nth-of-type(3) {
+        transform: rotate(-45deg) translate(4px, 2px);
+      }
+      & ~ .drawer {
+        transform: none;
+      }
+    }
+  }
+
+  .logo {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: calc(50% + 6px);
+    left: 50%;
+    width: 81px;
+  }
+
+  .drawer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 59px;
+    background-color: v.$white;
+    width: 100%;
+    padding: 0 4vw;
+    box-sizing: border-box;
+
+    -webkit-font-smoothing: antialiased;
+    /* to stop flickering of text in safari */
+
+    transform-origin: 0% 0%;
+    transform: translate(-100%, 0);
+
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+
+    .nav {
+      ul.navLinks {
+        li {
+          @extend %navItemBase;
+          @include mixins.active;
+          position: relative;
+          height: 43px;
+          border-radius: 8px;
+          background-color: v.$gray1;
+          margin-top: 10px;
+          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.17);
+
+          a {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+      }
+    }
+
+    .myspace {
+      margin-top: 50px;
+      .consent {
+        height: 43px;
+        border-radius: 8px;
+        background-color: v.$yellow;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.17);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: v.$white;
+        font-weight: 500;
+      }
+      .auth {
+        margin-top: 24px;
+        display: flex;
+        justify-content: center;
+        gap: 0 40px;
+      }
+    }
+  }
+
+  .authItem {
     display: flex;
     align-items: center;
-    gap: 0 1.6ch;
-    svg {
-      @include mixins.active;
-    }
+    justify-content: center;
+    width: 100%;
+    gap: 6px;
+    @include mixins.active;
+  }
 
-    //로그인/회원가입 영역
-    .login {
-      svg {
-        display: none;
-      }
-      span {
-        @include mixins.active;
-      }
-      @include mixins.respond(lg) {
-        // 사람 아이콘
-        svg {
-          display: block;
-        }
-        span {
-          display: none;
-        }
-      }
-    }
-
-    .username {
-      width: 6ch;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-
-    @include mixins.respond(lg) {
-      .username {
-        display: none;
-      }
-      button {
-        height: 100%;
-      }
-    }
+  .myspace {
+    grid-area: myspace;
   }
 }

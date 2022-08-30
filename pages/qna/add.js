@@ -61,34 +61,36 @@ export default function add() {
 
   return (
     <Layout>
-      <Head>
-        <title>질문하기</title>
-      </Head>
-      <input
-        type="text"
-        required
-        placeholder="제목을 입력하세요"
-        tabIndex={0}
-        autoComplete="off"
-        autoFocus={true}
-        ref={titleInputRef}
-        name="title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className={styles.title}
-      />
-      <Editor
-        value={contents}
-        onChange={(value) => setContents(value)}
-        size="lg"
-      />
-      <Button
-        onClick={handleSubmit}
-        align="right"
-        disabled={!title || !contents}
-      >
-        등록하기
-      </Button>
+      <div>
+        <Head>
+          <title>질문하기</title>
+        </Head>
+        <input
+          type="text"
+          required
+          placeholder="제목을 입력하세요"
+          tabIndex={0}
+          autoComplete="off"
+          autoFocus={true}
+          ref={titleInputRef}
+          name="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className={styles.title}
+        />
+        <Editor
+          value={contents}
+          onChange={(value) => setContents(value)}
+          size="lg"
+        />
+        <Button
+          onClick={handleSubmit}
+          align="right"
+          disabled={!title || !contents}
+        >
+          등록하기
+        </Button>
+      </div>
     </Layout>
   );
 }

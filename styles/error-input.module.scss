@@ -1,5 +1,5 @@
 @use "@/styles/foundation/variables" as v;
 
 .errorInput {
-  border-bottom: 1px solid v.$error !important;
+  border: 1px solid v.$red !important;
 }

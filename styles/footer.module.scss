@@ -2,10 +2,6 @@
 @use "foundation/mixins";
 
 .footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  white-space: nowrap;
   @include mixins.respond(md) {
     flex-direction: column;
     align-items: flex-start;
@@ -13,29 +9,42 @@
   }
 }
 
-.logo {
-  font-weight: 500;
-  @include mixins.respond(md) {
-    @include mixins.fs3;
+.logos {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  @include mixins.respond(lg) {
+    img {
+      transform: scale(0.9);
+    }
   }
 }
 
 .policies {
+  @include mixins.fs2;
+  overflow: hidden;
   display: flex;
-  gap: 0 3ch;
-  // 저작권
-  span {
-    color: v.$gray;
-  }
-  // 약관, 개인정보 처리방침 링크
-  a {
-    &:hover {
-      text-decoration: underline;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 2ch;
+  & > * {
+    display: inline-block;
+    white-space: nowrap;
+    position: relative;
+    line-height: 1.4;
+    &::after {
+      content: "";
+      position: absolute;
+      height: 100%;
+      width: 1px;
+      background-color: v.$black;
+      top: 0;
+      right: -1ch;
     }
-  }
-  @include mixins.respond(sm) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px 0;
   }
 }

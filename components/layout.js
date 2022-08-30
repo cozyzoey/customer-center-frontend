@@ -1,16 +1,10 @@
-import useSWR from "swr";
 import Head from "next/head";
 import { motion } from "framer-motion";
 import Header from "./header";
 import Footer from "./footer";
-import { API_URL } from "@/constants/config";
 import styles from "@/styles/layout.module.scss";
 
 export default function Layout({ title, keywords, description, children }) {
-  const { data } = useSWR(`${API_URL}/api/business`, {
-    revalidateIfStale: false,
-  });
-
   return (
     <div className={styles.layout}>
       <Head>
@@ -25,7 +19,9 @@ export default function Layout({ title, keywords, description, children }) {
         />
       </Head>
 
-      <Header logo={data?.data?.attributes?.logo || ""} />
+      <div className={styles.header}>
+        <Header />
+      </div>
       <motion.main
         animate={{ opacity: 1 }}
         initial={{ opacity: 0 }}
@@ -33,7 +29,7 @@ export default function Layout({ title, keywords, description, children }) {
       >
         {children}
       </motion.main>
-      <Footer logo={data?.data?.attributes?.logo || ""} />
+      <Footer />
     </div>
   );
 }

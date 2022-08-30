@@ -1,7 +1,5 @@
 const navLinks = [
-  { name: "공지사항", 
-   path: "/" 
-  },
+  { name: "사업소개", path: "/introduction" },
   {
     name: "FAQ",
     path: "/faq",
@@ -12,4 +10,4 @@ const navLinks = [
   },
 ];
 
-export default navLinks
+export default navLinks;

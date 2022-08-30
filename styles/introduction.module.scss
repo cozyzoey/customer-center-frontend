@@ -1,0 +1,42 @@
+@use "foundation/variables" as v;
+@use "foundation/mixins";
+
+.introduction {
+  section {
+    display: grid;
+    grid-template-columns: 25ch 1fr;
+    gap: 0 6ch;
+    align-items: flex-start;
+    @include mixins.respond(lg) {
+      grid-template-columns: 1fr;
+      gap: 2ch 0;
+    }
+    .button {
+      @include mixins.fs5;
+      font-weight: 700;
+      height: 7.6ch;
+      background-color: v.$yellow;
+      border-radius: 10px;
+      color: v.$white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+      @include mixins.respond(lg) {
+        width: 20ch;
+        height: 3.8ch;
+        margin: 0 auto;
+      }
+    }
+    .logo {
+      @include mixins.respond(lg) {
+        width: 13ch;
+        margin: 0 auto -2ch;
+      }
+    }
+    .detail {
+      word-break: keep-all;
+    }
+    margin-bottom: 6ch;
+  }
+}

@@ -22,57 +22,58 @@ export default function QnA() {
 
   return (
     <Layout title="QnA">
-      {data.data.length === 0 && (
-        <NoDataHeading>아직 등록된 질문이 없습니다.</NoDataHeading>
-      )}
-
-      {user && (
-        <Button onClick={() => router.push("/qna/add")} align="right">
-          작성하기
-        </Button>
-      )}
-
-      {data.data.length > 0 && (
-        <div className={tableStyles.table} data-nocol={4}>
-          <dl className={tableStyles.tableHeader}>
-            <dd>번호</dd>
-            <dd>제목</dd>
-            <dd>작성자</dd>
-            <dd>작성일</dd>
-          </dl>
-
-          <ul>
-            {data.data.map((el) => (
-              <li key={el.id} className={tableStyles.tableRow}>
-                <Link href={`/qna/${el.id}`}>
-                  <a>
-                    <dl>
-                      <dd>{el.id}</dd>
-                      <dd>
-                        {el.attributes.title}
-                        {el.attributes.answers.data.length > 0 && (
-                          <span className={tableStyles.chat}>
-                            {el.attributes.answers.data.length}
-                          </span>
-                        )}
-                      </dd>
-                      <dd>{el.attributes.username}</dd>
-                      <dd>
-                        {moment(el.attributes.createdAt).format("YYYY. MM. DD")}
-                      </dd>
-                    </dl>
-                  </a>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-      <Pagination
-        page={page}
-        total={data.meta.pagination.total}
-        pageName="qna"
-      />
+      <div>
+        {data.data.length === 0 && (
+          <NoDataHeading>아직 등록된 질문이 없습니다.</NoDataHeading>
+        )}
+        {user && (
+          <Button onClick={() => router.push("/qna/add")} align="right">
+            작성하기
+          </Button>
+        )}
+        {data.data.length > 0 && (
+          <div className={tableStyles.table} data-nocol={4}>
+            <dl className={tableStyles.tableHeader}>
+              <dd>번호</dd>
+              <dd>제목</dd>
+              <dd>작성자</dd>
+              <dd>작성일</dd>
+            </dl>
+            <ul>
+              {data.data.map((el) => (
+                <li key={el.id} className={tableStyles.tableRow}>
+                  <Link href={`/qna/${el.id}`}>
+                    <a>
+                      <dl>
+                        <dd>{el.id}</dd>
+                        <dd>
+                          {el.attributes.title}
+                          {el.attributes.answers.data.length > 0 && (
+                            <span className={tableStyles.chat}>
+                              {el.attributes.answers.data.length}
+                            </span>
+                          )}
+                        </dd>
+                        <dd>{el.attributes.username}</dd>
+                        <dd>
+                          {moment(el.attributes.createdAt).format(
+                            "YYYY. MM. DD"
+                          )}
+                        </dd>
+                      </dl>
+                    </a>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        <Pagination
+          page={page}
+          total={data.meta.pagination.total}
+          pageName="qna"
+        />
+      </div>
     </Layout>
   );
 }

@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import Image from "next/image";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
 import * as Yup from "yup";
 import {
   GrCircleInformation,
@@ -19,16 +20,39 @@ import { API_URL } from "@/constants/config";
 import styles from "@/styles/consent.module.scss";
 
 export default function consent() {
-  const { user, token, setUser } = useContext(AuthContext);
+  const { user, token, setUser, register } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [completed, setCompleted] = useState(false);
   const router = useRouter();
 
+  const ScrollToErrorInput = () => {
+    const { isValid, submitCount, errors } = useFormikContext();
+
+    useEffect(() => {
+      if (isValid) {
+        return;
+      }
+
+      const errorFieldNames = Object.keys(errors);
+      if (errorFieldNames.length <= 0) return;
+
+      const element = document.querySelector(
+        `input[name=${errorFieldNames[0]}]`
+      );
+
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, [submitCount]);
+
+    return null;
+  };
+
   useEffect(() => {
     // 정보입력으로 user를 업데이트한 경우 or 이미 정보가 있는 user가 진입한 경우
     if (
       user &&
+      user.username &&
+      user.email &&
       user.name &&
       user.phoneNumber &&
       user.gender &&
@@ -65,6 +89,11 @@ export default function consent() {
   }, [step]);
 
   const initialValues = {
+    username: user?.username || "",
+    email: user?.email || "",
+    password: "",
+    passwordConfirm: "",
+    agreement: false,
     name: user?.name || "",
     phoneNumber: user?.phoneNumber || "",
     gender: user?.gender || "",
@@ -77,6 +106,24 @@ export default function consent() {
   };
 
   const validationSchema = Yup.object({
+    username: Yup.string()
+      .min(2, "2자 이상 입력해주세요")
+      .max(15, "15자 미만으로 입력해주세요")
+      .required("필수 입력 항목입니다"),
+    email: Yup.string()
+      .email("이메일 형식을 확인해주세요")
+      .required("필수 입력 항목입니다"),
+    password: Yup.string()
+      .min(6, "6자 이상 입력해주세요")
+      .max(30, "30자 미만으로 입력해주세요")
+      .required("필수 입력 항목입니다"),
+    passwordConfirm: Yup.string()
+      .required("필수 입력 항목입니다")
+      .oneOf([Yup.ref("password"), null], "비밀번호가 다릅니다"),
+    agreement: Yup.boolean()
+      .required("동의에 체크해 주세요")
+      .oneOf([true], "동의에 체크해 주세요"),
+
     name: Yup.string()
       .matches(/^[가-힣]{2,4}$/, "2~4자의 실명을 입력해주세요")
       .required("필수 입력 항목입니다"),
@@ -116,24 +163,58 @@ export default function consent() {
   });
 
   const handleSubmit = async (values) => {
-    if (!user || !token) return;
-
     try {
       setLoading(true);
 
-      // 입력정보로 유저 업데이트하기
-      const res = await fetch(`${API_URL}/api/users/${user.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(values),
-      });
+      const updateUser = async (userId, token) => {
+        const {
+          name,
+          phoneNumber,
+          gender,
+          schoolName,
+          schoolYear,
+          schoolClass,
+          studentNumber,
+          parentName,
+          parentEmail,
+        } = values;
+        const res = await fetch(`${API_URL}/api/users/${userId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            name,
+            phoneNumber,
+            gender,
+            schoolName,
+            schoolYear,
+            schoolClass,
+            studentNumber,
+            parentName,
+            parentEmail,
+          }),
+        });
+        const updatedUserRes = await res.json();
+        setUser(updatedUserRes);
+      };
 
-      const updatedUserRes = await res.json();
+      if (user && token) {
+        updateUser(user.id, token);
+      } else {
+        // 회원가입 처리
+        const { username, email, password } = values;
+        const { user: registeredUser, token: registeredToken } = await register(
+          {
+            username: username.trim(),
+            email,
+            password,
+          }
+        );
 
-      setUser(updatedUserRes);
+        updateUser(registeredUser.id, registeredToken);
+      }
     } catch (error) {
       toast.error(error?.message || "내부 문제가 생겼어요 :(");
     } finally {
@@ -145,7 +226,7 @@ export default function consent() {
     <Layout title="동의서 제출">
       <div className={styles.container} data-step={step}>
         {/* 단계 표시 */}
-        <div className={styles.steps}>
+        <div className={styles.header}>
           <div className={styles.activeStep} onClick={() => setStep(1)}>
             <div>
               <GrCopy size="3ch" />
@@ -176,7 +257,7 @@ export default function consent() {
 
         {/* 1단계: 동의서 */}
         {step === 1 && (
-          <div className={styles.documents}>
+          <div className={styles.stepDocuments}>
             <div className={styles.stepGuide}>
               <GrCircleInformation size="2.2ch" />
               사업 참여를 위한 동의서 내용을 확인해주세요.
@@ -200,20 +281,68 @@ export default function consent() {
             </Button>
           </div>
         )}
-
         {/* 2단계: 정보 입력 */}
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={handleSubmit}
+          onSubmit={() => handleSubmit}
           enableReinitialize={true}
         >
           {({ errors, touched }) => (
             <Form className={styles.form}>
+              <ScrollToErrorInput />
               <div className={styles.stepGuide}>
                 <GrCircleInformation size="2.2ch" />
-                서명을 하기 전에 몇 가지 정보가 필요해요.
+                {user
+                  ? "서명을 위해 몇 가지 정보가 필요해요"
+                  : "서명하기 전에 회원가입을 해주세요."}
               </div>
+              {!user && (
+                <fieldset>
+                  <legend>회원가입 정보</legend>
+                  <Field
+                    name="username"
+                    type="text"
+                    placeholder="닉네임"
+                    component={MyInput}
+                  />
+                  <ErrorMessage component="label" name="username" />
+                  <Field
+                    name="email"
+                    type="email"
+                    placeholder="이메일 주소를 정확히 입력해주세요"
+                    component={MyInput}
+                  />
+                  <ErrorMessage component="label" name="email" />
+                  <Field
+                    name="password"
+                    type="password"
+                    placeholder="비밀번호"
+                    component={MyInput}
+                    autoComplete="new-password"
+                  />
+                  <ErrorMessage component="label" name="password" />
+                  <Field
+                    name="passwordConfirm"
+                    type="password"
+                    placeholder="비밀번호 확인"
+                    component={MyInput}
+                  />
+                  <ErrorMessage component="label" name="passwordConfirm" />
+                  <p className={styles.agreement}>
+                    <Field name="agreement" type="checkbox" /> 웹사이트{" "}
+                    <Link href="/policy/terms">
+                      <a target="_blank">이용약관</a>
+                    </Link>
+                    과{" "}
+                    <Link href="/policy/privacy">
+                      <a target="_blank">개인정보처리방침</a>
+                    </Link>
+                    을 확인했으며 이에 동의합니다.
+                  </p>
+                  <ErrorMessage component="label" name="agreement" />
+                </fieldset>
+              )}
               <fieldset>
                 <legend>참여 학생 정보</legend>
                 <Field
@@ -223,7 +352,6 @@ export default function consent() {
                   component={MyInput}
                 />
                 <ErrorMessage component="label" name="name" />
-
                 <Field
                   name="phoneNumber"
                   type="tel"
@@ -231,7 +359,6 @@ export default function consent() {
                   component={MyInput}
                 />
                 <ErrorMessage component="label" name="phoneNumber" />
-
                 <section>
                   성별:
                   <label>
@@ -244,7 +371,6 @@ export default function consent() {
                   </label>
                 </section>
                 <ErrorMessage component="label" name="gender" />
-
                 <Field
                   name="schoolName"
                   type="text"
@@ -252,7 +378,6 @@ export default function consent() {
                   component={MyInput}
                 />
                 <ErrorMessage component="label" name="schoolName" />
-
                 <section className={styles.studentInfo}>
                   <label>
                     학년:&nbsp;
@@ -292,7 +417,6 @@ export default function consent() {
                   <ErrorMessage component="label" name="studentNumber" />
                 ) : null}
               </fieldset>
-
               <fieldset>
                 <legend>학부모님 정보</legend>
                 <Field
@@ -310,17 +434,15 @@ export default function consent() {
                 />
                 <ErrorMessage component="label" name="parentEmail" />
               </fieldset>
-
               <Button type="submit" fullWidth={true} loading={loading}>
                  다음
               </Button>
             </Form>
           )}
         </Formik>
-
         {/*  3단계: 서명 안내 */}
         {step === 3 && (
-          <div className={styles.completed}>
+          <div className={styles.stepCompleted}>
             <div className={styles.stepGuide}>
               <GrCircleInformation size="2.2ch" />
               가입하신 이메일로 서명할 수 있는 링크를 보내드릴게요. 메일함을

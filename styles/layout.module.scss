@@ -3,30 +3,47 @@
 
 .layout {
   position: relative;
-  header {
-    height: 100px;
+  & > * {
+    background-color: v.$white;
+  }
+  .header {
+    height: 117px;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 100;
-    padding: 0 4vw;
     @include mixins.respond(lg) {
-      padding: 0;
-      height: max-content;
+      height: 59px;
     }
   }
   main {
-    max-width: v.$max-width;
-    margin: 0 auto;
-    min-height: 100vh;
-    padding: 160px 4vw v.$h2;
+    padding-top: 117px;
+    padding-bottom: 100px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr minmax(auto, v.$max-width) 1fr;
+    grid-template-rows: minmax(calc(100vh - 117px), auto);
+    align-items: start;
+    & > div {
+      grid-column: 2 / 3;
+      @include mixins.respond(xl) {
+        padding-right: 4vw;
+        padding-left: 4vw;
+      }
+    }
     @include mixins.respond(lg) {
-      padding: 130px 4vw v.$h2;
+      padding-top: 59px;
+      padding-bottom: 50px;
+      grid-template-rows: minmax(calc(100vh - 59px), auto);
     }
   }
   footer {
-    border-top: v.$border;
-    padding: 3ch 4vw;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    @include mixins.respond(xl) {
+      padding-right: 4vw;
+      padding-left: 4vw;
+    }
   }
 }
