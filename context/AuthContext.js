@@ -34,7 +34,8 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
 
     if (res.ok) {
-      router.replace(`/auth/after-register?email=${user.email}`);
+      // router.replace(`/auth/after-register?email=${user.email}`);
+      return { user, token };
     } else {
       setError(
         message == "Email or Username are already taken"

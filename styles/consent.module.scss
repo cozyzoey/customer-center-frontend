@@ -3,8 +3,8 @@
 
 .container {
   width: 100%;
-  max-width: 765px;
-  margin: 0 auto;
+  max-width: 780px;
+  margin: 5ch auto 0;
 
   // 2단계에서만 입력 폼 노출
   form {
@@ -13,6 +13,19 @@
   &[data-step="2"] {
     form {
       display: block;
+      background-color: v.$gray1;
+      padding: 0 3ch 2ch;
+      border-radius: 20px;
+      .agreement {
+        margin-top: 5ch;
+        font-weight: 300;
+        a {
+          font-weight: 400;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
     }
   }
 
@@ -26,15 +39,14 @@
 
 .stepGuide {
   @include mixins.fs4;
-  text-align: left;
+  border-radius: 20px;
+  text-align: center;
   font-weight: 400;
-  margin-bottom: 4ch;
+  margin-bottom: 3ch;
   padding: 2ch;
-  background-color: v.$light;
+  background-color: v.$gray1;
   color: v.$blue;
   word-break: keep-all;
-  display: flex;
-  align-items: flex-start;
   letter-spacing: -0.6px;
   svg {
     margin-right: 8px;
@@ -42,7 +54,7 @@
   }
 }
 
-.steps {
+.header {
   @include mixins.no-select;
   max-width: 600px;
   padding: 0 2ch;
@@ -81,19 +93,19 @@
   hr {
     border: none;
     flex: 1;
-    border-bottom: 1px solid v.$gray;
+    border-bottom: 2px solid v.$gray1;
   }
 }
 div.activeStep {
-  color: v.$green;
+  color: v.$yellow;
   //svg
   div {
-    border: 1px solid v.$green;
-    background-color: v.$green;
+    border: 1px solid v.$yellow;
+    background-color: v.$yellow;
     color: v.$white;
   }
   & + hr {
-    border-color: v.$green;
+    border-color: v.$yellow;
   }
 }
 div.inactiveStep {
@@ -103,7 +115,13 @@ div.inactiveStep {
   }
 }
 
-.documents {
+.body {
+  border-radius: 20px;
+  background-color: v.$gray1;
+  padding: 2ch;
+}
+
+.stepDocuments {
   width: 100%;
   margin: 0 auto;
   overflow: hidden;
@@ -115,7 +133,7 @@ div.inactiveStep {
   }
 }
 
-.completed {
+.stepCompleted {
   p {
     @include mixins.fs4;
     padding-top: 4ch;
@@ -136,5 +154,5 @@ section.studentInfo label {
   }
 }
 .errorBorder {
-  border-bottom: 1px solid v.$error !important;
+  border: 1px solid v.$error !important;
 }

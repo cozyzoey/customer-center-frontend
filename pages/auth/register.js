@@ -65,7 +65,6 @@ export default function register() {
         >
           <Form className={styles.form}>
             <h1>회원가입하기</h1>
-
             <Field
               name="username"
               type="text"

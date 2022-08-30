@@ -44,6 +44,7 @@ form {
     @include mixins.fs2;
     margin-top: 4px;
     color: v.$error;
+    font-weight: 300;
   }
   label a {
     display: block;
@@ -81,19 +82,20 @@ select {
   font-weight: 400;
   font-family: "Noto Sans KR", sans-serif;
   -webkit-appearance: none;
-  border: none;
-  border-radius: 0;
+  border-radius: 14px;
+  background-color: v.$white;
+  border: 1px solid v.$white;
   outline: none;
-  border-bottom: v.$border;
   display: block;
   width: 100%;
   height: v.$h1;
+  padding: 0 1.6ch;
   &::placeholder {
     opacity: 0.6;
     font: inherit;
   }
   &:focus {
-    border-bottom: 1px solid v.$black-light;
+    border: 1px solid v.$gray5;
   }
   // autofill 배경색 제거
   &:-webkit-autofill,
@@ -109,12 +111,13 @@ select {
 input[type="checkbox"],
 input[type="radio"] {
   -webkit-appearance: none;
-  width: 2.2ch;
-  height: 2.2ch;
+  width: 2.6ch;
+  height: 2.6ch;
   margin-right: 6px;
-  border: 1px solid v.$black-light;
+  border: 2px solid v.$gray4;
   display: inline-block;
   position: relative;
+  border-radius: 0.5ch;
   &:checked {
     &::after {
       content: "";
@@ -124,7 +127,7 @@ input[type="radio"] {
       left: 50%;
       width: 0.6ch;
       height: 1.2ch;
-      border: solid v.$black-light;
+      border: solid v.$gray5;
       border-width: 0 2px 2px 0;
       transform: translate(-50%, 0) rotate(45deg);
     }
