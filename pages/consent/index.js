@@ -22,7 +22,7 @@ import styles from "@/styles/consent.module.scss";
 export default function consent() {
   const { user, token, setUser, register } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
   const [completed, setCompleted] = useState(false);
   const router = useRouter();
 
