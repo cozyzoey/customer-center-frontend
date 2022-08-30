@@ -1,39 +1,54 @@
 @use "@/styles/foundation/variables" as v;
 @use "@/styles/foundation/mixins";
 
-.faq {
-  // Q 혹은 A 레이블
-  dt {
-    @include mixins.fs3;
-    font-weight: 500;
-    line-height: 1;
+.list {
+  padding: 0 9px;
+  @include mixins.respond(lg) {
+    padding: 0;
   }
   li {
-    border-bottom: v.$border;
-    &:first-of-type {
-      border-top: v.$border;
+    margin-bottom: 20px;
+
+    // Q 혹은 A 레이블
+    dt {
+      @include mixins.fs-lg;
+      line-height: 1;
+    }
+
+    // 타이틀 텍스트 or 컨텐츠 텍스트
+    dd {
+      @include mixins.fs5;
     }
   }
 }
 
 .title {
-  height: v.$h2;
-  padding: 0 2ch;
+  @include mixins.itemBox;
+  margin-bottom: 10px;
   cursor: pointer;
-  display: flex;
-  gap: 0 4vw;
+
+  // inner wrapper
+  & > div {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0 4vw;
+    justify-content: center;
+  }
   @media (hover: hover) {
     &:hover {
-      background-color: v.$light;
+      background-color: v.$gray2;
     }
   }
+  //타이틀 텍스트
   dd {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    .arrowIcon {
-      width: 4ch;
+    .crossIcon {
+      transform: rotate(45deg);
       transition: transform 0.3s;
       &[data-active="true"] {
         transform: rotate(180deg);
@@ -43,13 +58,28 @@
 }
 
 .contents {
-  background-color: v.$light;
+  width: calc(100% - 4ch);
+  background-color: v.$gray1;
+  margin: 0 auto;
   overflow: hidden;
-  border-top: 2px solid v.$black-light;
+  border-top: 3px solid #565656;
+  border-bottom-left-radius: 23px;
+  border-bottom-right-radius: 23px;
 
+  // inner wrapper
   & > div {
-    padding: 4ch 2ch;
+    padding: 3ch;
+    width: 100%;
+    max-width: calc(1000px + 6ch);
+    margin: 0 auto;
     display: flex;
     gap: 0 4vw;
+  }
+
+  @include mixins.respond(lg) {
+    width: calc(100% - 2ch);
+    border-top: 2px solid #565656;
+    border-bottom-left-radius: 13px;
+    border-bottom-right-radius: 13px;
   }
 }

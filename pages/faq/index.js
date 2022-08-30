@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import parse from "html-react-parser";
 import { motion, AnimatePresence } from "framer-motion";
-import { GrUp } from "react-icons/gr";
+import { GrClose } from "react-icons/gr";
 import useFetchPage from "@/hooks/useFetchPage";
 
 import Layout from "@/components/layout";
+import PageTitle from "@/components/page-title";
 import NoDataHeading from "@/components/no-data-heading";
 import Pagination from "@/components/pagination";
 
@@ -41,7 +42,8 @@ export default function FAQ() {
   return (
     <Layout title="FAQ">
       <div>
-        <ul className={styles.faq}>
+        <PageTitle title="FAQ" />
+        <ul className={styles.list}>
           {data.data.length === 0 && (
             <NoDataHeading>아직 등록된 FAQ가 없습니다.</NoDataHeading>
           )}
@@ -52,14 +54,17 @@ export default function FAQ() {
                   className={styles.title}
                   onClick={() => handleClickItem(item.id)}
                 >
-                  <dt>Q</dt>
-                  <dd>
-                    {item.attributes.title}{" "}
-                    <GrUp
-                      className={styles.arrowIcon}
-                      data-active={activeItemId === item.id}
-                    />{" "}
-                  </dd>
+                  <div>
+                    <dt>Q</dt>
+                    <dd>
+                      {item.attributes.title}{" "}
+                      <GrClose
+                        className={styles.crossIcon}
+                        size="1.8ch"
+                        data-active={activeItemId === item.id}
+                      />{" "}
+                    </dd>
+                  </div>
                 </dl>
                 {
                   <AnimatePresence>

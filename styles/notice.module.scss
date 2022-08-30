@@ -75,11 +75,7 @@
   }
   .list {
     li {
-      padding: 14px 30px;
-      background-color: v.$gray1;
-      border-radius: 23px;
-      box-shadow: 1px 4px 3px 2px rgba(0, 0, 0, 0.25);
-      margin-bottom: 20px;
+      @include mixins.itemBox;
       h4 {
         @include mixins.fs4;
         font-weight: 400;
