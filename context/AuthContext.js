@@ -36,19 +36,12 @@ export const AuthProvider = ({ children }) => {
     if (res.ok) {
       setUser(user);
       setToken(token);
-      return { user, token };
     } else {
       setError(
         message === "Email or Username are already taken"
-          ? "닉네임이나 이메일이 이미 사용중입니다."
+          ? "이메일이나 닉네임이 이미 사용중입니다."
           : message
       );
-      return {
-        message:
-          message === "Email or Username are already taken"
-            ? "닉네임이나 이메일이 이미 사용중입니다."
-            : message,
-      };
     }
   };
 

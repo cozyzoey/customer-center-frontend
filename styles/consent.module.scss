@@ -59,6 +59,20 @@
     margin-right: 8px;
     transform: translateY(0.3ch);
   }
+  strong {
+    color: v.$yellow;
+    font-weight: 500;
+  }
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0 6px;
+    color: v.$black;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .header {
@@ -141,14 +155,22 @@ div.inactiveStep {
 }
 
 .stepCompleted {
-  p {
-    @include mixins.fs4;
-    padding-top: 4ch;
+  h2 {
+    @include mixins.fs5;
+    font-weight: 400;
     text-align: center;
+    padding-top: 2ch;
+    margin-bottom: 2ch;
+  }
+  .consentDocs {
+    overflow: hidden;
+    img {
+      transform: scale(1.2);
+    }
   }
 }
 
-section.studentInfo label {
+section.withLabel label {
   display: flex;
   white-space: nowrap;
   align-items: center;
@@ -167,6 +189,10 @@ section.studentInfo label {
   }
   input {
     text-align: center;
+  }
+  select,
+  input {
+    margin-left: 2ch;
   }
 }
 .errorBorder {

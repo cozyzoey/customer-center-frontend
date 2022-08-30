@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,7 +12,6 @@ import {
 } from "react-icons/gr";
 
 import Layout from "@/components/layout";
-import AuthContext from "@/context/AuthContext";
 import { toast } from "react-toastify";
 import Button from "@/components/button";
 import MyInput from "@/components/my-input";
@@ -20,7 +19,6 @@ import { API_URL } from "@/constants/config";
 import styles from "@/styles/consent.module.scss";
 
 export default function consent() {
-  const { user, token, setUser, register } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [completed, setCompleted] = useState(false);
@@ -47,28 +45,6 @@ export default function consent() {
     return null;
   };
 
-  useEffect(() => {
-    // 정보입력으로 user를 업데이트한 경우 or 이미 정보가 있는 user가 진입한 경우
-    if (
-      user &&
-      user.username &&
-      user.email &&
-      user.name &&
-      user.phoneNumber &&
-      user.gender &&
-      user.schoolName &&
-      user.schoolYear &&
-      user.schoolClass &&
-      user.studentNumber &&
-      user.dataCollectionTerm &&
-      user.parentName &&
-      user.parentEmail
-    ) {
-      setCompleted(true);
-      setStep(3);
-    }
-  }, [user]);
-
   // 페이지 이동 핸들링
   useEffect(() => {
     router.beforePopState(() => {
@@ -89,80 +65,54 @@ export default function consent() {
     window.scrollTo(0, 0);
   }, [step]);
 
-  const initialValues = {
-    username: user?.username || "",
-    email: user?.email || "",
-    password: "",
-    passwordConfirm: "",
-    agreement: false,
-    name: user?.name || "",
-    phoneNumber: user?.phoneNumber || "",
-    gender: user?.gender || "",
-    schoolName: user?.schoolName || "",
-    schoolYear: user?.schoolYear || "",
-    schoolClass: user?.schoolClass || "",
-    studentNumber: user?.studentNumber || "",
-    dataCollectionTerm: user?.dataCollectionTerm || "",
-    parentName: user?.parentName || "",
-    parentEmail: user?.parentEmail || "",
-  };
-
-  //* 테스트용 초기값
   // const initialValues = {
-  //   username: "김반석",
-  //   email: "devzoeykim@gmail.com",
-  //   password: "123123",
-  //   passwordConfirm: "123123",
-  //   agreement: true,
-  //   name: "고양이",
-  //   phoneNumber: "01050259204",
-  //   gender: "male",
-  //   schoolName: "신촌 중학교",
-  //   schoolYear: 1,
-  //   schoolClass: 2,
-  //   studentNumber: 3,
-  //   dataCollectionTerm: 2,
-  //   parentName: "학부모",
-  //   parentEmail: "sumone0407@gmail.com",
+  //   username: user?.username || "",
+  //   email: user?.email || "",
+  //   password: "",
+  //   passwordConfirm: "",
+  //   agreement: false,
+  //   phoneNumber: user?.phoneNumber || "",
+  //   gender: user?.gender || "",
+  //   schoolName: user?.schoolName || "",
+  //   schoolYear: user?.schoolYear || "",
+  //   schoolClass: user?.schoolClass || "",
+  //   studentNumber: user?.studentNumber || "",
+  //   dataCollectionTerm: user?.dataCollectionTerm || "",
+  //   parentName: user?.parentName || "",
+  //   parentEmail: user?.parentEmail || "",
   // };
 
-  const validationSchema = Yup.object({
-    username: Yup.string()
-      .min(2, "2자 이상 입력해주세요")
-      .max(15, "15자 미만으로 입력해주세요")
-      .required("필수 입력 항목입니다"),
-    email: Yup.string()
-      .email("이메일 형식을 확인해주세요")
-      .required("필수 입력 항목입니다"),
-    password: Yup.string()
-      .min(6, "6자 이상 입력해주세요")
-      .max(30, "30자 미만으로 입력해주세요")
-      .required("필수 입력 항목입니다"),
-    passwordConfirm: Yup.string()
-      .required("필수 입력 항목입니다")
-      .oneOf([Yup.ref("password"), null], "비밀번호가 다릅니다"),
-    agreement: Yup.boolean()
-      .required("동의에 체크해 주세요")
-      .oneOf([true], "동의에 체크해 주세요"),
+  //* 테스트용 초기값
+  const initialValues = {
+    name: "김반석",
+    schoolName: "신촌 중학교",
+    gender: "male",
+    schoolYear: 1,
+    schoolClass: 2,
+    studentNumber: 3,
+    phoneNumber: "01050259204",
+    email: "devzoeykim@gmail.com",
+    dataCollectionTerm: 2,
+    parentName: "학부모",
+    parentEmail: "sumone0407@gmail.com",
+  };
 
+  const validationSchema = Yup.object({
     name: Yup.string()
       .matches(/^[가-힣]{2,4}$/, "2~4자의 실명을 입력해주세요")
       .required("필수 입력 항목입니다"),
-    phoneNumber: Yup.string()
-      .matches(
-        /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
-        "예시 010-0000-0000"
-      )
-      .required("필수 입력 항목입니다"),
-    gender: Yup.mixed()
-      .oneOf(["male", "female"])
-      .required("필수 입력 항목입니다"),
+
     schoolName: Yup.string()
       .matches(
         /^[가-힣|a-z|A-Z|0-9|\s]+$/,
         "한글/영어/숫자/공백만 입력 가능해요"
       )
+      .min(2, "2자 이상 입력해주세요")
       .required("필수 입력 항목입니다"),
+    gender: Yup.mixed()
+      .oneOf(["male", "female"])
+      .required("필수 입력 항목입니다"),
+
     schoolYear: Yup.number()
       .min(1, "학년은 1~3 사이의 값을 입력해주세요")
       .max(3, "학년은 1~3 사의 값을 입력해주세요")
@@ -175,6 +125,17 @@ export default function consent() {
       .typeError("번호는 숫자만 입력 가능해요")
       .min(1, "번호는 1 이상의 값을 입력해주세요")
       .required("번호는 필수 입력 항목입니다"),
+
+    phoneNumber: Yup.string()
+      .matches(
+        /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
+        "예시 010-0000-0000"
+      )
+      .required("필수 입력 항목입니다"),
+    email: Yup.string()
+      .email("이메일 형식을 확인해주세요")
+      .required("필수 입력 항목입니다"),
+
     dataCollectionTerm: Yup.number()
       .min(1, "1~3 사이의 값을 입력해주세요")
       .max(3, "1~3 사의 값을 입력해주세요")
@@ -188,67 +149,24 @@ export default function consent() {
   });
 
   const handleSubmit = async (values) => {
-    const updateUser = async (userId, token) => {
-      const {
-        name,
-        phoneNumber,
-        gender,
-        schoolName,
-        schoolYear,
-        schoolClass,
-        studentNumber,
-        dataCollectionTerm,
-        parentName,
-        parentEmail,
-      } = values;
-      const res = await fetch(`${API_URL}/api/users/${userId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name,
-          phoneNumber,
-          gender,
-          schoolName,
-          schoolYear,
-          schoolClass,
-          studentNumber,
-          dataCollectionTerm,
-          parentName,
-          parentEmail,
-        }),
-      });
-      const updatedUserRes = await res.json();
-      setUser(updatedUserRes);
-    };
-
     try {
       setLoading(true);
 
-      if (user && token) {
-        updateUser(user.id, token);
-      } else {
-        // 회원가입 처리
-        const { username, email, password } = values;
+      const res = await fetch(`${API_URL}/api/students`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ data: values }),
+      });
+      const { data, error } = await res.json();
 
-        const {
-          user: registeredUser,
-          token: registeredToken,
-          message,
-        } = await register({
-          username: username.trim(),
-          email,
-          password,
-        });
-
-        if (message) {
-          throw new Error(message);
-        }
-
-        updateUser(registeredUser.id, registeredToken);
+      if (error) {
+        throw new Error(error.message);
       }
+
+      setCompleted(true);
+      setStep(3);
     } catch (error) {
       toast.error(error?.message || "내부 문제가 생겼어요 :(");
     } finally {
@@ -265,7 +183,7 @@ export default function consent() {
             <div>
               <GrCopy size="3ch" />
             </div>
-            <label>1. 동의서 확인</label>
+            <label>1. 안내문 확인</label>
           </div>
           <hr></hr>
           <div
@@ -289,24 +207,18 @@ export default function consent() {
           </div>
         </div>
 
-        {/* 1단계: 동의서 */}
+        {/* 1단계: 안내문 */}
         {step === 1 && (
           <div className={styles.stepDocuments}>
             <div className={styles.stepGuide}>
               <GrCircleInformation size="2.2ch" />
-              데이터 수집을 위한 동의서를 확인해주세요.
+              데이터 수집 참여를 위한 안내입니다.
             </div>
             <Image
-              alt="개인정보 수집-활용 동의서 페이지1"
-              src="https://nia-homepage-media.s3.ap-northeast-2.amazonaws.com/privacy-consent-doc-1.png"
+              alt="데이터 수집 참여 안내문"
+              src="https://nia-homepage-media.s3.ap-northeast-2.amazonaws.com/assets/data-collection-notice.png"
               layout="responsive"
-              width={992}
-              height={1403}
-            />
-            <Image
-              alt="개인정보 수집-활용 동의서 페이지2"
-              src="https://nia-homepage-media.s3.ap-northeast-2.amazonaws.com/privacy-consent-doc-2.png"
-              layout="responsive"
+              priority={true}
               width={992}
               height={1403}
             />
@@ -329,54 +241,10 @@ export default function consent() {
                 <GrCircleInformation size="2.2ch" />
                 데이터 수집을 위해 몇 가지 정보가 필요해요.
               </div>
-              {!user && (
-                <fieldset>
-                  <legend>회원가입 정보</legend>
-                  <Field
-                    name="username"
-                    type="text"
-                    placeholder="닉네임"
-                    component={MyInput}
-                  />
-                  <ErrorMessage component="label" name="username" />
-                  <Field
-                    name="email"
-                    type="email"
-                    placeholder="이메일 주소(정확히 입력)"
-                    component={MyInput}
-                  />
-                  <ErrorMessage component="label" name="email" />
-                  <Field
-                    name="password"
-                    type="password"
-                    placeholder="비밀번호"
-                    component={MyInput}
-                    autoComplete="new-password"
-                  />
-                  <ErrorMessage component="label" name="password" />
-                  <Field
-                    name="passwordConfirm"
-                    type="password"
-                    placeholder="비밀번호 확인"
-                    component={MyInput}
-                  />
-                  <ErrorMessage component="label" name="passwordConfirm" />
-                  <p className={styles.agreement}>
-                    <Field name="agreement" type="checkbox" /> 웹사이트{" "}
-                    <Link href="/policy/terms">
-                      <a target="_blank">이용약관</a>
-                    </Link>
-                    과{" "}
-                    <Link href="/policy/privacy">
-                      <a target="_blank">개인정보처리방침</a>
-                    </Link>
-                    을 확인했으며 이에 동의합니다.
-                  </p>
-                  <ErrorMessage component="label" name="agreement" />
-                </fieldset>
-              )}
               <fieldset>
-                <legend>참여 학생 정보</legend>
+                <legend>학생 정보</legend>
+
+                {/* 이름 */}
                 <Field
                   name="name"
                   type="text"
@@ -384,13 +252,17 @@ export default function consent() {
                   component={MyInput}
                 />
                 <ErrorMessage component="label" name="name" />
+
+                {/* 학교 */}
                 <Field
-                  name="phoneNumber"
-                  type="tel"
-                  placeholder="핸드폰 번호"
+                  name="schoolName"
+                  type="text"
+                  placeholder="소속 학교 이름"
                   component={MyInput}
                 />
-                <ErrorMessage component="label" name="phoneNumber" />
+                <ErrorMessage component="label" name="schoolName" />
+
+                {/* 성별 */}
                 <section>
                   성별:
                   <label>
@@ -403,14 +275,9 @@ export default function consent() {
                   </label>
                 </section>
                 <ErrorMessage component="label" name="gender" />
-                <Field
-                  name="schoolName"
-                  type="text"
-                  placeholder="소속 학교 이름"
-                  component={MyInput}
-                />
-                <ErrorMessage component="label" name="schoolName" />
-                <section className={styles.studentInfo}>
+
+                {/* 학년, 반, 번호 */}
+                <section className={styles.withLabel}>
                   <label>
                     학년:&nbsp;
                     <Field
@@ -454,7 +321,26 @@ export default function consent() {
                   <ErrorMessage component="label" name="studentNumber" />
                 ) : null}
 
-                <section className={styles.studentInfo}>
+                {/* 핸드폰 번호 */}
+                <Field
+                  name="phoneNumber"
+                  type="tel"
+                  placeholder="핸드폰 번호"
+                  component={MyInput}
+                />
+                <ErrorMessage component="label" name="phoneNumber" />
+
+                {/* 이메일 */}
+                <Field
+                  name="email"
+                  type="email"
+                  placeholder="이메일 주소(정확히 입력)"
+                  component={MyInput}
+                />
+                <ErrorMessage component="label" name="email" />
+
+                {/* 데이터 수집 기간 */}
+                <section className={styles.withLabel}>
                   <label>
                     데이터 수집 기간:&nbsp;
                     <Field
@@ -499,7 +385,7 @@ export default function consent() {
                 <ErrorMessage component="label" name="parentEmail" />
               </fieldset>
               <Button type="submit" fullWidth={true} loading={loading}>
-                 다음
+                다음
               </Button>
             </Form>
           )}
@@ -509,22 +395,41 @@ export default function consent() {
           <div className={styles.stepCompleted}>
             <div className={styles.stepGuide}>
               <GrCircleInformation size="2.2ch" />
-              가입하신 이메일로 서명할 수 있는 링크를 보내드릴게요. 메일함을
-              확인하여 서명을 완료해주세요.
-            </div>
-            <p>하루가 지났는데도 아직 메일을 받지 못하셨나요?</p>
-            <Button variant="text">
-              <div style={{ width: "3ch" }}>
+              이메일로 전자계약 링크를 보내드릴게요.{" "}
+              <strong>
+                전자계약을 완료하여 데이터 수집 참여에 동의해주세요.
+              </strong>
+              &nbsp; 하루가 지나도 메일이 안온다면 카카오 채널로 문의해주세요.
+              <div style={{ marginTop: "2ch" }}></div>
+              <a href="http://pf.kakao.com/_xgWxdExj/chat" target="_blank">
                 <Image
                   alt="카카오 채널 상담"
                   src="/kakao-channel.png"
-                  layout="responsive"
-                  width={89}
-                  height={93}
+                  width={24}
+                  height={26}
+                  layout="fixed"
+                  objectFit="contain"
                 />
-              </div>
-              <div>카카오채널 문의</div>
-            </Button>
+                카카오채널 문의
+              </a>
+            </div>
+            <h2>데이터 참여 동의서 내용(아래)</h2>
+            <div className={styles.consentDocs}>
+              <Image
+                alt="개인정보 수집-활용 동의서 페이지1"
+                src="https://nia-homepage-media.s3.ap-northeast-2.amazonaws.com/privacy-consent-doc-1.png"
+                layout="responsive"
+                width={992}
+                height={1403}
+              />
+              <Image
+                alt="개인정보 수집-활용 동의서 페이지2"
+                src="https://nia-homepage-media.s3.ap-northeast-2.amazonaws.com/privacy-consent-doc-2.png"
+                layout="responsive"
+                width={992}
+                height={1403}
+              />
+            </div>
           </div>
         )}
       </div>
