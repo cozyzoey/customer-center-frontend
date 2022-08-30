@@ -65,37 +65,34 @@ export default function consent() {
     window.scrollTo(0, 0);
   }, [step]);
 
-  // const initialValues = {
-  //   username: user?.username || "",
-  //   email: user?.email || "",
-  //   password: "",
-  //   passwordConfirm: "",
-  //   agreement: false,
-  //   phoneNumber: user?.phoneNumber || "",
-  //   gender: user?.gender || "",
-  //   schoolName: user?.schoolName || "",
-  //   schoolYear: user?.schoolYear || "",
-  //   schoolClass: user?.schoolClass || "",
-  //   studentNumber: user?.studentNumber || "",
-  //   dataCollectionTerm: user?.dataCollectionTerm || "",
-  //   parentName: user?.parentName || "",
-  //   parentEmail: user?.parentEmail || "",
-  // };
+  const initialValues = {
+    name: "",
+    schoolName: "",
+    gender: "",
+    schoolYear: "",
+    schoolClass: "",
+    studentNumber: "",
+    phoneNumber: "",
+    email: "",
+    dataCollectionTerm: "",
+    parentName: "",
+    parentEmail: "",
+  };
 
   //* 테스트용 초기값
-  const initialValues = {
-    name: "김반석",
-    schoolName: "신촌 중학교",
-    gender: "male",
-    schoolYear: 1,
-    schoolClass: 2,
-    studentNumber: 3,
-    phoneNumber: "01050259204",
-    email: "devzoeykim@gmail.com",
-    dataCollectionTerm: 2,
-    parentName: "학부모",
-    parentEmail: "sumone0407@gmail.com",
-  };
+  // const initialValues = {
+  //   name: "김반석",
+  //   schoolName: "신촌 중학교",
+  //   gender: "male",
+  //   schoolYear: 1,
+  //   schoolClass: 2,
+  //   studentNumber: 3,
+  //   phoneNumber: "01050259204",
+  //   email: "devzoeykim@gmail.com",
+  //   dataCollectionTerm: 2,
+  //   parentName: "학부모",
+  //   parentEmail: "sumone0407@gmail.com",
+  // };
 
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -120,10 +117,12 @@ export default function consent() {
     schoolClass: Yup.number()
       .typeError("반은 숫자만 입력 가능해요")
       .min(1, "반은 1 이상의 값을 입력해주세요")
+      .max(99, "반은 99 이하의 값을 입력해주세요")
       .required("반은 필수 입력 항목입니다"),
     studentNumber: Yup.number()
       .typeError("번호는 숫자만 입력 가능해요")
       .min(1, "번호는 1 이상의 값을 입력해주세요")
+      .max(99, "번호는 99 이하의 값을 입력해주세요")
       .required("번호는 필수 입력 항목입니다"),
 
     phoneNumber: Yup.string()
@@ -279,7 +278,7 @@ export default function consent() {
                 {/* 학년, 반, 번호 */}
                 <section className={styles.withLabel}>
                   <label>
-                    학년:&nbsp;
+                    학년:
                     <Field
                       as="select"
                       name="schoolYear"
@@ -296,7 +295,7 @@ export default function consent() {
                     </Field>
                   </label>
                   <label>
-                    반:&nbsp;
+                    반:
                     <Field
                       name="schoolClass"
                       type="tel"
@@ -305,11 +304,12 @@ export default function consent() {
                     />
                   </label>
                   <label>
-                    번호:&nbsp;
+                    번호:
                     <Field
                       name="studentNumber"
                       type="tel"
                       component={MyInput}
+                      autoComplete="off"
                     />
                   </label>
                 </section>

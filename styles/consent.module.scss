@@ -4,6 +4,7 @@
 .container {
   width: 100%;
   max-width: 800px;
+  overflow: hidden;
   margin: 5ch auto 0;
 
   // 2단계에서만 입력 폼 노출
