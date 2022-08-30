@@ -60,6 +60,7 @@ export default function consent() {
       user.schoolYear &&
       user.schoolClass &&
       user.studentNumber &&
+      user.dataCollectionTerm &&
       user.parentName &&
       user.parentEmail
     ) {
@@ -101,9 +102,29 @@ export default function consent() {
     schoolYear: user?.schoolYear || "",
     schoolClass: user?.schoolClass || "",
     studentNumber: user?.studentNumber || "",
+    dataCollectionTerm: user?.dataCollectionTerm || "",
     parentName: user?.parentName || "",
     parentEmail: user?.parentEmail || "",
   };
+
+  //* 테스트용 초기값
+  // const initialValues = {
+  //   username: "김반석",
+  //   email: "devzoeykim@gmail.com",
+  //   password: "123123",
+  //   passwordConfirm: "123123",
+  //   agreement: true,
+  //   name: "고양이",
+  //   phoneNumber: "01050259204",
+  //   gender: "male",
+  //   schoolName: "신촌 중학교",
+  //   schoolYear: 1,
+  //   schoolClass: 2,
+  //   studentNumber: 3,
+  //   dataCollectionTerm: 2,
+  //   parentName: "학부모",
+  //   parentEmail: "sumone0407@gmail.com",
+  // };
 
   const validationSchema = Yup.object({
     username: Yup.string()
@@ -154,6 +175,10 @@ export default function consent() {
       .typeError("번호는 숫자만 입력 가능해요")
       .min(1, "번호는 1 이상의 값을 입력해주세요")
       .required("번호는 필수 입력 항목입니다"),
+    dataCollectionTerm: Yup.number()
+      .min(1, "1~3 사이의 값을 입력해주세요")
+      .max(3, "1~3 사의 값을 입력해주세요")
+      .required("필수 입력 항목입니다"),
     parentName: Yup.string()
       .matches(/^[가-힣]{2,4}$/, "2~4자의 실명을 입력해주세요")
       .required("필수 입력 항목입니다"),
@@ -163,11 +188,26 @@ export default function consent() {
   });
 
   const handleSubmit = async (values) => {
-    try {
-      setLoading(true);
-
-      const updateUser = async (userId, token) => {
-        const {
+    const updateUser = async (userId, token) => {
+      const {
+        name,
+        phoneNumber,
+        gender,
+        schoolName,
+        schoolYear,
+        schoolClass,
+        studentNumber,
+        dataCollectionTerm,
+        parentName,
+        parentEmail,
+      } = values;
+      const res = await fetch(`${API_URL}/api/users/${userId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
           name,
           phoneNumber,
           gender,
@@ -175,43 +215,37 @@ export default function consent() {
           schoolYear,
           schoolClass,
           studentNumber,
+          dataCollectionTerm,
           parentName,
           parentEmail,
-        } = values;
-        const res = await fetch(`${API_URL}/api/users/${userId}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            name,
-            phoneNumber,
-            gender,
-            schoolName,
-            schoolYear,
-            schoolClass,
-            studentNumber,
-            parentName,
-            parentEmail,
-          }),
-        });
-        const updatedUserRes = await res.json();
-        setUser(updatedUserRes);
-      };
+        }),
+      });
+      const updatedUserRes = await res.json();
+      setUser(updatedUserRes);
+    };
+
+    try {
+      setLoading(true);
 
       if (user && token) {
         updateUser(user.id, token);
       } else {
         // 회원가입 처리
         const { username, email, password } = values;
-        const { user: registeredUser, token: registeredToken } = await register(
-          {
-            username: username.trim(),
-            email,
-            password,
-          }
-        );
+
+        const {
+          user: registeredUser,
+          token: registeredToken,
+          message,
+        } = await register({
+          username: username.trim(),
+          email,
+          password,
+        });
+
+        if (message) {
+          throw new Error(message);
+        }
 
         updateUser(registeredUser.id, registeredToken);
       }
@@ -223,7 +257,7 @@ export default function consent() {
   };
 
   return (
-    <Layout title="동의서 제출">
+    <Layout title="데이터 수집 신청">
       <div className={styles.container} data-step={step}>
         {/* 단계 표시 */}
         <div className={styles.header}>
@@ -260,7 +294,7 @@ export default function consent() {
           <div className={styles.stepDocuments}>
             <div className={styles.stepGuide}>
               <GrCircleInformation size="2.2ch" />
-              사업 참여를 위한 동의서 내용을 확인해주세요.
+              데이터 수집을 위한 동의서를 확인해주세요.
             </div>
             <Image
               alt="개인정보 수집-활용 동의서 페이지1"
@@ -285,7 +319,7 @@ export default function consent() {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={() => handleSubmit}
+          onSubmit={handleSubmit}
           enableReinitialize={true}
         >
           {({ errors, touched }) => (
@@ -293,9 +327,7 @@ export default function consent() {
               <ScrollToErrorInput />
               <div className={styles.stepGuide}>
                 <GrCircleInformation size="2.2ch" />
-                {user
-                  ? "서명을 위해 몇 가지 정보가 필요해요"
-                  : "서명하기 전에 회원가입을 해주세요."}
+                데이터 수집을 위해 몇 가지 정보가 필요해요.
               </div>
               {!user && (
                 <fieldset>
@@ -310,7 +342,7 @@ export default function consent() {
                   <Field
                     name="email"
                     type="email"
-                    placeholder="이메일 주소를 정확히 입력해주세요"
+                    placeholder="이메일 주소(정확히 입력)"
                     component={MyInput}
                   />
                   <ErrorMessage component="label" name="email" />
@@ -398,7 +430,12 @@ export default function consent() {
                   </label>
                   <label>
                     반:&nbsp;
-                    <Field name="schoolClass" type="tel" component={MyInput} />
+                    <Field
+                      name="schoolClass"
+                      type="tel"
+                      component={MyInput}
+                      autoComplete="off"
+                    />
                   </label>
                   <label>
                     번호:&nbsp;
@@ -416,6 +453,33 @@ export default function consent() {
                 ) : touched.studentNumber && errors.studentNumber ? (
                   <ErrorMessage component="label" name="studentNumber" />
                 ) : null}
+
+                <section className={styles.studentInfo}>
+                  <label>
+                    데이터 수집 기간:&nbsp;
+                    <Field
+                      as="select"
+                      name="dataCollectionTerm"
+                      className={
+                        touched.schoolYear && errors.schoolYear
+                          ? styles.errorBorder
+                          : ""
+                      }
+                    >
+                      <option value="">선택</option>
+                      <option value={1}>
+                        1차 - 2022년 9월 19일 ~ 2022년 9월 23일
+                      </option>
+                      <option value={2}>
+                        2차 - 2022년 10월 3일 ~ 2022년 10월 7일
+                      </option>
+                      <option value={3}>
+                        3차 - 2022년 10월 17일 ~ 2022년 10월 21일
+                      </option>
+                    </Field>
+                  </label>
+                </section>
+                <ErrorMessage component="label" name="dataCollectionTerm" />
               </fieldset>
               <fieldset>
                 <legend>학부모님 정보</legend>

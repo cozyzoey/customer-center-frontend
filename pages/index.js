@@ -21,6 +21,7 @@ export default function Home() {
             layout="responsive"
             width={1812}
             height={747}
+            priority={true}
           />
           <div className={styles.overlay}>
             <Image

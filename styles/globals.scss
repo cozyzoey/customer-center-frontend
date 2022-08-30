@@ -37,6 +37,9 @@ form {
     & > * {
       cursor: pointer;
     }
+    @include mixins.respond(lg) {
+      gap: 0 1ch;
+    }
   }
   // 에러 메시지
   input + label,
@@ -69,9 +72,11 @@ fieldset {
   margin-bottom: 6ch;
 }
 legend {
-  @include mixins.fs4;
+  @include mixins.fs5;
   @include mixins.no-select;
-  font-weight: 400;
+  font-weight: 500;
+  color: v.$yellow;
+  text-align: center;
 }
 
 input[type="text"],
@@ -90,7 +95,7 @@ select {
   display: block;
   width: 100%;
   height: v.$h1;
-  padding: 0 1.6ch;
+  padding: 0 1ch;
   &::placeholder {
     opacity: 0.6;
     font: inherit;
@@ -119,6 +124,7 @@ input[type="radio"] {
   display: inline-block;
   position: relative;
   border-radius: 0.5ch;
+  transform: translateY(0.4ch);
   &:checked {
     &::after {
       content: "";
