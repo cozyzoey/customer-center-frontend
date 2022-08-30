@@ -20,12 +20,10 @@
   main {
     padding-top: 117px;
     padding-bottom: 100px;
-    min-height: 100vh;
     width: 100%;
-
     display: grid;
     grid-template-columns: 1fr minmax(auto, v.$max-width) 1fr;
-    grid-template-rows: min-content;
+    grid-template-rows: minmax(calc(100vh - 117px), auto);
     align-items: start;
     & > div {
       grid-column: 2 / 3;
@@ -36,7 +34,8 @@
     }
     @include mixins.respond(lg) {
       padding-top: 59px;
-      padding-bottom: 70px;
+      padding-bottom: 50px;
+      grid-template-rows: minmax(calc(100vh - 59px), auto);
     }
   }
   footer {

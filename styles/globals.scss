@@ -33,6 +33,7 @@ form {
     display: flex;
     padding: 1.6ch 0;
     gap: 0 3ch;
+    white-space: nowrap;
     & > * {
       cursor: pointer;
     }
@@ -84,7 +85,7 @@ select {
   -webkit-appearance: none;
   border-radius: 14px;
   background-color: v.$white;
-  border: 1px solid v.$white;
+  border: 1px solid v.$gray1;
   outline: none;
   display: block;
   width: 100%;

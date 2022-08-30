@@ -26,6 +26,7 @@ export default function Header() {
     const result = confirm("로그아웃 하시겠습니까?");
     if (!result) return;
     logout();
+    setIsDrawerOpen(false);
   };
 
   const renderDesktopVersion = () => (
@@ -94,7 +95,7 @@ export default function Header() {
         </div>
         <div className={styles.consent}>
           <Button onClick={() => router.push("/consent")} size="sm">
-            동의서 제출
+            데이터 수집 신청
           </Button>
         </div>
       </div>
@@ -133,7 +134,7 @@ export default function Header() {
         <nav className={styles.nav}>
           <ul className={styles.navLinks}>
             {navLinks.map((nav, idx) => (
-              <li key={idx}>
+              <li key={idx} onClick={() => setIsDrawerOpen(false)}>
                 <Link href={nav.path}>
                   <a>{nav.name}</a>
                 </Link>
@@ -146,7 +147,10 @@ export default function Header() {
         <div className={styles.myspace}>
           <div
             className={styles.consent}
-            onClick={() => router.push("/consent")}
+            onClick={() => {
+              router.push("/consent");
+              setIsDrawerOpen(false);
+            }}
           >
             동의서 제출
           </div>
@@ -161,7 +165,10 @@ export default function Header() {
             ) : (
               <Link href="/auth/login">
                 <a className={styles.login}>
-                  <div className={styles.authItem}>
+                  <div
+                    className={styles.authItem}
+                    onClick={() => setIsDrawerOpen(false)}
+                  >
                     <Image src="/icons/lock_close.svg" width={32} height={34} />
                     <span>Login</span>
                   </div>

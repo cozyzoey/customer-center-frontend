@@ -1,12 +1,14 @@
 import { useContext, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useRouter } from "next/router";
+import { GrFormSearch } from "react-icons/gr";
 
 import * as Yup from "yup";
 import Link from "next/link";
 import Layout from "@/components/layout";
 import Button from "@/components/button";
 import MyInput from "@/components/my-input";
+import Logo from "@/components/responsive-logo-img";
 import AuthContext from "@/context/AuthContext";
 import { toast } from "react-toastify";
 import styles from "@/styles/shared/auth.module.scss";
@@ -41,48 +43,54 @@ export default function login() {
 
   return (
     <Layout title="로그인/회원가입">
-      <div className={styles.container}>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          <Form className={styles.form}>
-            <h1>로그인하기</h1>
-            <Field
-              name="email"
-              type="email"
-              placeholder="이메일을 입력하세요"
-              component={MyInput}
-            />
-            <ErrorMessage component="label" name="email" />
-
-            <Field
-              name="password"
-              type="password"
-              placeholder="비밀번호를 입력하세요"
-              component={MyInput}
-            />
-            <ErrorMessage component="label" name="password" />
-
-            <Button
-              type="submit"
-              fullWidth={true}
-              variant="outlined"
-              loading={loading}
-            >
-              로그인
-            </Button>
-            <div className={styles.otherAction}>
-              <Link href="/auth/register">
-                <a>아직 회원이 아니신가요?</a>
-              </Link>
-              <Link href="/auth/forgot-password">
-                <a>비밀번호를 잊어버리셨나요?</a>
-              </Link>
-            </div>
-          </Form>
-        </Formik>
+      <div className={styles.login}>
+        <div className={styles.loginBackground}>
+          <div className={styles.logo}>
+            <Logo />
+          </div>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            <Form className={styles.form}>
+              <label htmlFor="email">이메일</label>
+              <div className={styles.field}>
+                <Field
+                  name="email"
+                  type="email"
+                  placeholder="이메일을 입력하세요"
+                  component={MyInput}
+                />
+                <ErrorMessage component="label" name="email" />
+              </div>
+              <label htmlFor="password">비밀번호</label>
+              <div className={styles.field}>
+                <Field
+                  name="password"
+                  type="password"
+                  placeholder="비밀번호를 입력하세요"
+                  component={MyInput}
+                />
+                <ErrorMessage component="label" name="password" />
+              </div>
+              <div className={styles.button}>
+                <Button type="submit" loading={loading}>
+                  로그인
+                </Button>
+              </div>
+            </Form>
+          </Formik>
+          <Button
+            onClick={() => router.replace("/auth/forgot-password")}
+            size="lg"
+            variant="gray"
+            type="button"
+          >
+            <GrFormSearch size="3ch" />
+            비밀번호 찾기
+          </Button>
+        </div>
       </div>
     </Layout>
   );

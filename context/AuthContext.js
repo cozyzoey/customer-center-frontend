@@ -35,6 +35,8 @@ export const AuthProvider = ({ children }) => {
 
     if (res.ok) {
       // router.replace(`/auth/after-register?email=${user.email}`);
+      setUser(user);
+      setToken(token);
       return { user, token };
     } else {
       setError(

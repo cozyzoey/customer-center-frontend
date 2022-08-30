@@ -1,7 +1,7 @@
 @use "foundation/variables" as v;
 @use "foundation/mixins";
 
-$amount: 10%;
+$amount: 12%;
 
 .button {
   font-weight: 400;
@@ -55,6 +55,15 @@ $amount: 10%;
   &:hover,
   &:active {
     background-color: darken(v.$yellow, $amount);
+  }
+}
+
+.gray {
+  background-color: v.$gray2;
+  color: v.$black;
+  &:hover,
+  &:active {
+    background-color: darken(v.$gray2, $amount);
   }
 }
 
@@ -114,10 +123,19 @@ $amount: 10%;
 // Size
 .sm {
   height: 47px;
+  @include mixins.respond(lg) {
+    height: 40px;
+  }
 }
 .md {
   height: 52px;
+  @include mixins.respond(lg) {
+    height: 42px;
+  }
 }
 .lg {
   height: 64px;
+  @include mixins.respond(lg) {
+    height: 52px;
+  }
 }
