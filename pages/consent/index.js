@@ -35,9 +35,11 @@ export default function consent() {
       const errorFieldNames = Object.keys(errors);
       if (errorFieldNames.length <= 0) return;
 
-      const element = document.querySelector(
-        `input[name=${errorFieldNames[0]}]`
-      );
+      const element =
+        document.querySelector(`input[name=${errorFieldNames[0]}]`) ||
+        document.querySelector(`select[name=${errorFieldNames[0]}]`);
+
+      if (!element) return;
 
       element.scrollIntoView({ behavior: "smooth", block: "center" });
     }, [submitCount]);
