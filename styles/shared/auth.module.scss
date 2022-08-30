@@ -56,9 +56,6 @@
       }
       .field {
         grid-column: 2/3;
-        input {
-          @include mixins.fs1;
-        }
       }
       .button {
         grid-column: 1/-1;

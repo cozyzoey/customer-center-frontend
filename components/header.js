@@ -152,7 +152,7 @@ export default function Header() {
               setIsDrawerOpen(false);
             }}
           >
-            동의서 제출
+            데이터 수집 신청
           </div>
           <div className={styles.auth}>
             {user ? (
