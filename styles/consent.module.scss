@@ -179,10 +179,10 @@ section.withLabel label {
     flex: 2;
   }
   &:nth-of-type(2) {
-    flex: 1;
+    flex: 1.4;
   }
   &:nth-of-type(3) {
-    flex: 1.3;
+    flex: 1.65;
   }
   select,
   option {
@@ -193,7 +193,7 @@ section.withLabel label {
   }
   select,
   input {
-    margin-left: 2ch;
+    margin-left: 1.2ch;
   }
 }
 .errorBorder {

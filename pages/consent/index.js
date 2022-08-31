@@ -70,7 +70,7 @@ export default function consent() {
     name: "",
     schoolName: "",
     gender: "",
-    schoolYear: "",
+    schoolYear: 1,
     schoolClass: "",
     studentNumber: "",
     phoneNumber: "",
@@ -292,6 +292,7 @@ export default function consent() {
                           ? styles.errorBorder
                           : ""
                       }
+                      disabled
                     >
                       <option value="">선택</option>
                       <option value={1}>1학년</option>
