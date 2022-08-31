@@ -15,7 +15,7 @@ export default function Footer() {
           objectFit="contain"
         />
         <Image
-          alt="NIA"
+          alt="서울대학교 산학협력단"
           src="/icons/footer_logo_2.png"
           layout="fixed"
           width={242}
@@ -23,39 +23,39 @@ export default function Footer() {
           objectFit="contain"
         />
         <Image
-          alt="NIA"
+          alt="서울특별시교육청"
           src="/icons/footer_logo_3.png"
+          layout="fixed"
+          width={211}
+          height={48}
+          objectFit="contain"
+        />
+        <Image
+          alt="서울대학교병원"
+          src="/icons/footer_logo_4.png"
           layout="fixed"
           width={267}
           height={28}
           objectFit="contain"
         />
         <Image
-          alt="NIA"
-          src="/icons/footer_logo_4.png"
+          alt="오픈링크시스템"
+          src="/icons/footer_logo_5.png"
           layout="fixed"
-          width={162}
-          height={48}
+          width={278}
+          height={41}
           objectFit="contain"
         />
         <Image
-          alt="NIA"
-          src="/icons/footer_logo_5.png"
+          alt="유탑소프트"
+          src="/icons/footer_logo_6.png"
           layout="fixed"
           width={64}
           height={57}
           objectFit="contain"
         />
         <Image
-          alt="NIA"
-          src="/icons/footer_logo_6.png"
-          layout="fixed"
-          width={67}
-          height={61}
-          objectFit="contain"
-        />
-        <Image
-          alt="NIA"
+          alt="AIIS"
           src="/icons/footer_logo_7.png"
           layout="fixed"
           width={131}

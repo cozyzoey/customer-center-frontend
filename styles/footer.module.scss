@@ -16,7 +16,7 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 20px;
   @include mixins.respond(lg) {
     img {
