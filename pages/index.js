@@ -71,7 +71,7 @@ export default function Home() {
             )}
           </div>
           <div className={styles.video}>
-            <h2>포커스팡 튜토리얼</h2>
+            <h2>데이터 수집 튜토리얼</h2>
             <video controls>
               <source
                 src="https://nia-homepage-media.s3.ap-northeast-2.amazonaws.com/assets/tutorial_focuspang.mp4"
