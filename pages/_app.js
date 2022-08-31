@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { SWRConfig } from "swr";
 import { fetcher } from "@/helpers/index";
 import { ToastContainer } from "react-toastify";
@@ -5,6 +6,7 @@ import Head from "next/head";
 
 import ErrorBoundary from "@/components/error-boundary";
 import PrivateRoute from "@/components/private-route";
+import Loader from "@/components/loader";
 
 import { AuthProvider } from "@/context/AuthContext";
 import "../styles/globals.scss";
@@ -42,19 +44,22 @@ function MyApp({ Component, pageProps }) {
         />
       </Head>
       <ErrorBoundary>
-        <SWRConfig
-          value={{
-            fetcher: fetcher,
-            revalidateOnFocus: false,
-            revalidateOnReconnect: false,
-          }}
-        >
-          <AuthProvider>
-            <PrivateRoute>
-              <Component {...pageProps} />
-            </PrivateRoute>
-          </AuthProvider>
-        </SWRConfig>
+        <Suspense fallback={<Loader />}>
+          <SWRConfig
+            value={{
+              fetcher: fetcher,
+              revalidateOnFocus: false,
+              revalidateOnReconnect: false,
+              suspense: true,
+            }}
+          >
+            <AuthProvider>
+              <PrivateRoute>
+                <Component {...pageProps} />
+              </PrivateRoute>
+            </AuthProvider>
+          </SWRConfig>
+        </Suspense>
       </ErrorBoundary>
       <ToastContainer
         position="top-right"
