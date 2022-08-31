@@ -137,7 +137,7 @@
     box-sizing: border-box;
     position: relative;
     display: flex;
-    align-items: end;
+    align-items: flex-end;
     gap: 0 1ch;
     &::after {
       content: "";

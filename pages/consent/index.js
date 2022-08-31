@@ -378,14 +378,14 @@ export default function consent() {
                 <Field
                   name="parentName"
                   type="text"
-                  placeholder="학부모님 이름(실명)"
+                  placeholder="이름(실명)"
                   component={MyInput}
                 />
                 <ErrorMessage component="label" name="parentName" />
                 <Field
                   name="parentEmail"
                   type="email"
-                  placeholder="학부모님 이메일"
+                  placeholder="이메일 주소(정확히 입력)"
                   component={MyInput}
                 />
                 <ErrorMessage component="label" name="parentEmail" />
