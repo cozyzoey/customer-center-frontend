@@ -44,10 +44,10 @@ export default function FAQ() {
       <div>
         <PageTitle title="FAQ" />
         <ul className={styles.list}>
-          {data.data.length === 0 && (
+          {data?.data.length === 0 && (
             <NoDataHeading>아직 등록된 FAQ가 없습니다.</NoDataHeading>
           )}
-          {data.data.length > 0 &&
+          {data?.data.length > 0 &&
             data.data.map((item) => (
               <li key={item.id}>
                 <dl

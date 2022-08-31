@@ -39,10 +39,10 @@ export default function QnA() {
           </div>
         )}
         <ul className={styles.list}>
-          {data.data.length === 0 && (
+          {data?.data.length === 0 && (
             <NoDataHeading>아직 등록된 질문이 없습니다.</NoDataHeading>
           )}
-          {data.data.length > 0 &&
+          {data?.data.length > 0 &&
             data.data.map((el) => (
               <li key={el.id}>
                 <Link href={`/qna/${el.id}`}>
