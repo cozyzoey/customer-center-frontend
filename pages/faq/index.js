@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import parse from "html-react-parser";
 import { motion, AnimatePresence } from "framer-motion";
-import { GrClose } from "react-icons/gr";
+import { GrAdd } from "react-icons/gr";
 import useFetchPage from "@/hooks/useFetchPage";
 
 import Layout from "@/components/layout";
@@ -58,8 +58,8 @@ export default function FAQ() {
                     <dt>Q</dt>
                     <dd>
                       {item.attributes.title}{" "}
-                      <GrClose
-                        className={styles.crossIcon}
+                      <GrAdd
+                        className={styles.addIcon}
                         size="1.8ch"
                         data-active={activeItemId === item.id}
                       />{" "}

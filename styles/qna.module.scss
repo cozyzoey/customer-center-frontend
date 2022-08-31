@@ -1,0 +1,81 @@
+@use "@/styles/foundation/variables" as v;
+@use "@/styles/foundation/mixins";
+
+.addBtn {
+  position: absolute;
+  transform: translateX(-100%);
+  left: calc(50% + 600px);
+  top: calc(117px + 2.2ch);
+  @include mixins.respond(xl) {
+    left: calc(50% + 600px - 4vw);
+  }
+  @media (max-width: 1200px) {
+    left: unset;
+    right: 4vw;
+    transform: none;
+  }
+  @include mixins.respond(lg) {
+    position: static;
+    margin-bottom: 4ch;
+  }
+}
+
+.list {
+  padding: 0 9px;
+  @include mixins.respond(lg) {
+    padding: 0;
+  }
+  li {
+    margin-bottom: 20px;
+    width: 100%;
+
+    // anchor tag
+    & > * {
+      width: 100%;
+      @include mixins.itemBox;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      @media (hover: hover) {
+        &:hover {
+          background-color: v.$gray2;
+        }
+      }
+    }
+
+    // 타이틀 텍스트
+    h4 {
+      @include mixins.fs5;
+
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+    // 작성자, 작성일
+    .info {
+      @include mixins.fs2;
+      display: flex;
+      gap: 0 20px;
+
+      .username {
+        max-width: 14ch;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
+
+.chat {
+  @include mixins.fs2;
+  color: v.$gray-dark;
+  padding: 0 1ch;
+  height: 2.6ch;
+  margin-left: 2ch;
+  background-color: v.$light;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  border-radius: 0.8ch;
+  border-bottom-left-radius: 0;
+  text-align: center;
+}

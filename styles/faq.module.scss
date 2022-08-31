@@ -47,11 +47,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    .crossIcon {
-      transform: rotate(45deg);
+    .addIcon {
+      transform: rotate(0);
       transition: transform 0.3s;
       &[data-active="true"] {
-        transform: rotate(180deg);
+        transform: rotate(135deg);
       }
     }
   }

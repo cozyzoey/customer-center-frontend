@@ -1,16 +1,18 @@
 import { useContext } from "react";
 import moment from "moment";
 import { useRouter } from "next/router";
+import { GrAdd } from "react-icons/gr";
 
 import Link from "next/link";
 import useFetchPage from "@/hooks/useFetchPage";
+import PageTitle from "@/components/page-title";
 import NoDataHeading from "@/components/no-data-heading";
 import Button from "@/components/button";
 import Layout from "@/components/layout";
 import Pagination from "@/components/pagination";
 import AuthContext from "@/context/AuthContext";
 
-import tableStyles from "@/styles/shared/table.module.scss";
+import styles from "@/styles/qna.module.scss";
 
 export default function QnA() {
   const router = useRouter();
@@ -23,51 +25,49 @@ export default function QnA() {
   return (
     <Layout title="QnA">
       <div>
-        {data.data.length === 0 && (
-          <NoDataHeading>아직 등록된 질문이 없습니다.</NoDataHeading>
-        )}
+        <PageTitle title="Q&A" />
         {user && (
-          <Button onClick={() => router.push("/qna/add")} align="right">
-            작성하기
-          </Button>
-        )}
-        {data.data.length > 0 && (
-          <div className={tableStyles.table} data-nocol={4}>
-            <dl className={tableStyles.tableHeader}>
-              <dd>번호</dd>
-              <dd>제목</dd>
-              <dd>작성자</dd>
-              <dd>작성일</dd>
-            </dl>
-            <ul>
-              {data.data.map((el) => (
-                <li key={el.id} className={tableStyles.tableRow}>
-                  <Link href={`/qna/${el.id}`}>
-                    <a>
-                      <dl>
-                        <dd>{el.id}</dd>
-                        <dd>
-                          {el.attributes.title}
-                          {el.attributes.answers.data.length > 0 && (
-                            <span className={tableStyles.chat}>
-                              {el.attributes.answers.data.length}
-                            </span>
-                          )}
-                        </dd>
-                        <dd>{el.attributes.username}</dd>
-                        <dd>
-                          {moment(el.attributes.createdAt).format(
-                            "YYYY. MM. DD"
-                          )}
-                        </dd>
-                      </dl>
-                    </a>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          <div className={styles.addBtn}>
+            <Button
+              onClick={() => router.push("/qna/add")}
+              align="center"
+              variant="outlined"
+            >
+              <GrAdd size="2ch" />
+              작성하기
+            </Button>
           </div>
         )}
+        <ul className={styles.list}>
+          {data.data.length === 0 && (
+            <NoDataHeading>아직 등록된 질문이 없습니다.</NoDataHeading>
+          )}
+          {data.data.length > 0 &&
+            data.data.map((el) => (
+              <li key={el.id}>
+                <Link href={`/qna/${el.id}`}>
+                  <a>
+                    <h4>
+                      {el.attributes.title}
+                      {el.attributes.answers.data.length > 0 && (
+                        <span className={styles.chat}>
+                          {el.attributes.answers.data.length}
+                        </span>
+                      )}
+                    </h4>
+                    <div className={styles.info}>
+                      <span className={styles.username}>
+                        {el.attributes.username}
+                      </span>
+                      <time>
+                        {moment(el.attributes.createdAt).format("YYYY. MM. DD")}
+                      </time>
+                    </div>
+                  </a>
+                </Link>
+              </li>
+            ))}
+        </ul>
         <Pagination
           page={page}
           total={data.meta.pagination.total}
