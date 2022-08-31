@@ -49,6 +49,7 @@ export default function BusinessIntroduction() {
             <Image
               src="https://nia-homepage-media.s3.ap-northeast-2.amazonaws.com/assets/introduction_diagram2.png"
               layout="responsive"
+              priority={true}
               width={1534}
               height={2728}
             />
