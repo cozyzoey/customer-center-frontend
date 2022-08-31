@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import dynamic from "next/dynamic";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import Layout from "@/components/layout";
+import PageTitle from "@/components/page-title";
 import Button from "@/components/button";
 const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
@@ -60,11 +60,9 @@ export default function add() {
   };
 
   return (
-    <Layout>
+    <Layout title="질문 작성하기">
       <div>
-        <Head>
-          <title>질문하기</title>
-        </Head>
+        <PageTitle title="질문하기" />
         <input
           type="text"
           required

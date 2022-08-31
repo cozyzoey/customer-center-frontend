@@ -2,6 +2,7 @@
 @use "@/styles/foundation/mixins";
 
 input.title {
-  @include mixins.fs5;
-  height: v.$h2;
+  @include mixins.fs4;
+  width: 100%;
+  height: v.$h1;
 }

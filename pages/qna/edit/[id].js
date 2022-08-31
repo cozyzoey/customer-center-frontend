@@ -2,10 +2,10 @@ import { useState, useRef, useEffect, useContext } from "react";
 import qs from "qs";
 import useSWR from "swr";
 import dynamic from "next/dynamic";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import Layout from "@/components/layout";
+import PageTitle from "@/components/page-title";
 import Button from "@/components/button";
 const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
@@ -72,34 +72,34 @@ export default function EditQuestion() {
 
   return (
     <Layout title="질문 수정">
-      <Head>
-        <title>질문 수정</title>
-      </Head>
-      <input
-        type="text"
-        required
-        placeholder="제목을 입력하세요"
-        tabIndex={0}
-        autoComplete="off"
-        autoFocus={true}
-        ref={titleInputRef}
-        name="title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className={styles.title}
-      />
-      <Editor
-        value={contents}
-        onChange={(value) => setContents(value)}
-        size="lg"
-      />
-      <Button
-        onClick={handleSubmit}
-        align="right"
-        disabled={!title || !contents}
-      >
-        등록하기
-      </Button>
+      <div>
+        <PageTitle title="질문 수정하기" />
+        <input
+          type="text"
+          required
+          placeholder="제목을 입력하세요"
+          tabIndex={0}
+          autoComplete="off"
+          autoFocus={true}
+          ref={titleInputRef}
+          name="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className={styles.title}
+        />
+        <Editor
+          value={contents}
+          onChange={(value) => setContents(value)}
+          size="lg"
+        />
+        <Button
+          onClick={handleSubmit}
+          align="right"
+          disabled={!title || !contents}
+        >
+          등록하기
+        </Button>
+      </div>
     </Layout>
   );
 }

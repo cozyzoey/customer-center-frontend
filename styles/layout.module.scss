@@ -22,7 +22,7 @@
     padding-bottom: 100px;
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr minmax(auto, v.$max-width) 1fr;
+    grid-template-columns: 1fr minmax(0, v.$max-width) 1fr;
     grid-template-rows: minmax(calc(100vh - 117px), auto);
     align-items: start;
     & > div {

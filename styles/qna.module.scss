@@ -5,7 +5,7 @@
   position: absolute;
   transform: translateX(-100%);
   left: calc(50% + 600px);
-  top: calc(117px + 2.2ch);
+  top: calc(117px + 2ch);
   @include mixins.respond(xl) {
     left: calc(50% + 600px - 4vw);
   }
