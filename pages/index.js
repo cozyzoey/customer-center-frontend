@@ -5,6 +5,7 @@ import useFetchPage from "@/hooks/useFetchPage";
 import Layout from "@/components/layout";
 import Pagination from "@/components/pagination";
 import NoDataHeading from "@/components/no-data-heading";
+import Logo from "@/components/responsive-logo-img";
 
 import styles from "@/styles/notice.module.scss";
 
@@ -33,13 +34,7 @@ export default function Home() {
             />
           </div>
           <div className={styles.logo}>
-            <Image
-              alt="공지사항 hero overlay"
-              src="https://nia-homepage-media.s3.ap-northeast-2.amazonaws.com/assets/logo_text.png"
-              layout="responsive"
-              width={854}
-              height={344}
-            />
+            <Logo />
           </div>
         </div>
         <div className={styles.body}>

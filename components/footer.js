@@ -64,12 +64,14 @@ export default function Footer() {
         />
       </div>
       <div className={styles.policies}>
-        <span>
+        <div>
           Copyright&nbsp;&copy;&nbsp;{new Date().getFullYear()}
-          &nbsp;AI감성튜터. All Rights Reserved.
-        </span>
+          &nbsp;청소년 감성 공감 AI 튜터. All Rights Reserved.<span>|</span>
+        </div>
         <Link href="/policy/terms">
-          <a>이용약관</a>
+          <a>
+            이용약관<span>|</span>
+          </a>
         </Link>
         <Link href="/policy/privacy">
           <a>개인정보 처리방침</a>

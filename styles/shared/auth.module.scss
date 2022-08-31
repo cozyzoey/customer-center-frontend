@@ -14,10 +14,10 @@
     padding: 8ch 3vw 9ch;
   }
   .logo {
-    width: 15.4ch;
+    width: 14.6ch;
     margin: 0 auto 5ch;
     @include mixins.respond(lg) {
-      width: 77px;
+      width: 62px;
     }
   }
   form {

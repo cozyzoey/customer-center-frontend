@@ -45,7 +45,8 @@
 
   .logo {
     grid-area: logo;
-    width: 105px;
+    width: 75px;
+    margin-top: 35px;
     margin-right: 9ch;
     @include mixins.fs4;
     @extend %navItemBase;
@@ -173,11 +174,11 @@
   }
 
   .logo {
+    width: 46px;
     position: absolute;
     transform: translate(-50%, -50%);
     top: calc(50% + 6px);
     left: 50%;
-    width: 81px;
   }
 
   .drawer {

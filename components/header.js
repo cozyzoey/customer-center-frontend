@@ -5,6 +5,7 @@ import { motion, LayoutGroup } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Button from "@/components/button";
+import Logo from "@/components/responsive-logo-img";
 
 import AuthContext from "@/context/AuthContext";
 import styles from "@/styles/header.module.scss";
@@ -36,12 +37,7 @@ export default function Header() {
       <div className={styles.logo}>
         <Link href="/">
           <a>
-            <Image
-              src="/icons/logo.png"
-              layout="responsive"
-              width={336}
-              height={192}
-            />
+            <Logo />
           </a>
         </Link>
       </div>
@@ -109,12 +105,7 @@ export default function Header() {
       <div className={styles.logo}>
         <Link href="/">
           <a>
-            <Image
-              src="/icons/logo.png"
-              layout="responsive"
-              width={336}
-              height={192}
-            />
+            <Logo />
           </a>
         </Link>
       </div>
