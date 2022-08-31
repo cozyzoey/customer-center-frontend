@@ -11,7 +11,7 @@
     border-radius: 20px;
     background-color: v.$gray1;
     width: 100%;
-    padding: 9ch 3vw 10ch;
+    padding: 8ch 3vw 9ch;
   }
   .logo {
     width: 15.4ch;
@@ -23,7 +23,7 @@
   form {
     width: 100%;
     max-width: 64ch;
-    margin: 0 auto 2ch;
+    margin: 0 auto 4ch;
     display: grid;
     grid-template-columns: 10ch 1fr max-content;
     grid-template-rows: min-content;
@@ -67,19 +67,36 @@
       }
     }
   }
+
+  .btns {
+    width: max-content;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    button {
+      width: min-content;
+    }
+    @include mixins.respond(sm) {
+      width: 100%;
+    }
+  }
 }
 
 //============ 이외 페이지
 
 .container {
   width: 100%;
-  max-width: 42ch;
+  max-width: 460px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+// 비밀번호 찾기, 비밀번호 재설정 페이지
 .guideMessage {
   @include mixins.fs5;
   margin: 4ch 0 6ch;
@@ -89,27 +106,9 @@
 .agreement {
   margin-top: 5ch;
   a {
-    font-weight: 400;
+    font-weight: 500;
     &:hover {
       text-decoration: underline;
     }
-  }
-}
-
-.checkMarkIcon {
-  color: v.$green;
-  svg {
-    display: block;
-    margin: 0 auto 6ch;
-  }
-}
-
-.successTitle {
-  @include mixins.fs-lg;
-  font-weight: 300;
-  text-align: center;
-  margin-bottom: 4ch;
-  span {
-    color: v.$blue;
   }
 }

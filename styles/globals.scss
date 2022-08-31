@@ -20,11 +20,6 @@ body {
 
 form {
   width: 100%;
-  h1 {
-    @include mixins.fs4;
-    text-align: center;
-    margin-bottom: 3ch;
-  }
   input:not(:first-of-type),
   section {
     margin-top: 3ch;

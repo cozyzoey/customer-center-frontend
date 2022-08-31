@@ -1,10 +1,9 @@
 import { useContext, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useRouter } from "next/router";
-import { GrFormSearch } from "react-icons/gr";
+import { GrFormSearch, GrUserNew } from "react-icons/gr";
 
 import * as Yup from "yup";
-import Link from "next/link";
 import Layout from "@/components/layout";
 import Button from "@/components/button";
 import MyInput from "@/components/my-input";
@@ -81,15 +80,24 @@ export default function login() {
               </div>
             </Form>
           </Formik>
-          <Button
-            onClick={() => router.replace("/auth/forgot-password")}
-            size="lg"
-            variant="gray"
-            type="button"
-          >
-            <GrFormSearch size="3ch" />
-            비밀번호 찾기
-          </Button>
+          <div className={styles.btns}>
+            <Button
+              onClick={() => router.replace("/auth/register")}
+              variant="gray"
+              type="button"
+            >
+              <GrUserNew size="2.3ch" />
+              회원가입하기
+            </Button>
+            <Button
+              onClick={() => router.replace("/auth/forgot-password")}
+              variant="gray"
+              type="button"
+            >
+              <GrFormSearch size="3ch" />
+              비밀번호 찾기
+            </Button>
+          </div>
         </div>
       </div>
     </Layout>

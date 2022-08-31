@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import Layout from "@/components/layout";
 import Button from "@/components/button";
 import MyInput from "@/components/my-input";
+import PageTitle from "@/components/page-title";
 import AuthContext from "@/context/AuthContext";
 import { toast } from "react-toastify";
 import styles from "@/styles/shared/auth.module.scss";
@@ -64,7 +65,7 @@ export default function register() {
           onSubmit={handleSubmit}
         >
           <Form className={styles.form}>
-            <h1>회원가입하기</h1>
+            <PageTitle title="회원가입하기" />
             <Field
               name="username"
               type="text"
