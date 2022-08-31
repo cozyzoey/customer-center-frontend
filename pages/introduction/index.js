@@ -33,12 +33,26 @@ export default function BusinessIntroduction() {
               감성 데이터를 수집합니다.
             </div>
           </section>
-          <Image
-            src="https://nia-homepage-media.s3.ap-northeast-2.amazonaws.com/assets/introduction_diagram.png"
-            layout="responsive"
-            width={1589}
-            height={955}
-          />
+          <div className={styles.imgWrapper}>
+            <Image
+              src="https://nia-homepage-media.s3.ap-northeast-2.amazonaws.com/assets/introduction_diagram.png"
+              layout="responsive"
+              priority={true}
+              width={1589}
+              height={955}
+            />
+          </div>
+        </article>
+        <article>
+          <PageTitle title="청소년 감성 공감 AI 튜터" />
+          <div className={styles.imgWrapper}>
+            <Image
+              src="https://nia-homepage-media.s3.ap-northeast-2.amazonaws.com/assets/introduction_diagram2.png"
+              layout="responsive"
+              width={1534}
+              height={2728}
+            />
+          </div>
         </article>
       </div>
     </Layout>

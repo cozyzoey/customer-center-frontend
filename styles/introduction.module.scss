@@ -2,6 +2,21 @@
 @use "foundation/mixins";
 
 .introduction {
+  article {
+    &:not(:last-of-type) {
+      margin-bottom: 10ch;
+    }
+    .imgWrapper {
+      width: 90%;
+      max-width: 1014px;
+      margin: 0 auto;
+      @include mixins.respond(md) {
+        width: 100%;
+      }
+    }
+  }
+
+  // 사업소개 부분의 그리드 형식
   section {
     display: grid;
     grid-template-columns: 25ch 1fr;
@@ -14,7 +29,7 @@
     .button {
       @include mixins.fs5;
       font-weight: 700;
-      height: 7.6ch;
+      height: 7ch;
       background-color: v.$yellow;
       border-radius: 10px;
       color: v.$white;
@@ -24,7 +39,7 @@
       box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
       @include mixins.respond(lg) {
         width: 20ch;
-        height: 3.8ch;
+        height: 3.6ch;
         margin: 0 auto;
       }
     }
