@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  concurrentFeatures: true,
   swcMinify: true,
   images: {
     domains: ["nia-homepage-media.s3.ap-northeast-2.amazonaws.com"],

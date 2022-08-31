@@ -4,6 +4,7 @@ import { fetcher } from "@/helpers/index";
 import { ToastContainer } from "react-toastify";
 import Head from "next/head";
 
+import ErrorBoundary from "@/components/error-boundary";
 import PrivateRoute from "@/components/private-route";
 
 import { AuthProvider } from "@/context/AuthContext";
@@ -43,22 +44,24 @@ function MyApp({ Component, pageProps }) {
           key="viewport"
         />
       </Head>
-      <Suspense fallback={<Loader />}>
-        <SWRConfig
-          value={{
-            fetcher: fetcher,
-            suspense: true,
-            revalidateOnFocus: false,
-            revalidateOnReconnect: false,
-          }}
-        >
-          <AuthProvider>
-            <PrivateRoute>
-              <Component {...pageProps} />
-            </PrivateRoute>
-          </AuthProvider>
-        </SWRConfig>
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={<Loader />}>
+          <SWRConfig
+            value={{
+              fetcher: fetcher,
+              suspense: true,
+              revalidateOnFocus: false,
+              revalidateOnReconnect: false,
+            }}
+          >
+            <AuthProvider>
+              <PrivateRoute>
+                <Component {...pageProps} />
+              </PrivateRoute>
+            </AuthProvider>
+          </SWRConfig>
+        </Suspense>
+      </ErrorBoundary>
       <ToastContainer
         position="top-right"
         autoClose={3000}

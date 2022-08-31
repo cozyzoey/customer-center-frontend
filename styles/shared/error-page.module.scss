@@ -1,0 +1,16 @@
+@use "@/styles/foundation/variables" as v;
+@use "@/styles/foundation/mixins";
+
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  gap: 4ch 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  h2 {
+    font-weight: 400;
+  }
+}

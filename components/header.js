@@ -26,6 +26,7 @@ export default function Header() {
     const result = confirm("로그아웃 하시겠습니까?");
     if (!result) return;
     logout();
+    router.push("/");
     setIsDrawerOpen(false);
   };
 
