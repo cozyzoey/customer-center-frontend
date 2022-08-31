@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { SWRConfig } from "swr";
 import { fetcher } from "@/helpers/index";
 import { ToastContainer } from "react-toastify";
@@ -10,7 +9,6 @@ import PrivateRoute from "@/components/private-route";
 import { AuthProvider } from "@/context/AuthContext";
 import "../styles/globals.scss";
 import "react-toastify/dist/ReactToastify.css";
-import Loader from "@/components/loader";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -18,7 +16,6 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <link
           rel="apple-touch-icon"
-          ß
           sizes="180x180"
           href="/apple-touch-icon.png"
         />
@@ -45,22 +42,19 @@ function MyApp({ Component, pageProps }) {
         />
       </Head>
       <ErrorBoundary>
-        <Suspense fallback={<Loader />}>
-          <SWRConfig
-            value={{
-              fetcher: fetcher,
-              suspense: true,
-              revalidateOnFocus: false,
-              revalidateOnReconnect: false,
-            }}
-          >
-            <AuthProvider>
-              <PrivateRoute>
-                <Component {...pageProps} />
-              </PrivateRoute>
-            </AuthProvider>
-          </SWRConfig>
-        </Suspense>
+        <SWRConfig
+          value={{
+            fetcher: fetcher,
+            revalidateOnFocus: false,
+            revalidateOnReconnect: false,
+          }}
+        >
+          <AuthProvider>
+            <PrivateRoute>
+              <Component {...pageProps} />
+            </PrivateRoute>
+          </AuthProvider>
+        </SWRConfig>
       </ErrorBoundary>
       <ToastContainer
         position="top-right"

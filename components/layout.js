@@ -4,7 +4,12 @@ import Header from "./header";
 import Footer from "./footer";
 import styles from "@/styles/layout.module.scss";
 
-export default function Layout({ title, keywords, description, children }) {
+export default function Layout({
+  title = "청소년 감성 공감 AI 튜터",
+  keywords = "",
+  description = "",
+  children,
+}) {
   return (
     <div className={styles.layout}>
       <Head>

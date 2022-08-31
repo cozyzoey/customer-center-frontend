@@ -7,7 +7,7 @@ import moment from "moment";
 import dynamic from "next/dynamic";
 import parse from "html-react-parser";
 import { toast } from "react-toastify";
-import { GrTrash, GrEdit, GrUser } from "react-icons/gr";
+import { GrTrash, GrEdit, GrUser, GrAdd } from "react-icons/gr";
 
 import Layout from "@/components/layout";
 import Button from "@/components/button";
@@ -181,7 +181,7 @@ export default function QnADetail() {
 
   return (
     <Layout title="QnA">
-      <div>
+      <div className={styles.container}>
         <h1 className={styles.title}>{data.data[0].attributes.title}</h1>
         <div className={styles.info}>
           <span>{data.data[0].attributes.username}</span>
@@ -221,8 +221,9 @@ export default function QnADetail() {
               setIsAddingAnswer(true);
             }}
             align="right"
+            variant="outlined"
           >
-            댓글쓰기
+            <GrAdd /> 댓글쓰기
           </Button>
         )}
         {/* 신규 댓글 작성 */}

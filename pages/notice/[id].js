@@ -12,7 +12,7 @@ export default function NoticeDetail({ notice }) {
 
   return (
     <Layout title="공지사항">
-      <div>
+      <div className={styles.container}>
         {router.isFallback ? (
           <Loader />
         ) : (

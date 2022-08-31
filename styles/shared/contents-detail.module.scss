@@ -17,6 +17,10 @@
   }
 }
 
+.container {
+  padding-top: 4ch;
+}
+
 .title {
   @include mixins.fs-lg;
   font-weight: 500;
@@ -121,6 +125,7 @@
   margin-top: 6ch;
 }
 .answerItem {
+  @include mixins.itemBox;
   &:not(:last-of-type) {
     margin-bottom: 6ch;
   }
@@ -128,12 +133,11 @@
     @include mixins.fs4;
     font-weight: 400;
     color: v.$blue-green;
-    padding: 4px 1ch;
     margin-bottom: 1.2ch;
     box-sizing: border-box;
     position: relative;
     display: flex;
-    align-items: baseline;
+    align-items: end;
     gap: 0 1ch;
     &::after {
       content: "";
