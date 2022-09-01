@@ -20,7 +20,6 @@ import styles from "@/styles/consent.module.scss";
 export default function consent() {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
-  const [completed, setCompleted] = useState(false);
   const router = useRouter();
 
   const ScrollToErrorInput = () => {
@@ -148,11 +147,7 @@ export default function consent() {
       .required("필수 입력 항목입니다"),
   });
 
-  const handleSubmit = async (values) => {
-    if (completed) {
-      setStep(3);
-      return;
-    }
+  const handleSubmit = async (values, { resetForm }) => {
     try {
       setLoading(true);
 
@@ -169,8 +164,8 @@ export default function consent() {
         throw new Error(error.message);
       }
 
-      setCompleted(true);
       setStep(3);
+      resetForm();
     } catch (error) {
       toast.error(error?.message || "내부 문제가 생겼어요 :(");
     } finally {
@@ -181,7 +176,7 @@ export default function consent() {
   return (
     <Layout title="데이터 수집 신청">
       <div className={styles.container} data-step={step}>
-        {/* 단계 표시 */}
+        {/* 멀티스텝 헤더 */}
         <div className={styles.header}>
           <div className={styles.activeStep} onClick={() => setStep(1)}>
             <div>
@@ -200,10 +195,7 @@ export default function consent() {
             <label>2. 정보 입력</label>
           </div>
           <hr></hr>
-          <div
-            className={step >= 3 ? styles.activeStep : styles.inactiveStep}
-            onClick={() => completed && setStep(3)}
-          >
+          <div className={step >= 3 ? styles.activeStep : styles.inactiveStep}>
             <div>
               <GrEdit size="3ch" />
             </div>
