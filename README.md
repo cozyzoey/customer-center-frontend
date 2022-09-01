@@ -2,7 +2,7 @@
 
 <!-- PROJECT LOGO -->
 <div align="center">
-  <img src="https://res.cloudinary.com/dftuawd1d/image/upload/v1661158581/github/nia_homepage_logo.png" alt="logo" width="200" height="auto">
+  <img src="https://res.cloudinary.com/dftuawd1d/image/upload/v1662030739/github/nia_homepage_logo_uxzapg.png" alt="logo" width="200" height="auto">
   
   <h1 align="center">교과용감성AI튜터 고객센터</h1>
 
@@ -19,7 +19,7 @@
 
 ## About The Project
 
-[![스크린샷](https://res.cloudinary.com/dftuawd1d/image/upload/v1661158952/github/nia_homepage_screenshot_zeevm1.png)](https://www.nia-help.com)
+[![스크린샷](https://res.cloudinary.com/dftuawd1d/image/upload/v1662030740/github/nia_homepage_screenshot_pummlr.png)](https://www.nia-help.com)
 
 과학기술정보통신부, NIA(AI-허브)가 추진하는 '인공지능 학습용 데이터 구축사업'에 참여하는 1,200명의 데이터 수집 참가자를 위한 고객센터입니다. 고객 응대를 위한 공지사항, FAQ, Q&A 서비스와 사업 참여동의서 제출을 위한 기능을 제공합니다.
 관리자를 위한 CMS 페이지는 백엔드에서 제공하고 있습니다. ([백엔드 repo 보기](https://github.com/cozyzoey/customer-center-backend))
