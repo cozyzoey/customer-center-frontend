@@ -10,56 +10,56 @@ export default function Footer() {
           alt="NIA"
           src="/icons/footer_logo_1.png"
           layout="fixed"
-          width={245}
-          height={29}
+          width={172}
+          height={20}
           objectFit="contain"
         />
         <Image
           alt="서울대학교 산학협력단"
           src="/icons/footer_logo_2.png"
           layout="fixed"
-          width={242}
-          height={48}
+          width={169}
+          height={34}
           objectFit="contain"
         />
         <Image
           alt="서울특별시교육청"
           src="/icons/footer_logo_3.png"
           layout="fixed"
-          width={211}
-          height={48}
+          width={148}
+          height={34}
           objectFit="contain"
         />
         <Image
           alt="서울대학교병원"
           src="/icons/footer_logo_4.png"
           layout="fixed"
-          width={267}
-          height={28}
+          width={187}
+          height={20}
           objectFit="contain"
         />
         <Image
           alt="오픈링크시스템"
           src="/icons/footer_logo_5.png"
           layout="fixed"
-          width={278}
-          height={41}
+          width={195}
+          height={29}
           objectFit="contain"
         />
         <Image
           alt="유탑소프트"
           src="/icons/footer_logo_6.png"
           layout="fixed"
-          width={64}
-          height={57}
+          width={45}
+          height={40}
           objectFit="contain"
         />
         <Image
           alt="AIIS"
           src="/icons/footer_logo_7.png"
           layout="fixed"
-          width={131}
-          height={60}
+          width={92}
+          height={42}
           objectFit="contain"
         />
       </div>
