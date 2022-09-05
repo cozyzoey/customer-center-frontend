@@ -92,7 +92,7 @@ export default function Header() {
         </div>
         <div className={styles.consent}>
           <Button onClick={() => router.push("/consent")} size="sm">
-            데이터 수집 신청
+            학습 데이터 제공 참여 신청
           </Button>
         </div>
       </div>
@@ -144,7 +144,7 @@ export default function Header() {
               setIsDrawerOpen(false);
             }}
           >
-            데이터 수집 신청
+            학습 데이터 제공 참여 신청
           </div>
           <div className={styles.auth}>
             {user ? (

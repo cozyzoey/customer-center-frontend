@@ -174,7 +174,7 @@ export default function consent() {
   };
 
   return (
-    <Layout title="데이터 수집 신청">
+    <Layout title="학습 데이터 제공 참여 신청">
       <div className={styles.container} data-step={step}>
         {/* 멀티스텝 헤더 */}
         <div className={styles.header}>
@@ -208,7 +208,7 @@ export default function consent() {
           <div className={styles.stepDocuments}>
             <div className={styles.stepGuide}>
               <GrCircleInformation size="2.2ch" />
-              데이터 수집 참여를 위한 안내입니다.
+              학습 데이터 제공 참여를 위한 안내입니다.
             </div>
             <Image
               alt="데이터 수집 참여 안내문"
@@ -235,7 +235,7 @@ export default function consent() {
               <ScrollToErrorInput />
               <div className={styles.stepGuide}>
                 <GrCircleInformation size="2.2ch" />
-                데이터 수집을 위해 몇 가지 정보가 필요해요.
+                학습 데이터 제공 참여를 위해 아래 정보를 입력해주세요.
               </div>
               <fieldset>
                 <legend>학생 정보</legend>
@@ -393,23 +393,8 @@ export default function consent() {
           <div className={styles.stepCompleted}>
             <div className={styles.stepGuide}>
               <GrCircleInformation size="2.2ch" />
-              이메일로 전자계약 링크를 보내드릴게요.{" "}
-              <strong>
-                전자계약을 완료하여 데이터 수집 참여에 동의해주세요.
-              </strong>
-              &nbsp; 하루가 지나도 메일이 안온다면 카카오 채널로 문의해주세요.
-              <div style={{ marginTop: "2ch" }}></div>
-              <a href="http://pf.kakao.com/_xgWxdExj/chat" target="_blank">
-                <Image
-                  alt="카카오 채널 상담"
-                  src="/kakao-channel.png"
-                  width={24}
-                  height={26}
-                  layout="fixed"
-                  objectFit="contain"
-                />
-                카카오채널 문의
-              </a>
+              이메일로 아래 내용의 온라인 동의서를 보내드릴게요. 이메일
+              확인하셔서 온라인으로 학습 데이터 제공 참여에 동의해주세요.
             </div>
             <h2>데이터 참여 동의서 내용(아래)</h2>
             <div className={styles.consentDocs}>
