@@ -65,34 +65,32 @@ export default function consent() {
     window.scrollTo(0, 0);
   }, [step]);
 
-  const initialValues = {
-    name: "",
-    schoolName: "",
-    gender: "",
-    schoolYear: 1,
-    schoolClass: "",
-    studentNumber: "",
-    phoneNumber: "",
-    email: "",
-    dataCollectionTerm: "",
-    parentName: "",
-    parentEmail: "",
-  };
+  // const initialValues = {
+  //   name: "",
+  //   schoolName: "",
+  //   gender: "",
+  //   schoolYear: 1,
+  //   schoolClass: "",
+  //   studentNumber: "",
+  //   phoneNumber: "",
+  //   dataCollectionTerm: "",
+  //   parentName: "",
+  //   parentPhoneNumber: "",
+  // };
 
   //* 테스트용 초기값
-  // const initialValues = {
-  //   name: "김반석",
-  //   schoolName: "신촌 중학교",
-  //   gender: "male",
-  //   schoolYear: 1,
-  //   schoolClass: 2,
-  //   studentNumber: 3,
-  //   phoneNumber: "01050259204",
-  //   email: "devzoeykim@gmail.com",
-  //   dataCollectionTerm: 2,
-  //   parentName: "학부모",
-  //   parentEmail: "sumone0407@gmail.com",
-  // };
+  const initialValues = {
+    name: "김반석",
+    schoolName: "신촌 중학교",
+    gender: "male",
+    schoolYear: 1,
+    schoolClass: 2,
+    studentNumber: 3,
+    phoneNumber: "01050259204",
+    dataCollectionTerm: 2,
+    parentName: "학부모",
+    parentPhoneNumber: "01050259204",
+  };
 
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -131,10 +129,6 @@ export default function consent() {
         "예시 010-0000-0000"
       )
       .required("필수 입력 항목입니다"),
-    email: Yup.string()
-      .email("이메일 형식을 확인해주세요")
-      .required("필수 입력 항목입니다"),
-
     dataCollectionTerm: Yup.number()
       .min(1, "1~3 사이의 값을 입력해주세요")
       .max(3, "1~3 사의 값을 입력해주세요")
@@ -142,8 +136,11 @@ export default function consent() {
     parentName: Yup.string()
       .matches(/^[가-힣]{2,4}$/, "2~4자의 실명을 입력해주세요")
       .required("필수 입력 항목입니다"),
-    parentEmail: Yup.string()
-      .email("이메일 형식을 확인해주세요")
+    parentPhoneNumber: Yup.string()
+      .matches(
+        /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
+        "예시 010-0000-0000"
+      )
       .required("필수 입력 항목입니다"),
   });
 
@@ -328,15 +325,6 @@ export default function consent() {
                 />
                 <ErrorMessage component="label" name="phoneNumber" />
 
-                {/* 이메일 */}
-                <Field
-                  name="email"
-                  type="email"
-                  placeholder="이메일 주소(정확히 입력)"
-                  component={MyInput}
-                />
-                <ErrorMessage component="label" name="email" />
-
                 {/* 데이터 수집 기간 */}
                 <section className={styles.withLabel}>
                   <label>
@@ -375,12 +363,12 @@ export default function consent() {
                 />
                 <ErrorMessage component="label" name="parentName" />
                 <Field
-                  name="parentEmail"
-                  type="email"
-                  placeholder="이메일 주소(정확히 입력)"
+                  name="parentPhoneNumber"
+                  type="tel"
+                  placeholder="핸드폰 번호"
                   component={MyInput}
                 />
-                <ErrorMessage component="label" name="parentEmail" />
+                <ErrorMessage component="label" name="parentPhoneNumber" />
               </fieldset>
               <Button type="submit" fullWidth={true} loading={loading}>
                 다음
