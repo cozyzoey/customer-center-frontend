@@ -24,11 +24,12 @@
     grid-column: 1 / 4;
   }
   .logo {
-    width: 16ch;
+    width: 34.6ch;
     position: absolute;
     transform: translate(-50%, -50%);
-    top: 50%;
+    top: calc(50% - 2ch);
     left: 50%;
+    z-index: 1;
     @include mixins.respond(lg) {
       display: none;
     }
