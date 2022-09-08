@@ -83,7 +83,7 @@
         & > li {
           margin-bottom: 0;
           font-weight: 400;
-          list-style-type: "—";
+          list-style-type: "-";
           padding-inline-start: 1.2ch;
         }
       }
@@ -232,17 +232,23 @@ div.inactiveStep {
     word-break: keep-all;
   }
   .cardContent {
-    max-width: 54ch;
     width: 100%;
+    max-width: 700px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 14ch 1fr;
     align-items: center;
-    gap: 0 3ch;
+    gap: 4px 2ch;
     margin-bottom: 3ch;
     border-radius: 25px;
     padding: 2ch;
     background-color: #fffbf0;
+    span {
+      display: inline-block;
+    }
+    & > div:nth-child(odd) {
+      font-weight: 500;
+    }
   }
 }
 

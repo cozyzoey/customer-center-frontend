@@ -29,7 +29,7 @@
     transform: translate(-50%, -50%);
     top: calc(50% - 2ch);
     left: 50%;
-    z-index: 1;
+    z-index: 2;
     @include mixins.respond(lg) {
       display: none;
     }

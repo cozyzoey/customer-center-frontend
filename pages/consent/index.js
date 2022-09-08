@@ -437,22 +437,6 @@ export default function consent() {
               감사합니다.
             </div>
 
-            {/* 요청사항 */}
-            <div className={styles.card}>
-              <div className={styles.cardTitle}>요청 사항</div>
-              <div className={styles.cardSubtitle}>
-                데이터 수집 참여시 참여 동의서를 지참해 주세요.
-              </div>
-              <Button>
-                <a
-                  href="https://nia-homepage-media.s3.ap-northeast-2.amazonaws.com/assets/%5B%E1%84%89%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%83%E1%85%A2%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%AD+AI+%E1%84%8B%E1%85%A7%E1%86%AB%E1%84%80%E1%85%AE%E1%84%8B%E1%85%AF%E1%86%AB%5D+%E1%84%80%E1%85%A2%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%87%E1%85%A9+%E1%84%89%E1%85%AE%E1%84%8C%E1%85%B5%E1%86%B8-%E1%84%92%E1%85%AA%E1%86%AF%E1%84%8B%E1%85%AD%E1%86%BC+%E1%84%83%E1%85%A9%E1%86%BC%E1%84%8B%E1%85%B4%E1%84%89%E1%85%A5"
-                  download="[서울대학교 AI 연구원] 개인정보 수집-활용 동의서"
-                >
-                  동의서 파일 다운로드하기
-                </a>
-              </Button>
-            </div>
-
             {/* 신청정보 */}
             {serverResponse && (
               <div className={styles.card}>
@@ -478,9 +462,25 @@ export default function consent() {
                   <div>{serverResponse.attributes.phoneNumber}</div>
                   <div>데이터 수집 기간</div>
                   <div>
-                    {keyConverter.dataCollectionTerm(
-                      serverResponse.attributes.dataCollectionTerm
-                    )}
+                    <span>
+                      {
+                        keyConverter
+                          .dataCollectionTerm(
+                            serverResponse.attributes.dataCollectionTerm
+                          )
+                          .split(" ~ ")[0]
+                      }
+                    </span>
+                    <span>
+                      &nbsp;~&nbsp;
+                      {
+                        keyConverter
+                          .dataCollectionTerm(
+                            serverResponse.attributes.dataCollectionTerm
+                          )
+                          .split(" ~ ")[1]
+                      }
+                    </span>
                   </div>
                 </div>
 

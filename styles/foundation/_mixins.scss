@@ -59,7 +59,7 @@
 // 반응형
 @mixin respond($breakpoint) {
   @if ($breakpoint == xl) {
-    @media (max-width: 1500px) {
+    @media (max-width: 1366px) {
       @content;
     }
   }
