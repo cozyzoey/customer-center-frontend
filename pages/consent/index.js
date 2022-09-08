@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import parse from "html-react-parser";
+import { useEffect, useState, Suspense } from "react";
+import useSWR from "swr";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
 import * as Yup from "yup";
 import {
@@ -14,13 +15,19 @@ import Layout from "@/components/layout";
 import { toast } from "react-toastify";
 import Button from "@/components/button";
 import MyInput from "@/components/my-input";
+import Loader from "@/components/loader";
 import { API_URL } from "@/constants/config";
+import keyConverter from "utils/keyConverter";
 import styles from "@/styles/consent.module.scss";
 
 export default function consent() {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
+  const [serverResponse, setServerResponse] = useState(null);
   const router = useRouter();
+  const { data: businessData } = useSWR(`${API_URL}/api/business`, {
+    revalidateIfStale: false,
+  });
 
   const ScrollToErrorInput = () => {
     const { isValid, submitCount, errors } = useFormikContext();
@@ -65,32 +72,45 @@ export default function consent() {
     window.scrollTo(0, 0);
   }, [step]);
 
-  // const initialValues = {
-  //   name: "",
-  //   schoolName: "",
-  //   gender: "",
-  //   schoolYear: 1,
-  //   schoolClass: "",
-  //   studentNumber: "",
-  //   phoneNumber: "",
-  //   dataCollectionTerm: "",
-  //   parentName: "",
-  //   parentPhoneNumber: "",
-  // };
+  const initialValues = serverResponse
+    ? {
+        name: serverResponse?.attributes?.name,
+        schoolName: serverResponse.attributes.schoolName,
+        gender: serverResponse?.attributes?.gender,
+        schoolYear: 1,
+        schoolClass: serverResponse?.attributes?.schoolClass,
+        studentNumber: serverResponse?.attributes?.studentNumber,
+        phoneNumber: serverResponse?.attributes?.phoneNumber,
+        dataCollectionTerm: serverResponse?.attributes?.dataCollectionTerm,
+        parentName: serverResponse?.attributes?.parentName,
+        parentPhoneNumber: serverResponse?.attributes?.parentPhoneNumber,
+      }
+    : {
+        name: "",
+        schoolName: "",
+        gender: "",
+        schoolYear: 1,
+        schoolClass: "",
+        studentNumber: "",
+        phoneNumber: "",
+        dataCollectionTerm: "",
+        parentName: "",
+        parentPhoneNumber: "",
+      };
 
   //* 테스트용 초기값
-  const initialValues = {
-    name: "김반석",
-    schoolName: "신촌 중학교",
-    gender: "male",
-    schoolYear: 1,
-    schoolClass: 2,
-    studentNumber: 3,
-    phoneNumber: "01050259204",
-    dataCollectionTerm: 2,
-    parentName: "학부모",
-    parentPhoneNumber: "01050259204",
-  };
+  // const initialValues = {
+  //   name: "김반석",
+  //   schoolName: "신촌 중학교",
+  //   gender: "male",
+  //   schoolYear: 1,
+  //   schoolClass: 2,
+  //   studentNumber: 3,
+  //   phoneNumber: "01050259204",
+  //   dataCollectionTerm: 2,
+  //   parentName: "학부모",
+  //   parentPhoneNumber: "01050259204",
+  // };
 
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -153,7 +173,10 @@ export default function consent() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ data: values }),
+        // 학교 이름은 양측의 공백 제거
+        body: JSON.stringify({
+          data: { ...values, schoolName: values.schoolName.trim() },
+        }),
       });
       const { data, error } = await res.json();
 
@@ -161,6 +184,41 @@ export default function consent() {
         throw new Error(error.message);
       }
 
+      setServerResponse(data); // id, attributes: {}
+      setStep(3);
+      resetForm();
+    } catch (error) {
+      toast.error(error?.message || "내부 문제가 생겼어요 :(");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUpdate = async (values, { resetForm }) => {
+    try {
+      const result = window.confirm("신청 정보를 수정하시겠습니까?");
+
+      if (!result) return;
+
+      setLoading(true);
+
+      const res = await fetch(`${API_URL}/api/students/${serverResponse.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // 학교 이름은 양측의 공백 제거
+        body: JSON.stringify({
+          data: { ...values, schoolName: values.schoolName.trim() },
+        }),
+      });
+      const { data, error } = await res.json();
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      setServerResponse(data); // id, attributes: {}
       setStep(3);
       resetForm();
     } catch (error) {
@@ -192,14 +250,16 @@ export default function consent() {
             <label>2. 정보 입력</label>
           </div>
           <hr></hr>
-          <div className={step >= 3 ? styles.activeStep : styles.inactiveStep}>
+          <div
+            className={step >= 3 ? styles.activeStep : styles.inactiveStep}
+            onClick={() => serverResponse && setStep(3)}
+          >
             <div>
               <GrEdit size="3ch" />
             </div>
-            <label>3. 서명하기</label>
+            <label>3. 신청 완료</label>
           </div>
         </div>
-
         {/* 1단계: 안내문 */}
         {step === 1 && (
           <div className={styles.stepDocuments}>
@@ -207,14 +267,11 @@ export default function consent() {
               <GrCircleInformation size="2.2ch" />
               학습 데이터 제공 참여를 위한 안내입니다.
             </div>
-            <Image
-              alt="데이터 수집 참여 안내문"
-              src="https://nia-homepage-media.s3.ap-northeast-2.amazonaws.com/assets/data-collection-notice.png"
-              layout="responsive"
-              priority={true}
-              width={992}
-              height={1403}
-            />
+            <Suspense default={<Loader />}>
+              <div className={styles.dataCollectionNotice}>
+                {parse(businessData.data.attributes.dataCollectionNotice)}
+              </div>
+            </Suspense>
             <Button fullWidth={true} onClick={() => setStep(2)} type="button">
               다음
             </Button>
@@ -224,7 +281,7 @@ export default function consent() {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={handleSubmit}
+          onSubmit={serverResponse ? handleUpdate : handleSubmit}
           enableReinitialize={true}
         >
           {({ errors, touched }) => (
@@ -236,7 +293,6 @@ export default function consent() {
               </div>
               <fieldset>
                 <legend>학생 정보</legend>
-
                 {/* 이름 */}
                 <Field
                   name="name"
@@ -245,7 +301,6 @@ export default function consent() {
                   component={MyInput}
                 />
                 <ErrorMessage component="label" name="name" />
-
                 {/* 학교 */}
                 <Field
                   name="schoolName"
@@ -254,21 +309,19 @@ export default function consent() {
                   component={MyInput}
                 />
                 <ErrorMessage component="label" name="schoolName" />
-
                 {/* 성별 */}
                 <section>
                   성별:
                   <label>
                     <Field type="radio" name="gender" value="male" />
-                    남자
+                    {keyConverter.gender("male")}
                   </label>
                   <label>
                     <Field type="radio" name="gender" value="female" />
-                    여자
+                    {keyConverter.gender("female")}
                   </label>
                 </section>
                 <ErrorMessage component="label" name="gender" />
-
                 {/* 학년, 반, 번호 */}
                 <section className={styles.withLabel}>
                   <label>
@@ -315,7 +368,6 @@ export default function consent() {
                 ) : touched.studentNumber && errors.studentNumber ? (
                   <ErrorMessage component="label" name="studentNumber" />
                 ) : null}
-
                 {/* 핸드폰 번호 */}
                 <Field
                   name="phoneNumber"
@@ -324,7 +376,6 @@ export default function consent() {
                   component={MyInput}
                 />
                 <ErrorMessage component="label" name="phoneNumber" />
-
                 {/* 데이터 수집 기간 */}
                 <section className={styles.withLabel}>
                   <label>
@@ -340,13 +391,13 @@ export default function consent() {
                     >
                       <option value="">선택</option>
                       <option value={1}>
-                        1차 - 2022년 9월 19일 ~ 2022년 9월 23일
+                        {keyConverter.dataCollectionTerm(1)}
                       </option>
                       <option value={2}>
-                        2차 - 2022년 10월 3일 ~ 2022년 10월 7일
+                        {keyConverter.dataCollectionTerm(2)}
                       </option>
                       <option value={3}>
-                        3차 - 2022년 10월 17일 ~ 2022년 10월 21일
+                        {keyConverter.dataCollectionTerm(3)}
                       </option>
                     </Field>
                   </label>
@@ -371,7 +422,7 @@ export default function consent() {
                 <ErrorMessage component="label" name="parentPhoneNumber" />
               </fieldset>
               <Button type="submit" fullWidth={true} loading={loading}>
-                다음
+                {serverResponse ? "수정하기" : "다음"}
               </Button>
             </Form>
           )}
@@ -381,25 +432,81 @@ export default function consent() {
           <div className={styles.stepCompleted}>
             <div className={styles.stepGuide}>
               <GrCircleInformation size="2.2ch" />
-              이메일로 아래 내용의 온라인 동의서를 보내드릴게요. 이메일
-              확인하셔서 온라인으로 학습 데이터 제공 참여에 동의해주세요.
+              참여 신청이 완료되었습니다.
+              <br /> 우리 소중한 자녀의 올바른 교육을 위한 노력에 함께 해주셔서
+              감사합니다.
             </div>
-            <h2>데이터 참여 동의서 내용(아래)</h2>
-            <div className={styles.consentDocs}>
-              <Image
-                alt="개인정보 수집-활용 동의서 페이지1"
-                src="https://nia-homepage-media.s3.ap-northeast-2.amazonaws.com/privacy-consent-doc-1.png"
-                layout="responsive"
-                width={992}
-                height={1403}
-              />
-              <Image
-                alt="개인정보 수집-활용 동의서 페이지2"
-                src="https://nia-homepage-media.s3.ap-northeast-2.amazonaws.com/privacy-consent-doc-2.png"
-                layout="responsive"
-                width={992}
-                height={1403}
-              />
+
+            {/* 요청사항 */}
+            <div className={styles.card}>
+              <div className={styles.cardTitle}>요청 사항</div>
+              <div className={styles.cardSubtitle}>
+                데이터 수집 참여시 참여 동의서를 지참해 주세요.
+              </div>
+              <Button>
+                <a
+                  href="https://nia-homepage-media.s3.ap-northeast-2.amazonaws.com/assets/%5B%E1%84%89%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%83%E1%85%A2%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%AD+AI+%E1%84%8B%E1%85%A7%E1%86%AB%E1%84%80%E1%85%AE%E1%84%8B%E1%85%AF%E1%86%AB%5D+%E1%84%80%E1%85%A2%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%87%E1%85%A9+%E1%84%89%E1%85%AE%E1%84%8C%E1%85%B5%E1%86%B8-%E1%84%92%E1%85%AA%E1%86%AF%E1%84%8B%E1%85%AD%E1%86%BC+%E1%84%83%E1%85%A9%E1%86%BC%E1%84%8B%E1%85%B4%E1%84%89%E1%85%A5"
+                  download="[서울대학교 AI 연구원] 개인정보 수집-활용 동의서"
+                >
+                  동의서 파일 다운로드하기
+                </a>
+              </Button>
+            </div>
+
+            {/* 신청정보 */}
+            {serverResponse && (
+              <div className={styles.card}>
+                <div className={styles.cardTitle}>신청 정보</div>
+                <div className={styles.cardSubtitle}>학생 정보</div>
+
+                <div className={styles.cardContent}>
+                  <div>이름</div>
+                  <div>{serverResponse.attributes.name}</div>
+                  <div>소속 학교 이름</div>
+                  <div>{serverResponse.attributes.schoolName}</div>
+                  <div>성별</div>
+                  <div>
+                    {keyConverter.gender(serverResponse.attributes.gender)}
+                  </div>
+                  <div>학년/반/번호</div>
+                  <div>
+                    {serverResponse.attributes.schoolYear}학년/
+                    {serverResponse.attributes.schoolClass}반/
+                    {serverResponse.attributes.studentNumber}번
+                  </div>
+                  <div>핸드폰 번호</div>
+                  <div>{serverResponse.attributes.phoneNumber}</div>
+                  <div>데이터 수집 기간</div>
+                  <div>
+                    {keyConverter.dataCollectionTerm(
+                      serverResponse.attributes.dataCollectionTerm
+                    )}
+                  </div>
+                </div>
+
+                <div className={styles.cardSubtitle}>학부모님 정보</div>
+                <div className={styles.cardContent}>
+                  <div>이름</div>
+                  <div>{serverResponse.attributes.parentName}</div>
+                  <div>핸드폰 번호</div>
+                  <div>{serverResponse.attributes.parentPhoneNumber}</div>
+                </div>
+
+                <Button onClick={() => setStep(2)}>수정하기</Button>
+              </div>
+            )}
+
+            {/* 카카오 채널 상담 */}
+            <div className={styles.card}>
+              <div className={styles.cardTitle}>문의하기</div>
+              <div className={styles.cardSubtitle}>
+                {businessData?.data?.attributes?.contactUs}
+              </div>
+              <Button>
+                <a href="http://pf.kakao.com/_xgWxdExj/chat" target="_blank">
+                  카카오채널 문의하기
+                </a>
+              </Button>
             </div>
           </div>
         )}

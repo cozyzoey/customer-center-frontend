@@ -1,5 +1,4 @@
 import { createContext, useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import { NEXT_URL } from "@/constants/config";
 import { toast } from "react-toastify";
 
@@ -10,8 +9,6 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  const router = useRouter();
 
   useEffect(() => {
     checkUserLoggedIn();
