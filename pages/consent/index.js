@@ -269,7 +269,7 @@ export default function consent() {
             </div>
             <Suspense default={<Loader />}>
               <div className={styles.dataCollectionNotice}>
-                {parse(businessData.data.attributes.dataCollectionNotice)}
+                {parse(businessData.data.attributes.dataCollectionNotice || "")}
               </div>
             </Suspense>
             <Button fullWidth={true} onClick={() => setStep(2)} type="button">
