@@ -7,24 +7,16 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.logos}>
         <Image
-          alt="NIA"
-          src="/icons/footer_logo_1.png"
-          layout="fixed"
-          width={172}
-          height={20}
-          objectFit="contain"
-        />
-        <Image
           alt="서울대학교 산학협력단"
-          src="/icons/footer_logo_2.png"
+          src="/icons/logo.png"
           layout="fixed"
-          width={169}
-          height={34}
+          width={183}
+          height={39}
           objectFit="contain"
         />
         <Image
           alt="서울특별시교육청"
-          src="/icons/footer_logo_3.png"
+          src="/icons/logo_edu.png"
           layout="fixed"
           width={148}
           height={34}
@@ -32,7 +24,7 @@ export default function Footer() {
         />
         <Image
           alt="서울대학교병원"
-          src="/icons/footer_logo_4.png"
+          src="/icons/logo_snuh.png"
           layout="fixed"
           width={187}
           height={20}
@@ -40,7 +32,7 @@ export default function Footer() {
         />
         <Image
           alt="오픈링크시스템"
-          src="/icons/footer_logo_5.png"
+          src="/icons/logo_openlinksystem.png"
           layout="fixed"
           width={195}
           height={29}
@@ -48,18 +40,18 @@ export default function Footer() {
         />
         <Image
           alt="유탑소프트"
-          src="/icons/footer_logo_6.png"
+          src="/icons/logo_utopsoft.png"
           layout="fixed"
           width={45}
           height={40}
           objectFit="contain"
         />
         <Image
-          alt="AIIS"
-          src="/icons/footer_logo_7.png"
+          alt="NIA"
+          src="/icons/logo_nia.png"
           layout="fixed"
-          width={92}
-          height={42}
+          width={172}
+          height={20}
           objectFit="contain"
         />
       </div>
