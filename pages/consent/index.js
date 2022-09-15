@@ -90,10 +90,12 @@ export default function consent() {
         schoolClass: serverResponse?.attributes?.schoolClass,
         studentNumber: serverResponse?.attributes?.studentNumber,
         phoneNumber: serverResponse?.attributes?.phoneNumber,
+        email: serverResponse?.attributes?.email,
         dataCollectionSession:
           serverResponse?.attributes?.dataCollectionSession?.data?.id,
         parentName: serverResponse?.attributes?.parentName,
         parentPhoneNumber: serverResponse?.attributes?.parentPhoneNumber,
+        parentEmail: serverResponse?.attributes?.parentEmail,
       }
     : {
         name: "",
@@ -103,9 +105,11 @@ export default function consent() {
         schoolClass: "",
         studentNumber: "",
         phoneNumber: "",
+        email: "",
         dataCollectionSession: "",
         parentName: "",
         parentPhoneNumber: "",
+        parentEmail: "",
       };
 
   //* 테스트용 초기값
@@ -117,9 +121,11 @@ export default function consent() {
   //   schoolClass: 2,
   //   studentNumber: 3,
   //   phoneNumber: "01050259204",
+  //   email: "",
   //   dataCollectionSession: 1,
   //   parentName: "학부모",
   //   parentPhoneNumber: "01050259204",
+  //   parentEmail: ""
   // };
 
   const validationSchema = Yup.object({
@@ -137,7 +143,6 @@ export default function consent() {
     gender: Yup.mixed()
       .oneOf(["male", "female"])
       .required("필수 입력 항목입니다"),
-
     schoolYear: Yup.number()
       .min(1, "학년은 1~3 사이의 값을 입력해주세요")
       .max(3, "학년은 1~3 사의 값을 입력해주세요")
@@ -152,12 +157,14 @@ export default function consent() {
       .min(1, "번호는 1 이상의 값을 입력해주세요")
       .max(99, "번호는 99 이하의 값을 입력해주세요")
       .required("번호는 필수 입력 항목입니다"),
-
     phoneNumber: Yup.string()
       .matches(
         /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
         "예시 010-0000-0000"
       )
+      .required("필수 입력 항목입니다"),
+    email: Yup.string()
+      .email("이메일 형식을 확인해주세요")
       .required("필수 입력 항목입니다"),
     dataCollectionSession:
       Yup.number().required("데이터 수집 기간을 선택해주세요"),
@@ -169,6 +176,9 @@ export default function consent() {
         /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
         "예시 010-0000-0000"
       )
+      .required("필수 입력 항목입니다"),
+    parentEmail: Yup.string()
+      .email("이메일 형식을 확인해주세요")
       .required("필수 입력 항목입니다"),
   });
 
@@ -400,12 +410,23 @@ export default function consent() {
                 />
                 <ErrorMessage component="label" name="phoneNumber" />
 
+                {/* 핸드폰 번호 */}
+                <Field
+                  name="email"
+                  type="email"
+                  placeholder="이메일(정확히 입력)"
+                  component={MyInput}
+                />
+                <ErrorMessage component="label" name="email" />
+
                 {/* 데이터 수집 기간 */}
                 <p
                   className={styles.dataCollectionSessionTitle}
                   name="dataCollectionSession"
                 >
                   데이터 수집 기간
+                  <br />
+                  원하는 데이터 수집기간 세션 선택
                 </p>
                 <ErrorMessage component="label" name="dataCollectionSession" />
 
@@ -448,26 +469,13 @@ export default function consent() {
                           {moment(session.attributes.date).format(
                             "YY년 M월 D일"
                           )}
-                          <br />(
-                          <em>{session.attributes.remainingApplicants}</em>
-                          /220)
+                          <br />
+                          신청 잔여: {session.attributes.remainingApplicants}
                         </div>
                       );
                     })}
                 </div>
               </fieldset>
-
-              {!serverResponse && (
-                <fieldset>
-                  <legend>서명하기</legend>
-                  <iframe
-                    width="100%"
-                    height="800"
-                    src="https://app.modusign.co.kr/link/f7628320-34ca-11ed-b019-d973344d21d0/authentication"
-                    allowFullScreen
-                  ></iframe>
-                </fieldset>
-              )}
 
               <fieldset>
                 <legend>학부모님 정보</legend>
@@ -485,7 +493,27 @@ export default function consent() {
                   component={MyInput}
                 />
                 <ErrorMessage component="label" name="parentPhoneNumber" />
+                <Field
+                  name="parentEmail"
+                  type="email"
+                  placeholder="이메일(정확히 입력)"
+                  component={MyInput}
+                />
+                <ErrorMessage component="label" name="parentEmail" />
               </fieldset>
+
+              {!serverResponse && (
+                <fieldset>
+                  <legend>서명하기</legend>
+                  <iframe
+                    width="100%"
+                    height="800"
+                    src="https://app.modusign.co.kr/link/f7628320-34ca-11ed-b019-d973344d21d0/authentication"
+                    allowFullScreen
+                  ></iframe>
+                </fieldset>
+              )}
+
               <div className={styles.stepGuide} style={{ marginTop: "3ch" }}>
                 <GrCircleInformation size="2.2ch" />
                 제출하기 전에 꼭 위의 "서명하기"를 완료해주세요.
@@ -562,6 +590,13 @@ export default function consent() {
                 </a>
               </Button>
             </div>
+            <Button
+              onClick={() => router.replace("/")}
+              variant="blue"
+              size="lg"
+            >
+              처음으로
+            </Button>
           </div>
         )}
       </div>

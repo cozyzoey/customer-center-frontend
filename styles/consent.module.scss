@@ -95,6 +95,10 @@
     list-style-type: unset;
     padding-inline-start: 6px;
   }
+  img {
+    display: inline-block;
+    width: 80px;
+  }
 }
 
 .stepGuide {
@@ -209,34 +213,36 @@ div.inactiveStep {
 
 .dataCollectionSessionTitle {
   margin: 4ch 0 1ch;
+  text-align: center;
 }
 .dataCollectionSessionTable {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   text-align: center;
-  border: 1px solid v.$gray3;
-  background-color: v.$gray3;
+  border: 1px solid v.$gray1;
+  background-color: v.$gray1;
   grid-gap: 1px;
   & > div {
-    padding: 1ch;
+    padding: 6px;
     background-color: v.$white;
     cursor: pointer;
     span {
-      @include mixins.fs2;
+      @include mixins.fs1;
       display: inline-block;
-      border: 1px solid black;
+      border: 1px solid currentColor;
       border-radius: 50%;
-      width: 2ch;
-      height: 2ch;
+      width: 2.2ch;
+      height: 2.2ch;
       margin-right: 6px;
-      line-height: 0.9;
+      line-height: 1;
     }
     em {
       font-style: normal;
     }
     &[data-active="true"] {
-      background-color: v.$yellow;
+      background-color: v.$blue;
+      color: v.$white;
     }
     &[data-disabled="true"] {
       cursor: auto;
@@ -245,7 +251,8 @@ div.inactiveStep {
   }
   .tableHeader {
     cursor: auto;
-    background-color: v.$gray1;
+    background-color: v.$yellow;
+    word-break: keep-all;
   }
 }
 
