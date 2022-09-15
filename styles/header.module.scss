@@ -45,13 +45,16 @@
 
   .logo {
     grid-area: logo;
-    width: 205px;
+    width: 167px;
     margin-right: 5ch;
     @include mixins.fs4;
     @extend %navItemBase;
     font-weight: 500;
     a {
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
   }
 
@@ -173,11 +176,17 @@
   }
 
   .logo {
-    width: 127px;
+    width: 108px;
     position: absolute;
     transform: translate(-50%, -50%);
     top: 50%;
     left: 50%;
+    a {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
   }
 
   .drawer {
@@ -227,7 +236,7 @@
       .consent {
         height: 43px;
         border-radius: 8px;
-        background-color: v.$yellow;
+        background-color: v.$blue;
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.17);
         display: flex;
         align-items: center;

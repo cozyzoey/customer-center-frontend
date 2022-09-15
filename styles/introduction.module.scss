@@ -45,9 +45,10 @@
     }
     .logo {
       justify-self: center;
-      width: 25ch;
+      width: 23ch;
       @include mixins.respond(lg) {
         margin: 0 auto;
+        width: 113px;
       }
     }
     .detail {

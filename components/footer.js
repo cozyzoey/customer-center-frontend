@@ -7,8 +7,8 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.logos}>
         <Image
-          alt="서울대학교 산학협력단"
-          src="/icons/logo.png"
+          alt="서울대학교 AI 연구원"
+          src="/icons/logo_snu.png"
           layout="fixed"
           width={183}
           height={39}

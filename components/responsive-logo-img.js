@@ -6,8 +6,8 @@ export default function ResponsiveLogoImg() {
     <Image
       src="/icons/logo.png"
       layout="responsive"
-      width={615}
-      height={129}
+      width={844}
+      height={444}
       priority={true}
     />
   );

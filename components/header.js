@@ -5,7 +5,6 @@ import { motion, LayoutGroup } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Button from "@/components/button";
-import Logo from "@/components/responsive-logo-img";
 
 import AuthContext from "@/context/AuthContext";
 import styles from "@/styles/header.module.scss";
@@ -37,7 +36,20 @@ export default function Header() {
       <div className={styles.logo}>
         <Link href="/">
           <a>
-            <Logo />
+            <Image
+              alt="서울대학교 AI 연구원"
+              src="/icons/logo_snu.png"
+              layout="responsive"
+              width={615}
+              height={129}
+            />
+            <Image
+              alt="서울특별시교육청"
+              src="/icons/logo_edu.png"
+              layout="responsive"
+              width={317}
+              height={73}
+            />
           </a>
         </Link>
       </div>
@@ -105,7 +117,20 @@ export default function Header() {
       <div className={styles.logo}>
         <Link href="/">
           <a>
-            <Logo />
+            <Image
+              alt="서울대학교 AI 연구원"
+              src="/icons/logo_snu.png"
+              layout="responsive"
+              width={615}
+              height={129}
+            />
+            <Image
+              alt="서울특별시교육청"
+              src="/icons/logo_edu.png"
+              layout="responsive"
+              width={317}
+              height={73}
+            />
           </a>
         </Link>
       </div>

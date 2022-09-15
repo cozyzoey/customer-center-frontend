@@ -24,14 +24,14 @@
     grid-column: 1 / 4;
   }
   .logo {
-    width: 36ch;
+    width: 38ch;
     position: absolute;
     transform: translate(-50%, -50%);
     top: calc(50% - 2ch);
     left: 50%;
     z-index: 2;
     @include mixins.respond(lg) {
-      display: none;
+      width: 152px;
     }
   }
   .overlay {
