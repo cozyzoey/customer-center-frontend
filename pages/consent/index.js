@@ -1,4 +1,5 @@
 import parse from "html-react-parser";
+import moment from "moment";
 import { useEffect, useState, Suspense } from "react";
 import useSWR from "swr";
 import { useRouter } from "next/router";
@@ -28,6 +29,14 @@ export default function consent() {
   const { data: businessData } = useSWR(`${API_URL}/api/business`, {
     revalidateIfStale: false,
   });
+  const { data: sessionsData } = useSWR(
+    `${API_URL}/api/data-collection-sessions`,
+    {
+      revalidateIfStale: true,
+      revalidateOnFocus: true,
+      revalidateOnReconnect: true,
+    }
+  );
 
   const ScrollToErrorInput = () => {
     const { isValid, submitCount, errors } = useFormikContext();
@@ -42,8 +51,8 @@ export default function consent() {
 
       const element =
         document.querySelector(`input[name=${errorFieldNames[0]}]`) ||
-        document.querySelector(`select[name=${errorFieldNames[0]}]`);
-
+        document.querySelector(`select[name=${errorFieldNames[0]}]`) ||
+        document.querySelector(`p[name=${errorFieldNames[0]}]`);
       if (!element) return;
 
       element.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -81,7 +90,8 @@ export default function consent() {
         schoolClass: serverResponse?.attributes?.schoolClass,
         studentNumber: serverResponse?.attributes?.studentNumber,
         phoneNumber: serverResponse?.attributes?.phoneNumber,
-        dataCollectionTerm: serverResponse?.attributes?.dataCollectionTerm,
+        dataCollectionSession:
+          serverResponse?.attributes?.dataCollectionSession?.data?.id,
         parentName: serverResponse?.attributes?.parentName,
         parentPhoneNumber: serverResponse?.attributes?.parentPhoneNumber,
       }
@@ -93,7 +103,7 @@ export default function consent() {
         schoolClass: "",
         studentNumber: "",
         phoneNumber: "",
-        dataCollectionTerm: "",
+        dataCollectionSession: "",
         parentName: "",
         parentPhoneNumber: "",
       };
@@ -107,7 +117,7 @@ export default function consent() {
   //   schoolClass: 2,
   //   studentNumber: 3,
   //   phoneNumber: "01050259204",
-  //   dataCollectionTerm: 2,
+  //   dataCollectionSession: 1,
   //   parentName: "학부모",
   //   parentPhoneNumber: "01050259204",
   // };
@@ -149,10 +159,8 @@ export default function consent() {
         "예시 010-0000-0000"
       )
       .required("필수 입력 항목입니다"),
-    dataCollectionTerm: Yup.number()
-      .min(1, "1~3 사이의 값을 입력해주세요")
-      .max(3, "1~3 사의 값을 입력해주세요")
-      .required("필수 입력 항목입니다"),
+    dataCollectionSession:
+      Yup.number().required("데이터 수집 기간을 선택해주세요"),
     parentName: Yup.string()
       .matches(/^[가-힣]{2,4}$/, "2~4자의 실명을 입력해주세요")
       .required("필수 입력 항목입니다"),
@@ -168,7 +176,7 @@ export default function consent() {
     try {
       setLoading(true);
 
-      const res = await fetch(`${API_URL}/api/students`, {
+      const res = await fetch(`${API_URL}/api/students?populate=*`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -202,16 +210,19 @@ export default function consent() {
 
       setLoading(true);
 
-      const res = await fetch(`${API_URL}/api/students/${serverResponse.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        // 학교 이름은 양측의 공백 제거
-        body: JSON.stringify({
-          data: { ...values, schoolName: values.schoolName.trim() },
-        }),
-      });
+      const res = await fetch(
+        `${API_URL}/api/students/${serverResponse.id}?populate=*`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          // 학교 이름은 양측의 공백 제거
+          body: JSON.stringify({
+            data: { ...values, schoolName: values.schoolName.trim() },
+          }),
+        }
+      );
       const { data, error } = await res.json();
 
       if (error) {
@@ -226,6 +237,19 @@ export default function consent() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const convertDataCollectionSession = (id) => {
+    const session = sessionsData?.data.filter((el) => el.id === id)[0];
+
+    if (!session) return null;
+
+    return (
+      <>
+        {session.attributes.group},&nbsp;
+        {moment(session.attributes.date).format("YY년 M월 D일")}
+      </>
+    );
   };
 
   return (
@@ -284,7 +308,7 @@ export default function consent() {
           onSubmit={serverResponse ? handleUpdate : handleSubmit}
           enableReinitialize={true}
         >
-          {({ errors, touched }) => (
+          {({ errors, touched, setFieldValue, values }) => (
             <Form className={styles.form}>
               <ScrollToErrorInput />
               <div className={styles.stepGuide}>
@@ -325,7 +349,6 @@ export default function consent() {
                 {/* 학년, 반, 번호 */}
                 <section className={styles.withLabel}>
                   <label>
-                    학년:
                     <Field
                       as="select"
                       name="schoolYear"
@@ -337,9 +360,9 @@ export default function consent() {
                       disabled
                     >
                       <option value="">선택</option>
-                      <option value={1}>1학년</option>
-                      <option value={2}>2학년</option>
-                      <option value={3}>3학년</option>
+                      <option value={1}>중학교 1학년</option>
+                      <option value={2}>중학교 2학년</option>
+                      <option value={3}>중학교 3학년</option>
                     </Field>
                   </label>
                   <label>
@@ -376,34 +399,75 @@ export default function consent() {
                   component={MyInput}
                 />
                 <ErrorMessage component="label" name="phoneNumber" />
+
                 {/* 데이터 수집 기간 */}
-                <section className={styles.withLabel}>
-                  <label>
-                    데이터 수집 기간:&nbsp;
-                    <Field
-                      as="select"
-                      name="dataCollectionTerm"
-                      className={
-                        touched.schoolYear && errors.schoolYear
-                          ? styles.errorBorder
-                          : ""
-                      }
-                    >
-                      <option value="">선택</option>
-                      <option value={1}>
-                        {keyConverter.dataCollectionTerm(1)}
-                      </option>
-                      <option value={2}>
-                        {keyConverter.dataCollectionTerm(2)}
-                      </option>
-                      <option value={3}>
-                        {keyConverter.dataCollectionTerm(3)}
-                      </option>
-                    </Field>
-                  </label>
-                </section>
-                <ErrorMessage component="label" name="dataCollectionTerm" />
+                <p
+                  className={styles.dataCollectionSessionTitle}
+                  name="dataCollectionSession"
+                >
+                  데이터 수집 기간
+                </p>
+                <ErrorMessage component="label" name="dataCollectionSession" />
+
+                <div className={styles.dataCollectionSessionTable}>
+                  <div className={styles.tableHeader}>
+                    토요일 A반(오전)
+                    <br />
+                    10:00~13:00
+                  </div>
+                  <div className={styles.tableHeader}>
+                    토요일 B반(오후)
+                    <br />
+                    14:00~17:00
+                  </div>
+                  <div className={styles.tableHeader}>
+                    일요일
+                    <br />
+                    14:00~17:00
+                  </div>
+                  {sessionsData?.data &&
+                    sessionsData.data.map((session) => {
+                      return (
+                        <div
+                          key={session.id}
+                          onClick={() => {
+                            session.attributes.remainingApplicants > 0 &&
+                              setFieldValue(
+                                "dataCollectionSession",
+                                session.id
+                              );
+                          }}
+                          data-active={
+                            session.id === values.dataCollectionSession
+                          }
+                          data-disabled={
+                            session.attributes.remainingApplicants === 0
+                          }
+                        >
+                          {moment(session.attributes.date).format(
+                            "YY년 M월 D일"
+                          )}
+                          <br />(
+                          <em>{session.attributes.remainingApplicants}</em>
+                          /220)
+                        </div>
+                      );
+                    })}
+                </div>
               </fieldset>
+
+              {!serverResponse && (
+                <fieldset>
+                  <legend>서명하기</legend>
+                  <iframe
+                    width="100%"
+                    height="800"
+                    src="https://app.modusign.co.kr/link/f7628320-34ca-11ed-b019-d973344d21d0/authentication"
+                    allowFullScreen
+                  ></iframe>
+                </fieldset>
+              )}
+
               <fieldset>
                 <legend>학부모님 정보</legend>
                 <Field
@@ -427,7 +491,8 @@ export default function consent() {
             </Form>
           )}
         </Formik>
-        {/*  3단계: 서명 안내 */}
+
+        {/*  3단계: 신청 완료 */}
         {step === 3 && (
           <div className={styles.stepCompleted}>
             <div className={styles.stepGuide}>
@@ -454,7 +519,7 @@ export default function consent() {
                   </div>
                   <div>학년/반/번호</div>
                   <div>
-                    {serverResponse.attributes.schoolYear}학년/
+                    중학교 {serverResponse.attributes.schoolYear}학년/
                     {serverResponse.attributes.schoolClass}반/
                     {serverResponse.attributes.studentNumber}번
                   </div>
@@ -462,25 +527,9 @@ export default function consent() {
                   <div>{serverResponse.attributes.phoneNumber}</div>
                   <div>데이터 수집 기간</div>
                   <div>
-                    <span>
-                      {
-                        keyConverter
-                          .dataCollectionTerm(
-                            serverResponse.attributes.dataCollectionTerm
-                          )
-                          .split(" ~ ")[0]
-                      }
-                    </span>
-                    <span>
-                      &nbsp;~&nbsp;
-                      {
-                        keyConverter
-                          .dataCollectionTerm(
-                            serverResponse.attributes.dataCollectionTerm
-                          )
-                          .split(" ~ ")[1]
-                      }
-                    </span>
+                    {convertDataCollectionSession(
+                      serverResponse.attributes.dataCollectionSession.data.id
+                    )}
                   </div>
                 </div>
 

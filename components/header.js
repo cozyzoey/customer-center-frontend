@@ -103,7 +103,11 @@ export default function Header() {
           )}
         </div>
         <div className={styles.consent}>
-          <Button onClick={() => router.push("/consent")} size="sm">
+          <Button
+            onClick={() => router.push("/consent")}
+            size="sm"
+            variant="blue"
+          >
             학습 데이터 제공 참여 신청
           </Button>
         </div>

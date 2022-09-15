@@ -61,19 +61,6 @@ form {
   }
 }
 
-fieldset {
-  padding-top: 3ch;
-  border: none;
-  margin-bottom: 6ch;
-}
-legend {
-  @include mixins.fs5;
-  @include mixins.no-select;
-  font-weight: 700;
-  color: v.$yellow;
-  text-align: center;
-}
-
 input[type="text"],
 input[type="password"],
 input[type="email"],

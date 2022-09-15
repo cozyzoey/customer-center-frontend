@@ -58,6 +58,15 @@ $amount: 12%;
   }
 }
 
+.blue {
+  background-color: v.$blue;
+  color: v.$white;
+  &:hover,
+  &:active {
+    background-color: darken(v.$blue, $amount);
+  }
+}
+
 .gray {
   background-color: v.$gray2;
   color: v.$black;
