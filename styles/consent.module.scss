@@ -222,8 +222,17 @@ div.inactiveStep {
     padding: 1ch;
     background-color: v.$white;
     cursor: pointer;
+    span {
+      @include mixins.fs2;
+      display: inline-block;
+      border: 1px solid black;
+      border-radius: 50%;
+      width: 2ch;
+      height: 2ch;
+      margin-right: 6px;
+      line-height: 0.9;
+    }
     em {
-      color: v.$blue;
       font-style: normal;
     }
     &[data-active="true"] {

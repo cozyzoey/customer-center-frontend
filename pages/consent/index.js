@@ -444,6 +444,7 @@ export default function consent() {
                             session.attributes.remainingApplicants === 0
                           }
                         >
+                          <span>{session.attributes.sessionId}</span>
                           {moment(session.attributes.date).format(
                             "YY년 M월 D일"
                           )}
@@ -485,8 +486,12 @@ export default function consent() {
                 />
                 <ErrorMessage component="label" name="parentPhoneNumber" />
               </fieldset>
+              <div className={styles.stepGuide} style={{ marginTop: "3ch" }}>
+                <GrCircleInformation size="2.2ch" />
+                제출하기 전에 꼭 위의 "서명하기"를 완료해주세요.
+              </div>
               <Button type="submit" fullWidth={true} loading={loading}>
-                {serverResponse ? "수정하기" : "다음"}
+                {serverResponse ? "수정하기" : "제출하기"}
               </Button>
             </Form>
           )}
