@@ -8,10 +8,6 @@ const navLinks = [
     name: "Q&A",
     path: "/qna",
   },
-  {
-    name: "학습 데이터 제공 참여 신청",
-    path: "/consent",
-  },
 ];
 
 export default navLinks;

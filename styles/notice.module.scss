@@ -62,18 +62,34 @@
     gap: 20px 0;
   }
   .card {
+    min-height: 30ch;
     padding: 2ch;
     border: 5px solid v.$gray2;
     border-radius: 25px;
     flex: 1;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
     h2 {
       @include mixins.fs4;
       font-weight: 400;
       text-align: center;
-      margin-bottom: 24px;
+      word-break: keep-all;
+      max-width: 500px;
+      margin: 0 auto 24px;
+      height: 5ch;
     }
     .cardBody {
+      width: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      ul,
+      ol {
+        width: 100%;
+      }
       li {
         @include mixins.itemBox;
         h4 {

@@ -78,8 +78,8 @@ export default function Home() {
           </div>
           <div className={styles.card}>
             <h2>
-              서울특별시교육청 – 서울대학교 AI 연구원 공동연구
-              <br /> 교육데이터 활용 사례연구 참여 희망자(학생) 모집
+              서울특별시교육청 – 서울대학교 AI 연구원 공동연구 교육데이터 활용
+              사례연구 참여 희망자(학생) 모집
             </h2>
             <div className={styles.cardBody}>
               <Button
