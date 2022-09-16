@@ -100,6 +100,7 @@
   li {
     list-style-type: unset;
     padding-inline-start: 6px;
+    word-break: keep-all;
   }
   img {
     display: inline-block;
@@ -242,10 +243,8 @@ div.inactiveStep {
       border-radius: 50%;
       width: 2.2ch;
       height: 2.2ch;
-      transform: translateY(0.8ch);
       margin-right: 6px;
       line-height: 1;
-      vertical-align: text-top;
     }
     em {
       font-style: normal;
