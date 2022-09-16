@@ -166,18 +166,13 @@ export default function Header() {
 
         {/* auth 관련 */}
         <div className={styles.myspace}>
-          <div
-            className={styles.consent}
-            onClick={() => {
-              router.push("/consent");
-              setIsDrawerOpen(false);
-            }}
-          >
-            학습 데이터 제공 참여 신청
-          </div>
           <div className={styles.auth}>
             {user ? (
               <>
+                <div className={styles.authItem}>
+                  <Image src="/icons/user.svg" width={39} height={39} />
+                  <span className={styles.username}>{user.username}</span>
+                </div>
                 <div className={styles.authItem} onClick={handleLogout}>
                   <Image src="/icons/lock_open.svg" width={32} height={34} />
                   <span>Logout</span>
@@ -199,13 +194,16 @@ export default function Header() {
           </div>
         </div>
       </div>
-      <div className={styles.myspace}>
-        {user && (
-          <div className={styles.authItem}>
-            <Image src="/icons/user.svg" width={39} height={39} />
-            <span className={styles.username}>{user.username}</span>
-          </div>
-        )}
+      <div className={styles.cta}>
+        <div
+          className={styles.consent}
+          onClick={() => {
+            router.push("/consent");
+            setIsDrawerOpen(false);
+          }}
+        >
+          학습 데이터 제공 참여 신청
+        </div>
       </div>
     </div>
   );

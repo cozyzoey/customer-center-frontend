@@ -2,6 +2,16 @@
 @use "foundation/variables" as v;
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700&display=swap");
 
+:root {
+  --header-height: 117px;
+  @include mixins.respond(lg) {
+    --header-height: 59px;
+  }
+  @include mixins.respond(md) {
+    --header-height: 117px;
+  }
+}
+
 html,
 body {
   padding: 0;

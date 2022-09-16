@@ -46,7 +46,7 @@
   .logo {
     grid-area: logo;
     width: 167px;
-    margin-right: 5ch;
+    margin-right: 4ch;
     @include mixins.fs4;
     @extend %navItemBase;
     font-weight: 500;
@@ -62,7 +62,7 @@
     grid-area: navLinks;
     ul.navLinks {
       display: flex;
-      gap: 0 5ch;
+      gap: 0 3ch;
       li {
         @extend %navItemBase;
         @include mixins.active;
@@ -96,8 +96,8 @@
       height: 100%;
       display: flex;
       align-items: center;
-      gap: 0 3ch;
-      margin-right: 3ch;
+      gap: 0 2ch;
+      margin-right: 2ch;
 
       //로그인 영역
       .authItem {
@@ -128,9 +128,17 @@
   @include mixins.respond(lg) {
     display: grid;
   }
-  grid-template-columns: auto 1fr auto;
-  grid-template-areas: "hamburger . myspace";
   align-items: center;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: "hamburger . cta";
+  @include mixins.respond(md) {
+    padding-bottom: 8px;
+    grid-template-rows: 1fr auto;
+    grid-template-areas:
+      "hamburger . ."
+      "cta cta cta";
+    height: 100%;
+  }
 
   .hamburger {
     grid-area: hamburger;
@@ -187,6 +195,27 @@
       flex-direction: column;
       gap: 0;
     }
+    @include mixins.respond(md) {
+      transform: translate(-50%, -100%);
+    }
+  }
+
+  .cta {
+    grid-area: cta;
+    align-self: end;
+    .consent {
+      height: 43px;
+      padding: 0 14px;
+      border-radius: 8px;
+      background-color: v.$blue;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.17);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: v.$white;
+      font-weight: 500;
+      cursor: pointer;
+    }
   }
 
   .drawer {
@@ -194,7 +223,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    top: 59px;
+    top: v.$header-height;
     background-color: v.$white;
     width: 100%;
     padding: 0 4vw;
@@ -233,36 +262,22 @@
 
     .myspace {
       margin-top: 50px;
-      .consent {
-        height: 43px;
-        border-radius: 8px;
-        background-color: v.$blue;
-        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.17);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: v.$white;
-        font-weight: 500;
-      }
+
       .auth {
         margin-top: 24px;
         display: flex;
         justify-content: center;
         gap: 0 40px;
+
+        .authItem {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          gap: 6px;
+          @include mixins.active;
+        }
       }
     }
-  }
-
-  .authItem {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    gap: 6px;
-    @include mixins.active;
-  }
-
-  .myspace {
-    grid-area: myspace;
   }
 }

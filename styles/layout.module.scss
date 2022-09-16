@@ -7,23 +7,20 @@
     background-color: v.$white;
   }
   .header {
-    height: 117px;
+    height: v.$header-height;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 100;
-    @include mixins.respond(lg) {
-      height: 59px;
-    }
   }
   main {
-    padding-top: 117px;
+    padding-top: v.$header-height;
     padding-bottom: 100px;
     width: 100%;
     display: grid;
     grid-template-columns: 1fr minmax(0, v.$max-width) 1fr;
-    grid-template-rows: minmax(calc(100vh - 117px), auto);
+    grid-template-rows: minmax(calc(100vh - v.$header-height), auto);
     align-items: start;
     & > div {
       grid-column: 2 / 3;
@@ -33,9 +30,7 @@
       }
     }
     @include mixins.respond(lg) {
-      padding-top: 59px;
       padding-bottom: 50px;
-      grid-template-rows: minmax(calc(100vh - 59px), auto);
     }
   }
   footer {
