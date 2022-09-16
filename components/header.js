@@ -4,7 +4,6 @@ import Image from "next/image";
 import { motion, LayoutGroup } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Button from "@/components/button";
 
 import AuthContext from "@/context/AuthContext";
 import styles from "@/styles/header.module.scss";
@@ -102,15 +101,6 @@ export default function Header() {
             </Link>
           )}
         </div>
-        <div className={styles.consent}>
-          <Button
-            onClick={() => router.push("/consent")}
-            size="sm"
-            variant="blue"
-          >
-            학습 데이터 제공 참여 신청
-          </Button>
-        </div>
       </div>
     </div>
   );
@@ -164,15 +154,11 @@ export default function Header() {
           </ul>
         </nav>
 
-        {/* auth 관련 */}
+        {/* drawer - auth 관련 */}
         <div className={styles.myspace}>
           <div className={styles.auth}>
             {user ? (
               <>
-                <div className={styles.authItem}>
-                  <Image src="/icons/user.svg" width={39} height={39} />
-                  <span className={styles.username}>{user.username}</span>
-                </div>
                 <div className={styles.authItem} onClick={handleLogout}>
                   <Image src="/icons/lock_open.svg" width={32} height={34} />
                   <span>Logout</span>
@@ -194,16 +180,13 @@ export default function Header() {
           </div>
         </div>
       </div>
-      <div className={styles.cta}>
-        <div
-          className={styles.consent}
-          onClick={() => {
-            router.push("/consent");
-            setIsDrawerOpen(false);
-          }}
-        >
-          학습 데이터 제공 참여 신청
-        </div>
+      <div className={styles.myspace}>
+        {user && (
+          <div className={styles.authItem}>
+            <Image src="/icons/user.svg" width={39} height={39} />
+            <span className={styles.username}>{user.username}</span>
+          </div>
+        )}
       </div>
     </div>
   );

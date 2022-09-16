@@ -46,7 +46,7 @@
   .logo {
     grid-area: logo;
     width: 167px;
-    margin-right: 4ch;
+    margin-right: 5ch;
     @include mixins.fs4;
     @extend %navItemBase;
     font-weight: 500;
@@ -68,6 +68,7 @@
         @include mixins.active;
         color: v.$gray4;
         position: relative;
+        letter-spacing: -0.8px;
         a {
           padding: 0 1ch;
           height: 100%;
@@ -130,15 +131,7 @@
   }
   align-items: center;
   grid-template-columns: auto 1fr auto;
-  grid-template-areas: "hamburger . cta";
-  @include mixins.respond(md) {
-    padding-bottom: 8px;
-    grid-template-rows: 1fr auto;
-    grid-template-areas:
-      "hamburger . ."
-      "cta cta cta";
-    height: 100%;
-  }
+  grid-template-areas: "hamburger . myspace";
 
   .hamburger {
     grid-area: hamburger;
@@ -195,26 +188,18 @@
       flex-direction: column;
       gap: 0;
     }
-    @include mixins.respond(md) {
-      transform: translate(-50%, -100%);
-    }
   }
 
-  .cta {
-    grid-area: cta;
-    align-self: end;
-    .consent {
-      height: 43px;
-      padding: 0 14px;
-      border-radius: 8px;
-      background-color: v.$blue;
-      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.17);
+  .myspace {
+    grid-area: myspace;
+    .authItem {
       display: flex;
       align-items: center;
-      justify-content: center;
-      color: v.$white;
-      font-weight: 500;
-      cursor: pointer;
+      gap: 6px;
+      &:last-of-type {
+        @include mixins.active;
+        cursor: pointer;
+      }
     }
   }
 

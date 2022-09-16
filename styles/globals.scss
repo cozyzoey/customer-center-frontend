@@ -7,9 +7,6 @@
   @include mixins.respond(lg) {
     --header-height: 59px;
   }
-  @include mixins.respond(md) {
-    --header-height: 117px;
-  }
 }
 
 html,

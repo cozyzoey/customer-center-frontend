@@ -61,7 +61,7 @@
     flex-direction: column;
     gap: 20px 0;
   }
-  & > * {
+  .card {
     padding: 2ch;
     border: 5px solid v.$gray2;
     border-radius: 25px;
@@ -73,24 +73,19 @@
       text-align: center;
       margin-bottom: 24px;
     }
-  }
-  .list {
-    li {
-      @include mixins.itemBox;
-      h4 {
-        @include mixins.fs4;
-        font-weight: 400;
+    .cardBody {
+      li {
+        @include mixins.itemBox;
+        h4 {
+          @include mixins.fs4;
+          font-weight: 400;
+        }
+        div {
+          margin-bottom: 1ch;
+        }
+        time {
+        }
       }
-      div {
-        margin-bottom: 1ch;
-      }
-      time {
-      }
-    }
-  }
-  .video {
-    video {
-      width: 100%;
     }
   }
 }
