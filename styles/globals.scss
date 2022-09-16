@@ -38,7 +38,7 @@ form {
     display: flex;
     padding: 1.6ch 0;
     gap: 0 3ch;
-    white-space: nowrap;
+    word-break: break-word;
     & > * {
       cursor: pointer;
     }

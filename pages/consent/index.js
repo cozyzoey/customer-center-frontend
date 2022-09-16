@@ -2,14 +2,15 @@ import parse from "html-react-parser";
 import moment from "moment";
 import { useEffect, useState, Suspense } from "react";
 import useSWR from "swr";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
 import * as Yup from "yup";
 import {
   GrCircleInformation,
   GrCopy,
-  GrContactInfo,
   GrEdit,
+  GrCheckmark,
 } from "react-icons/gr";
 
 import Layout from "@/components/layout";
@@ -96,6 +97,11 @@ export default function consent() {
         parentName: serverResponse?.attributes?.parentName,
         parentPhoneNumber: serverResponse?.attributes?.parentPhoneNumber,
         parentEmail: serverResponse?.attributes?.parentEmail,
+        personalInfoCollectionAndUseAgreement:
+          serverResponse?.attributes?.personalInfoCollectionAndUseAgreement,
+        personalInfoProvidingToThirdPartiesAgreement:
+          serverResponse?.attributes
+            ?.personalInfoProvidingToThirdPartiesAgreement,
       }
     : {
         name: "",
@@ -110,6 +116,8 @@ export default function consent() {
         parentName: "",
         parentPhoneNumber: "",
         parentEmail: "",
+        personalInfoCollectionAndUseAgreement: false,
+        personalInfoProvidingToThirdPartiesAgreement: false,
       };
 
   //* 테스트용 초기값
@@ -126,6 +134,8 @@ export default function consent() {
   //   parentName: "학부모",
   //   parentPhoneNumber: "01050259204",
   //   parentEmail: ""
+  // personalInfoCollectionAndUseAgreement: true,
+  // personalInfoProvidingToThirdPartiesAgreement: true
   // };
 
   const validationSchema = Yup.object({
@@ -180,6 +190,12 @@ export default function consent() {
     parentEmail: Yup.string()
       .email("이메일 형식을 확인해주세요")
       .required("필수 입력 항목입니다"),
+    personalInfoCollectionAndUseAgreement: Yup.boolean()
+      .required("동의에 체크해 주세요")
+      .oneOf([true], "동의에 체크해 주세요"),
+    personalInfoProvidingToThirdPartiesAgreement: Yup.boolean()
+      .required("동의에 체크해 주세요")
+      .oneOf([true], "동의에 체크해 주세요"),
   });
 
   const handleSubmit = async (values, { resetForm }) => {
@@ -279,7 +295,7 @@ export default function consent() {
             onClick={() => setStep(2)}
           >
             <div>
-              <GrContactInfo size="3ch" />
+              <GrEdit size="3ch" />
             </div>
             <label>2. 정보 입력</label>
           </div>
@@ -289,7 +305,7 @@ export default function consent() {
             onClick={() => serverResponse && setStep(3)}
           >
             <div>
-              <GrEdit size="3ch" />
+              <GrCheckmark size="3ch" />
             </div>
             <label>3. 신청 완료</label>
           </div>
@@ -318,211 +334,260 @@ export default function consent() {
           onSubmit={serverResponse ? handleUpdate : handleSubmit}
           enableReinitialize={true}
         >
-          {({ errors, touched, setFieldValue, values }) => (
-            <Form className={styles.form}>
-              <ScrollToErrorInput />
-              <div className={styles.stepGuide}>
-                <GrCircleInformation size="2.2ch" />
-                학습 데이터 제공 참여를 위해 아래 정보를 입력해주세요.
-              </div>
-              <fieldset>
-                <legend>학생 정보</legend>
-                {/* 이름 */}
-                <Field
-                  name="name"
-                  type="text"
-                  placeholder="이름(실명)"
-                  component={MyInput}
-                />
-                <ErrorMessage component="label" name="name" />
-                {/* 학교 */}
-                <Field
-                  name="schoolName"
-                  type="text"
-                  placeholder="소속 학교 이름"
-                  component={MyInput}
-                />
-                <ErrorMessage component="label" name="schoolName" />
-                {/* 성별 */}
-                <section>
-                  성별:
-                  <label>
-                    <Field type="radio" name="gender" value="male" />
-                    {keyConverter.gender("male")}
-                  </label>
-                  <label>
-                    <Field type="radio" name="gender" value="female" />
-                    {keyConverter.gender("female")}
-                  </label>
-                </section>
-                <ErrorMessage component="label" name="gender" />
-                {/* 학년, 반, 번호 */}
-                <section className={styles.withLabel}>
-                  <label>
-                    <Field
-                      as="select"
-                      name="schoolYear"
-                      className={
-                        touched.schoolYear && errors.schoolYear
-                          ? styles.errorBorder
-                          : ""
-                      }
-                      disabled
-                    >
-                      <option value="">선택</option>
-                      <option value={1}>중학교 1학년</option>
-                      <option value={2}>중학교 2학년</option>
-                      <option value={3}>중학교 3학년</option>
-                    </Field>
-                  </label>
-                  <label>
-                    반:
-                    <Field
-                      name="schoolClass"
-                      type="tel"
-                      component={MyInput}
-                      autoComplete="off"
-                    />
-                  </label>
-                  <label>
-                    번호:
-                    <Field
-                      name="studentNumber"
-                      type="tel"
-                      component={MyInput}
-                      autoComplete="off"
-                    />
-                  </label>
-                </section>
-                {touched.schoolYear && errors.schoolYear ? (
-                  <ErrorMessage component="label" name="schoolYear" />
-                ) : touched.schoolClass && errors.schoolClass ? (
-                  <ErrorMessage component="label" name="schoolClass" />
-                ) : touched.studentNumber && errors.studentNumber ? (
-                  <ErrorMessage component="label" name="studentNumber" />
-                ) : null}
-                {/* 핸드폰 번호 */}
-                <Field
-                  name="phoneNumber"
-                  type="tel"
-                  placeholder="핸드폰 번호"
-                  component={MyInput}
-                />
-                <ErrorMessage component="label" name="phoneNumber" />
-
-                {/* 핸드폰 번호 */}
-                <Field
-                  name="email"
-                  type="email"
-                  placeholder="이메일(정확히 입력)"
-                  component={MyInput}
-                />
-                <ErrorMessage component="label" name="email" />
-
-                {/* 데이터 수집 기간 */}
-                <p
-                  className={styles.dataCollectionSessionTitle}
-                  name="dataCollectionSession"
-                >
-                  데이터 수집 기간
-                  <br />
-                  원하는 데이터 수집기간 세션 선택
-                </p>
-                <ErrorMessage component="label" name="dataCollectionSession" />
-
-                <div className={styles.dataCollectionSessionTable}>
-                  <div className={styles.tableHeader}>
-                    토요일 A반(오전)
-                    <br />
-                    10:00~13:00
-                  </div>
-                  <div className={styles.tableHeader}>
-                    토요일 B반(오후)
-                    <br />
-                    14:00~17:00
-                  </div>
-                  <div className={styles.tableHeader}>
-                    일요일
-                    <br />
-                    14:00~17:00
-                  </div>
-                  {sessionsData?.data &&
-                    sessionsData.data.map((session) => {
-                      return (
-                        <div
-                          key={session.id}
-                          onClick={() => {
-                            session.attributes.remainingApplicants > 0 &&
-                              setFieldValue(
-                                "dataCollectionSession",
-                                session.id
-                              );
-                          }}
-                          data-active={
-                            session.id === values.dataCollectionSession
-                          }
-                          data-disabled={
-                            session.attributes.remainingApplicants === 0
-                          }
-                        >
-                          <span>{session.attributes.sessionId}</span>
-                          {moment(session.attributes.date).format(
-                            "YY년 M월 D일"
-                          )}
-                          <br />
-                          신청 잔여: {session.attributes.remainingApplicants}
-                        </div>
-                      );
-                    })}
+          {({ errors, touched, setFieldValue, values }) => {
+            return (
+              <Form className={styles.form}>
+                <ScrollToErrorInput />
+                <div className={styles.stepGuide}>
+                  <GrCircleInformation size="2.2ch" />
+                  학습 데이터 제공 참여를 위해 아래 정보를 입력해주세요.
                 </div>
-              </fieldset>
-
-              <fieldset>
-                <legend>학부모님 정보</legend>
-                <Field
-                  name="parentName"
-                  type="text"
-                  placeholder="이름(실명)"
-                  component={MyInput}
-                />
-                <ErrorMessage component="label" name="parentName" />
-                <Field
-                  name="parentPhoneNumber"
-                  type="tel"
-                  placeholder="핸드폰 번호"
-                  component={MyInput}
-                />
-                <ErrorMessage component="label" name="parentPhoneNumber" />
-                <Field
-                  name="parentEmail"
-                  type="email"
-                  placeholder="이메일(정확히 입력)"
-                  component={MyInput}
-                />
-                <ErrorMessage component="label" name="parentEmail" />
-              </fieldset>
-
-              {!serverResponse && (
                 <fieldset>
-                  <legend>서명하기</legend>
-                  <iframe
-                    width="100%"
-                    height="800"
-                    src="https://app.modusign.co.kr/link/f7628320-34ca-11ed-b019-d973344d21d0/authentication"
-                    allowFullScreen
-                  ></iframe>
-                </fieldset>
-              )}
+                  <legend>학생 정보</legend>
+                  {/* 이름 */}
+                  <Field
+                    name="name"
+                    type="text"
+                    placeholder="이름(실명)"
+                    component={MyInput}
+                  />
+                  <ErrorMessage component="label" name="name" />
+                  {/* 학교 */}
+                  <Field
+                    name="schoolName"
+                    type="text"
+                    placeholder="소속 학교 이름"
+                    component={MyInput}
+                  />
+                  <ErrorMessage component="label" name="schoolName" />
+                  {/* 성별 */}
+                  <section>
+                    성별:
+                    <label>
+                      <Field type="radio" name="gender" value="male" />
+                      {keyConverter.gender("male")}
+                    </label>
+                    <label>
+                      <Field type="radio" name="gender" value="female" />
+                      {keyConverter.gender("female")}
+                    </label>
+                  </section>
+                  <ErrorMessage component="label" name="gender" />
+                  {/* 학년, 반, 번호 */}
+                  <section className={styles.withLabel}>
+                    <label>
+                      <Field
+                        as="select"
+                        name="schoolYear"
+                        className={
+                          touched.schoolYear && errors.schoolYear
+                            ? styles.errorBorder
+                            : ""
+                        }
+                        disabled
+                      >
+                        <option value="">선택</option>
+                        <option value={1}>중학교 1학년</option>
+                        <option value={2}>중학교 2학년</option>
+                        <option value={3}>중학교 3학년</option>
+                      </Field>
+                    </label>
+                    <label>
+                      반:
+                      <Field
+                        name="schoolClass"
+                        type="tel"
+                        component={MyInput}
+                        autoComplete="off"
+                      />
+                    </label>
+                    <label>
+                      번호:
+                      <Field
+                        name="studentNumber"
+                        type="tel"
+                        component={MyInput}
+                        autoComplete="off"
+                      />
+                    </label>
+                  </section>
+                  {touched.schoolYear && errors.schoolYear ? (
+                    <ErrorMessage component="label" name="schoolYear" />
+                  ) : touched.schoolClass && errors.schoolClass ? (
+                    <ErrorMessage component="label" name="schoolClass" />
+                  ) : touched.studentNumber && errors.studentNumber ? (
+                    <ErrorMessage component="label" name="studentNumber" />
+                  ) : null}
+                  {/* 핸드폰 번호 */}
+                  <Field
+                    name="phoneNumber"
+                    type="tel"
+                    placeholder="핸드폰 번호"
+                    component={MyInput}
+                  />
+                  <ErrorMessage component="label" name="phoneNumber" />
 
-              <div className={styles.stepGuide} style={{ marginTop: "3ch" }}>
-                <GrCircleInformation size="2.2ch" />
-                제출하기 전에 꼭 위의 "서명하기"를 완료해주세요.
-              </div>
-              <Button type="submit" fullWidth={true} loading={loading}>
-                {serverResponse ? "수정하기" : "제출하기"}
-              </Button>
-            </Form>
-          )}
+                  {/* 핸드폰 번호 */}
+                  <Field
+                    name="email"
+                    type="email"
+                    placeholder="이메일(정확히 입력)"
+                    component={MyInput}
+                  />
+                  <ErrorMessage component="label" name="email" />
+
+                  {/* 데이터 수집 기간 */}
+                  <p
+                    className={styles.dataCollectionSessionTitle}
+                    name="dataCollectionSession"
+                  >
+                    데이터 수집 기간
+                    <br />
+                    원하는 데이터 수집기간 세션 선택
+                  </p>
+                  <ErrorMessage
+                    component="label"
+                    name="dataCollectionSession"
+                  />
+
+                  <div className={styles.dataCollectionSessionTable}>
+                    <div className={styles.tableHeader}>
+                      토요일 A반(오전)
+                      <br />
+                      10:00~13:00
+                    </div>
+                    <div className={styles.tableHeader}>
+                      토요일 B반(오후)
+                      <br />
+                      14:00~17:00
+                    </div>
+                    <div className={styles.tableHeader}>
+                      일요일
+                      <br />
+                      14:00~17:00
+                    </div>
+                    {sessionsData?.data &&
+                      sessionsData.data.map((session) => {
+                        return (
+                          <div
+                            key={session.id}
+                            onClick={() => {
+                              session.attributes.remainingApplicants > 0 &&
+                                setFieldValue(
+                                  "dataCollectionSession",
+                                  session.id
+                                );
+                            }}
+                            data-active={
+                              session.id === values.dataCollectionSession
+                            }
+                            data-disabled={
+                              session.attributes.remainingApplicants === 0
+                            }
+                          >
+                            <span>{session.attributes.sessionId}</span>
+                            {moment(session.attributes.date).format(
+                              "YY년 M월 D일"
+                            )}
+                            <br />
+                            신청 잔여: {session.attributes.remainingApplicants}
+                          </div>
+                        );
+                      })}
+                  </div>
+                </fieldset>
+
+                <fieldset>
+                  <legend>학부모님 정보</legend>
+                  <Field
+                    name="parentName"
+                    type="text"
+                    placeholder="이름(실명)"
+                    component={MyInput}
+                  />
+                  <ErrorMessage component="label" name="parentName" />
+                  <Field
+                    name="parentPhoneNumber"
+                    type="tel"
+                    placeholder="핸드폰 번호"
+                    component={MyInput}
+                  />
+                  <ErrorMessage component="label" name="parentPhoneNumber" />
+                  <Field
+                    name="parentEmail"
+                    type="email"
+                    placeholder="이메일(정확히 입력)"
+                    component={MyInput}
+                  />
+                  <ErrorMessage component="label" name="parentEmail" />
+                </fieldset>
+
+                <fieldset>
+                  <legend>개인정보 수집·이용 및 제3자 제공에 관한 동의</legend>
+                  {/* <h3>개인정보 수집·이용 및 제3자 제공에 관한 동의</h3> */}
+                  <h3>
+                    서울특별시교육청 – 서울대학교 AI 연구원 공동연구 교육데이터
+                    활용 사례연구 참여 희망자(학생)의 개인정보 수집·이용 및
+                    제3자 제공에 관한 동의서
+                  </h3>
+                  <div className={styles.test}>
+                    서울대학교 AI연구원은 과학기술정보통신부, NIA(AI-허브)가
+                    추진하는 ‘인공지능 학습용 데이터 구축사업 ｢2-100. 서울지역
+                    중학생들의 국어, 수학 교과용 감성 AI 튜터 데이터｣’과 관련하
+                    여 아래와 같이 개인정보 수집·이용 및 제3자 제공에 대한
+                    동의를 얻고자 합니다. 내용을 자세히 읽으신 후 동의 여부를
+                    결정하여 주십시오.
+                  </div>
+                  <div className={styles.imgWrapper}>
+                    <Image
+                      src="https://nia-homepage-media.s3.ap-northeast-2.amazonaws.com/assets/consentTerm1.png"
+                      layout="responsive"
+                      width={796}
+                      height={774}
+                    />
+                  </div>
+                  <section>
+                    <label>
+                      <Field
+                        name="personalInfoCollectionAndUseAgreement"
+                        type="checkbox"
+                      />
+                      위와 같이 개인정보를 수집·이용하는데 동의합니다.
+                    </label>
+                  </section>
+                  <ErrorMessage
+                    component="label"
+                    name="personalInfoCollectionAndUseAgreement"
+                  />
+                  <div className={styles.imgWrapper}>
+                    <Image
+                      src="https://nia-homepage-media.s3.ap-northeast-2.amazonaws.com/assets/consentTerm2.png"
+                      layout="responsive"
+                      width={796}
+                      height={318}
+                    />
+                  </div>
+                  <section>
+                    <label>
+                      <Field
+                        name="personalInfoProvidingToThirdPartiesAgreement"
+                        type="checkbox"
+                      />
+                      위와 같이 개인정보 제3자 제공에 대해 동의합니다.
+                    </label>
+                  </section>
+                  <ErrorMessage
+                    component="label"
+                    name="personalInfoProvidingToThirdPartiesAgreement"
+                  />
+                </fieldset>
+
+                <Button type="submit" fullWidth={true} loading={loading}>
+                  {serverResponse ? "수정하기" : "제출하기"}
+                </Button>
+              </Form>
+            );
+          }}
         </Formik>
 
         {/*  3단계: 신청 완료 */}

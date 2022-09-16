@@ -14,16 +14,19 @@
   &[data-step="2"] {
     form {
       display: block;
-
-      .agreement {
+      h3 {
+        @include mixins.fs4;
+        font-weight: 500;
+        text-align: center;
+        margin-bottom: 3ch;
+        word-break: keep-all;
+      }
+      .imgWrapper {
+        width: 100%;
         margin-top: 5ch;
-        font-weight: 300;
-        a {
-          font-weight: 400;
-          &:hover {
-            text-decoration: underline;
-          }
-        }
+        margin-bottom: -2ch;
+        border: 1px solid v.$gray3;
+        padding: 2ch 1ch;
       }
 
       fieldset {
@@ -33,18 +36,20 @@
         position: relative;
         border: none;
         margin-top: 9ch;
-
         @include mixins.respond(lg) {
           padding: 3ch 2ch;
         }
         legend {
           @include mixins.fs5;
           position: absolute;
-          top: -3.4ch;
+          top: -1ch;
           left: 50%;
-          transform: translateX(-50%);
+          transform: translate(-50%, -100%);
           font-weight: 700;
           color: v.$yellow;
+          width: 100%;
+          text-align: center;
+          word-break: keep-all;
         }
       }
     }
@@ -59,6 +64,7 @@
 }
 
 .dataCollectionNotice {
+  @include mixins.fs1;
   table {
     margin: 16px auto;
   }
@@ -98,6 +104,8 @@
   img {
     display: inline-block;
     width: 80px;
+    height: auto;
+    padding: 5px;
   }
 }
 
@@ -234,8 +242,10 @@ div.inactiveStep {
       border-radius: 50%;
       width: 2.2ch;
       height: 2.2ch;
+      transform: translateY(0.8ch);
       margin-right: 6px;
       line-height: 1;
+      vertical-align: text-top;
     }
     em {
       font-style: normal;
@@ -252,7 +262,7 @@ div.inactiveStep {
   .tableHeader {
     cursor: auto;
     background-color: v.$yellow;
-    word-break: keep-all;
+    word-break: break-word;
   }
 }
 
