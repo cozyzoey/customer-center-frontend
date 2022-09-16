@@ -65,6 +65,8 @@
 
 .dataCollectionNotice {
   @include mixins.fs1;
+  word-break: keep-all;
+
   table {
     margin: 16px auto;
   }
@@ -73,6 +75,11 @@
     font-weight: 500;
     margin: 3ch 0 2ch;
     text-align: center;
+    word-break: keep-all;
+    @include mixins.respond(sm) {
+      font-size: 4vw !important;
+      font-weight: 700;
+    }
   }
   h2 {
     @include mixins.fs6;
@@ -100,7 +107,6 @@
   li {
     list-style-type: unset;
     padding-inline-start: 6px;
-    word-break: keep-all;
   }
   img {
     display: inline-block;
