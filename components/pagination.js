@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import classNames from "classnames";
+import { GrPrevious, GrNext } from "react-icons/gr";
 import { PER_PAGE } from "@/constants/config";
 import styles from "@/styles/pagination.module.scss";
 
@@ -7,7 +8,6 @@ export default function Pagination({ page, total, pageName = "", perPage }) {
   const ADJUSTED_PER_PAGE = perPage || PER_PAGE;
   const router = useRouter();
   const lastPage = Math.ceil(total / ADJUSTED_PER_PAGE);
-  const NO_LINKS_TO_SHOW = 5;
 
   const handleLinkClick = (clickedPage) => {
     if (Number.isInteger(clickedPage)) {
@@ -15,30 +15,58 @@ export default function Pagination({ page, total, pageName = "", perPage }) {
     }
   };
 
-  const pagesToShow = [
-    1,
-    page >= NO_LINKS_TO_SHOW ? "···" : 2,
-    page >= NO_LINKS_TO_SHOW ? (page === lastPage ? page - 2 : page - 1) : 3,
-    page >= NO_LINKS_TO_SHOW ? (page === lastPage ? page - 1 : page) : 4,
-    page >= NO_LINKS_TO_SHOW ? (page === lastPage ? page : page + 1) : 5,
-  ];
+  const pagesToShow =
+    lastPage > 3
+      ? parseInt(page) === 1
+        ? [1, 2, 3]
+        : [page - 1, +page, page + 1]
+      : Array.from({ length: lastPage }, (_, i) => i + 1);
 
-  if (lastPage === 1) return null;
+  const handlePrevClick = () => {
+    if (parseInt(page) === 1) return;
+
+    router.push(
+      `/${!!pageName ? pageName + "/" : ""}?page=${parseInt(page) - 1}`
+    );
+  };
+
+  const handleNextClick = () => {
+    if (lastPage === parseInt(page)) return;
+
+    router.push(
+      `/${!!pageName ? pageName + "/" : ""}?page=${parseInt(page) + 1}`
+    );
+  };
+
   return (
     <ul className={styles.pagination}>
-      {new Array(Math.min(lastPage, NO_LINKS_TO_SHOW))
-        .fill(0)
-        .map((el, idx) => (
-          <li
-            onClick={() => handleLinkClick(pagesToShow[idx])}
-            key={idx}
-            className={classNames(styles.paginationLink, {
-              [styles.activeLink]: page === pagesToShow[idx],
-            })}
-          >
-            {pagesToShow[idx]}
-          </li>
-        ))}
+      <div
+        className={classNames(styles.btn, {
+          [styles.inactiveBtn]: parseInt(page) === 1,
+        })}
+        onClick={handlePrevClick}
+      >
+        <GrPrevious size="26px" />
+      </div>
+      {pagesToShow.map((el) => (
+        <li
+          onClick={() => handleLinkClick(el)}
+          key={el}
+          className={classNames(styles.paginationLink, {
+            [styles.activeLink]: parseInt(page) === el,
+          })}
+        >
+          {el}
+        </li>
+      ))}
+      <div
+        className={classNames(styles.btn, {
+          [styles.inactiveBtn]: parseInt(page) === lastPage,
+        })}
+        onClick={handleNextClick}
+      >
+        <GrNext size="26px" />
+      </div>
     </ul>
   );
 }

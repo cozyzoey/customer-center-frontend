@@ -41,7 +41,7 @@ export default function QnA() {
         <Pagination
           page={page}
           total={data.meta.pagination.total}
-          pageName="공지사항"
+          pageName="notice"
         />
       </div>
     </Layout>

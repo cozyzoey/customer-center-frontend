@@ -49,7 +49,7 @@ export default function Home() {
               )}
               {data?.data.length > 0 && (
                 <ul>
-                  {data?.data.slice(0, 4).map((el) => (
+                  {data?.data.slice(0, 3).map((el) => (
                     <Link href={`/notice/${el.id}`} key={el.id}>
                       <a>
                         <li>

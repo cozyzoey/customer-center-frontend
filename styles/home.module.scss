@@ -96,6 +96,8 @@
       }
       li {
         @include mixins.itemBox;
+        margin-bottom: 20px;
+
         h4 {
           @include mixins.fs4;
           font-weight: 400;

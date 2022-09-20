@@ -99,9 +99,6 @@
   padding: 1.6ch 4%;
   background-color: v.$gray1;
   border-radius: 23px;
-  &:not(:last-of-type) {
-    margin-bottom: 20px;
-  }
 
   @include respond(lg) {
     min-height: 73px;
