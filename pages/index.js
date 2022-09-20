@@ -6,15 +6,14 @@ import { useRouter } from "next/router";
 import useFetchPage from "@/hooks/useFetchPage";
 import Button from "@/components/button";
 import Layout from "@/components/layout";
-import Pagination from "@/components/pagination";
 import NoDataHeading from "@/components/no-data-heading";
 import Logo from "@/components/responsive-logo-img";
 
-import styles from "@/styles/notice.module.scss";
+import styles from "@/styles/home.module.scss";
 
 export default function Home() {
   const router = useRouter();
-  const { data, page } = useFetchPage({ endpoint: "/api/notices" });
+  const { data } = useFetchPage({ endpoint: "/api/notices" });
 
   return (
     <Layout title="공지사항">
@@ -49,30 +48,27 @@ export default function Home() {
                 <NoDataHeading>아직 등록된 공지사항이 없습니다.</NoDataHeading>
               )}
               {data?.data.length > 0 && (
-                <>
-                  <ul>
-                    {data?.data.map((el) => (
-                      <Link href={`/notice/${el.id}`} key={el.id}>
-                        <a>
-                          <li>
-                            <h4>{el.attributes.title}</h4>
-                            <div>
-                              {el.attributes.contents
-                                .replace(/<[^>]+>/g, "")
-                                .substring(0, 24)}
-                            </div>
-                            <time>
-                              {moment(el.attributes.createdAt).format(
-                                "YYYY. MM. DD"
-                              )}
-                            </time>
-                          </li>
-                        </a>
-                      </Link>
-                    ))}
-                  </ul>
-                  <Pagination page={page} total={data.meta.pagination.total} />
-                </>
+                <ul>
+                  {data?.data.slice(0, 4).map((el) => (
+                    <Link href={`/notice/${el.id}`} key={el.id}>
+                      <a>
+                        <li>
+                          <h4>{el.attributes.title}</h4>
+                          <div>
+                            {el.attributes.contents
+                              .replace(/<[^>]+>/g, "")
+                              .substring(0, 24)}
+                          </div>
+                          <time>
+                            {moment(el.attributes.createdAt).format(
+                              "YYYY. MM. DD"
+                            )}
+                          </time>
+                        </li>
+                      </a>
+                    </Link>
+                  ))}
+                </ul>
               )}
             </div>
           </div>

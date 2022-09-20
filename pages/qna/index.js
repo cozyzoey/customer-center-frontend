@@ -12,7 +12,7 @@ import Layout from "@/components/layout";
 import Pagination from "@/components/pagination";
 import AuthContext from "@/context/AuthContext";
 
-import styles from "@/styles/qna.module.scss";
+import styles from "@/styles/posts.module.scss";
 
 export default function QnA() {
   const router = useRouter();

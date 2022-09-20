@@ -47,9 +47,12 @@
     // 타이틀 텍스트
     h4 {
       @include mixins.fs5;
-
       font-weight: 400;
       margin-bottom: 6px;
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
     // 작성자, 작성일
     .info {
