@@ -1,7 +1,7 @@
 import parse from "html-react-parser";
 import moment from "moment";
 import { useEffect, useState, Suspense } from "react";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
@@ -40,6 +40,7 @@ export default function Consent() {
       revalidateOnReconnect: true,
     }
   );
+  const { mutate } = useSWRConfig();
 
   useEffect(() => {
     const data = sessionStorage.getItem("consentFoundItem");
@@ -92,43 +93,28 @@ export default function Consent() {
     window.scrollTo(0, 0);
   }, [step]);
 
-  const initialValues = serverResponse
-    ? {
-        name: serverResponse?.attributes?.name,
-        schoolName: serverResponse.attributes.schoolName,
-        gender: serverResponse?.attributes?.gender,
-        schoolYear: 1,
-        schoolClass: serverResponse?.attributes?.schoolClass,
-        studentNumber: serverResponse?.attributes?.studentNumber,
-        phoneNumber: serverResponse?.attributes?.phoneNumber,
-        email: serverResponse?.attributes?.email,
-        dataCollectionSession:
-          serverResponse?.attributes?.dataCollectionSession?.data?.id,
-        parentName: serverResponse?.attributes?.parentName,
-        parentPhoneNumber: serverResponse?.attributes?.parentPhoneNumber,
-        parentEmail: serverResponse?.attributes?.parentEmail,
-        personalInfoCollectionAndUseAgreement:
-          serverResponse?.attributes?.personalInfoCollectionAndUseAgreement,
-        personalInfoProvidingToThirdPartiesAgreement:
-          serverResponse?.attributes
-            ?.personalInfoProvidingToThirdPartiesAgreement,
-      }
-    : {
-        name: "",
-        schoolName: "",
-        gender: "",
-        schoolYear: 1,
-        schoolClass: "",
-        studentNumber: "",
-        phoneNumber: "",
-        email: "",
-        dataCollectionSession: "",
-        parentName: "",
-        parentPhoneNumber: "",
-        parentEmail: "",
-        personalInfoCollectionAndUseAgreement: false,
-        personalInfoProvidingToThirdPartiesAgreement: false,
-      };
+  const initialValues = {
+    name: serverResponse?.attributes?.name || "",
+    schoolName: serverResponse?.attributes?.schoolName || "",
+    gender: serverResponse?.attributes?.gender || "",
+    schoolYear: 1,
+    schoolClass: serverResponse?.attributes?.schoolClass || "",
+    studentNumber: serverResponse?.attributes?.studentNumber || "",
+    phoneNumber: serverResponse?.attributes?.phoneNumber || "",
+    email: serverResponse?.attributes?.email || "",
+    dataCollectionSession:
+      serverResponse?.attributes?.dataCollectionSession?.data?.id || "",
+    parentName: serverResponse?.attributes?.parentName || "",
+    parentPhoneNumber: serverResponse?.attributes?.parentPhoneNumber || "",
+    parentEmail: serverResponse?.attributes?.parentEmail || "",
+    childAcademicLevel: serverResponse?.attributes?.childAcademicLevel || null,
+    personalInfoCollectionAndUseAgreement:
+      serverResponse?.attributes?.personalInfoCollectionAndUseAgreement ||
+      false,
+    personalInfoProvidingToThirdPartiesAgreement:
+      serverResponse?.attributes
+        ?.personalInfoProvidingToThirdPartiesAgreement || false,
+  };
 
   //* 테스트용 초기값
   // const initialValues = {
@@ -200,6 +186,9 @@ export default function Consent() {
     parentEmail: Yup.string()
       .email("이메일 형식을 확인해주세요")
       .required("필수 입력 항목입니다"),
+    childAcademicLevel: Yup.mixed()
+      .nullable()
+      .oneOf(["high", "medium", "low", null]),
     personalInfoCollectionAndUseAgreement: Yup.boolean()
       .required("동의에 체크해 주세요")
       .oneOf([true], "동의에 체크해 주세요"),
@@ -235,6 +224,7 @@ export default function Consent() {
       setServerResponse(data); // id, attributes: {}
       setStep(3);
       resetForm();
+      mutate(`${API_URL}/api/data-collection-sessions`);
     } catch (error) {
       toast.error(error?.message || "내부 문제가 생겼어요 :(");
     } finally {
@@ -276,6 +266,7 @@ export default function Consent() {
       setServerResponse(data); // id, attributes: {}
       setStep(3);
       resetForm();
+      mutate(`${API_URL}/api/data-collection-sessions`);
     } catch (error) {
       toast.error(error?.message || "내부 문제가 생겼어요 :(");
     } finally {
@@ -570,6 +561,20 @@ export default function Consent() {
                     component={MyInput}
                   />
                   <ErrorMessage component="label" name="parentEmail" />
+                  {/* 자녀 학업 수준 */}
+                  <section>
+                    자녀 학업 수준 (선택):
+                    {["high", "medium", "low"].map((level) => (
+                      <label key={level}>
+                        <Field
+                          type="radio"
+                          name="childAcademicLevel"
+                          value={level}
+                        />
+                        {keyConverter.level(level)}
+                      </label>
+                    ))}
+                  </section>
                 </fieldset>
 
                 <fieldset>
@@ -702,6 +707,16 @@ export default function Consent() {
                   <div>{serverResponse.attributes.parentName}</div>
                   <div>핸드폰 번호</div>
                   <div>{serverResponse.attributes.parentPhoneNumber}</div>
+                  {serverResponse.attributes.childAcademicLevel && (
+                    <>
+                      <div>자녀 학업 수준</div>
+                      <div>
+                        {keyConverter.level(
+                          serverResponse.attributes.childAcademicLevel
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 <Button onClick={() => setStep(2)}>수정하기</Button>

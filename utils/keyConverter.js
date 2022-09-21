@@ -9,6 +9,19 @@ class KeyConverter {
         return "";
     }
   };
+
+  level = (key) => {
+    switch (key) {
+      case "high":
+        return "상";
+      case "medium":
+        return "중";
+      case "low":
+        return "하";
+      default:
+        return "";
+    }
+  };
 }
 
 export default new KeyConverter();

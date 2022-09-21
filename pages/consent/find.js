@@ -23,8 +23,6 @@ export default function ConesntFind() {
     phoneNumber: "",
   };
 
-  console.log(router.query.step);
-
   const validationSchema = Yup.object({
     name: Yup.string()
       .matches(/^[가-힣]{2,4}$/, "2~4자의 실명을 입력해주세요")
