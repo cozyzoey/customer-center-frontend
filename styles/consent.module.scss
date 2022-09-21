@@ -52,6 +52,15 @@
           word-break: keep-all;
         }
       }
+      .formBtns {
+        display: flex;
+        align-items: center;
+        gap: 0 20px;
+        margin-top: 4ch;
+        button {
+          width: 50%;
+        }
+      }
     }
   }
 

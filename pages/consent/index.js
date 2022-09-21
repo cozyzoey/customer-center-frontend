@@ -22,11 +22,13 @@ import { API_URL } from "@/constants/config";
 import keyConverter from "utils/keyConverter";
 import styles from "@/styles/consent.module.scss";
 
-export default function consent() {
-  const [loading, setLoading] = useState(false);
-  const [step, setStep] = useState(1);
-  const [serverResponse, setServerResponse] = useState(null);
+export default function Consent() {
   const router = useRouter();
+  const [loading, setLoading] = useState({});
+  const [step, setStep] = useState(
+    router?.query?.step ? parseInt(router.query.step) : 1
+  );
+  const [serverResponse, setServerResponse] = useState(null);
   const { data: businessData } = useSWR(`${API_URL}/api/business`, {
     revalidateIfStale: false,
   });
@@ -38,6 +40,14 @@ export default function consent() {
       revalidateOnReconnect: true,
     }
   );
+
+  useEffect(() => {
+    const data = sessionStorage.getItem("consentFoundItem");
+    if (data) {
+      setServerResponse(JSON.parse(data));
+      sessionStorage.removeItem("consentFoundItem");
+    }
+  }, []);
 
   const ScrollToErrorInput = () => {
     const { isValid, submitCount, errors } = useFormikContext();
@@ -200,16 +210,20 @@ export default function consent() {
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      setLoading(true);
+      setLoading({ ...loading, submit: true });
 
       const res = await fetch(`${API_URL}/api/students?populate=*`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        // 학교 이름은 양측의 공백 제거
+        // 학교 이름은 양측의 공백 제거, 핸드폰번호 '-' 제거
         body: JSON.stringify({
-          data: { ...values, schoolName: values.schoolName.trim() },
+          data: {
+            ...values,
+            schoolName: values.schoolName.trim(),
+            phoneNumber: values.phoneNumber.replace("-", ""),
+          },
         }),
       });
       const { data, error } = await res.json();
@@ -224,7 +238,7 @@ export default function consent() {
     } catch (error) {
       toast.error(error?.message || "내부 문제가 생겼어요 :(");
     } finally {
-      setLoading(false);
+      setLoading({ ...loading, submit: false });
     }
   };
 
@@ -234,7 +248,7 @@ export default function consent() {
 
       if (!result) return;
 
-      setLoading(true);
+      setLoading({ ...loading, submit: true });
 
       const res = await fetch(
         `${API_URL}/api/students/${serverResponse.id}?populate=*`,
@@ -243,9 +257,13 @@ export default function consent() {
           headers: {
             "Content-Type": "application/json",
           },
-          // 학교 이름은 양측의 공백 제거
+          // 학교 이름은 양측의 공백 제거, 핸드폰번호 '-' 제거
           body: JSON.stringify({
-            data: { ...values, schoolName: values.schoolName.trim() },
+            data: {
+              ...values,
+              schoolName: values.schoolName.trim(),
+              phoneNumber: values.phoneNumber.replace("-", ""),
+            },
           }),
         }
       );
@@ -261,7 +279,39 @@ export default function consent() {
     } catch (error) {
       toast.error(error?.message || "내부 문제가 생겼어요 :(");
     } finally {
-      setLoading(false);
+      setLoading({ ...loading, submit: false });
+    }
+  };
+
+  const handleCancel = async () => {
+    try {
+      const result = window.confirm("신청을 취소하시겠습니까?");
+
+      if (!result) return;
+
+      setLoading({ ...loading, cancel: true });
+
+      const res = await fetch(`${API_URL}/api/students/${serverResponse.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          data: { deletedAt: new Date() },
+        }),
+      });
+      const { data, error } = await res.json();
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      toast.success("신청이 취소되었습니다");
+      router.replace("/");
+    } catch (error) {
+      toast.error(error?.message || "내부 문제가 생겼어요 :(");
+    } finally {
+      setLoading({ ...loading, cancel: false });
     }
   };
 
@@ -427,7 +477,7 @@ export default function consent() {
                   />
                   <ErrorMessage component="label" name="phoneNumber" />
 
-                  {/* 핸드폰 번호 */}
+                  {/* 이메일 */}
                   <Field
                     name="email"
                     type="email"
@@ -524,7 +574,6 @@ export default function consent() {
 
                 <fieldset>
                   <legend>개인정보 수집·이용 및 제3자 제공에 관한 동의</legend>
-                  {/* <h3>개인정보 수집·이용 및 제3자 제공에 관한 동의</h3> */}
                   <h3>
                     서울특별시교육청 – 서울대학교 AI 연구원 공동연구 교육데이터
                     활용 사례연구 참여 희망자(학생)의 개인정보 수집·이용 및
@@ -582,9 +631,25 @@ export default function consent() {
                   />
                 </fieldset>
 
-                <Button type="submit" fullWidth={true} loading={loading}>
-                  {serverResponse ? "수정하기" : "제출하기"}
-                </Button>
+                <div className={styles.formBtns}>
+                  <Button
+                    type="submit"
+                    fullWidth={true}
+                    loading={loading.submit}
+                  >
+                    {serverResponse ? "수정하기" : "제출하기"}
+                  </Button>
+                  {serverResponse && (
+                    <Button
+                      type="button"
+                      onClick={handleCancel}
+                      variant="gray"
+                      loading={loading.cancel}
+                    >
+                      신청취소
+                    </Button>
+                  )}
+                </div>
               </Form>
             );
           }}

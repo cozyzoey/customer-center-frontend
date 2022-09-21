@@ -82,8 +82,18 @@ export default function Home() {
                 onClick={() => router.push("/consent")}
                 variant="blue"
                 size="lg"
+                fullWidth={true}
               >
                 학습 데이터 제공 참여 신청
+              </Button>
+              <div style={{ width: "100%", height: "20px" }}></div>
+              <Button
+                onClick={() => router.push("/consent/find")}
+                variant="yellow"
+                size="lg"
+                fullWidth={true}
+              >
+                신청 내역 조회
               </Button>
             </div>
           </div>
