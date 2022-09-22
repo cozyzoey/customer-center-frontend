@@ -561,9 +561,9 @@ export default function Consent() {
                     component={MyInput}
                   />
                   <ErrorMessage component="label" name="parentEmail" />
-                  {/* 자녀 학업 수준 */}
+                  {/* 자녀의 성적 수준 */}
                   <section>
-                    자녀 학업 수준 (선택):
+                    자녀의 성적 수준 (선택사항):
                     {["high", "medium", "low"].map((level) => (
                       <label key={level}>
                         <Field
@@ -709,7 +709,7 @@ export default function Consent() {
                   <div>{serverResponse.attributes.parentPhoneNumber}</div>
                   {serverResponse.attributes.childAcademicLevel && (
                     <>
-                      <div>자녀 학업 수준</div>
+                      <div>자녀의 성적 수준</div>
                       <div>
                         {keyConverter.level(
                           serverResponse.attributes.childAcademicLevel
