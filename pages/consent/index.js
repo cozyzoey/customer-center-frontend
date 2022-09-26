@@ -363,8 +363,22 @@ export default function Consent() {
                 {parse(businessData.data.attributes.dataCollectionNotice || "")}
               </div>
             </Suspense>
-            <Button fullWidth={true} onClick={() => setStep(2)} type="button">
+            <Button
+              fullWidth={true}
+              onClick={() => {
+                setServerResponse(null);
+                setStep(2);
+              }}
+              type="button"
+            >
               다음
+            </Button>
+            <Button
+              onClick={() => router.replace("/consent/find")}
+              variant="blue"
+              fullWidth={true}
+            >
+              신청 내역 조회 및 수정
             </Button>
           </div>
         )}
