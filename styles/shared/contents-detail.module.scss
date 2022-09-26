@@ -97,10 +97,11 @@
   }
   ol,
   ul {
-    padding-left: 2.2ch;
+    margin: 0 0 10px 2.4ch;
   }
-  ul li {
-    list-style-type: disc;
+  li {
+    list-style-type: unset;
+    padding-inline-start: 6px;
   }
 }
 
@@ -187,5 +188,13 @@
     }
   }
   .answerItemContents {
+    ol,
+    ul {
+      margin: 0 0 10px 2.4ch;
+    }
+    li {
+      list-style-type: unset;
+      padding-inline-start: 6px;
+    }
   }
 }

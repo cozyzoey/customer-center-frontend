@@ -57,7 +57,9 @@ export default function FAQ() {
                   <div>
                     <dt>Q</dt>
                     <dd>
-                      {item.attributes.title}{" "}
+                      <div className={styles.titleText}>
+                        {item.attributes.title}
+                      </div>{" "}
                       <GrAdd
                         className={styles.addIcon}
                         size="1.8ch"

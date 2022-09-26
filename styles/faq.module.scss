@@ -47,6 +47,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 10px;
+    .titleText {
+      flex: 1;
+    }
     .addIcon {
       transform: rotate(0);
       transition: transform 0.3s;
