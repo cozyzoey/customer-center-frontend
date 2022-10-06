@@ -40,16 +40,32 @@ export default function ConesntFind() {
     try {
       setLoading(true);
 
-      const query = qs.stringify({
-        filters: {
-          name: { $eq: values.name },
-          phoneNumber: { $eq: values.phoneNumber.replace("-", "") },
-          deletedAt: {
-            $null: true,
+      const query = qs.stringify(
+        {
+          filters: {
+            name: { $eq: values.name },
+            $or: [
+              { phoneNumber: { $eq: values.phoneNumber } },
+              { phoneNumber: { $eq: values.phoneNumber.replaceAll("-", "") } },
+              {
+                phoneNumber: {
+                  $eq:
+                    values.phoneNumber.replaceAll("-", "").slice(0, 7) +
+                    "-" +
+                    values.phoneNumber.replaceAll("-", "").slice(7),
+                },
+              },
+            ],
+            deletedAt: {
+              $null: true,
+            },
           },
+          populate: "*",
         },
-        populate: "*",
-      });
+        {
+          encodeValuesOnly: true, // prettify URL
+        }
+      );
 
       const res = await fetch(`${API_URL}/api/students?${query}`, {
         method: "GET",

@@ -211,7 +211,7 @@ export default function Consent() {
           data: {
             ...values,
             schoolName: values.schoolName.trim(),
-            phoneNumber: values.phoneNumber.replace("-", ""),
+            phoneNumber: values.phoneNumber.replaceAll("-", ""),
           },
         }),
       });
@@ -252,7 +252,7 @@ export default function Consent() {
             data: {
               ...values,
               schoolName: values.schoolName.trim(),
-              phoneNumber: values.phoneNumber.replace("-", ""),
+              phoneNumber: values.phoneNumber.replaceAll("-", ""),
             },
           }),
         }
