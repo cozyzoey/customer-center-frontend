@@ -2,6 +2,7 @@ import moment from "moment";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import parse from "html-react-parser";
 
 import useFetchPage from "@/hooks/useFetchPage";
 import Button from "@/components/button";
@@ -55,9 +56,11 @@ export default function Home() {
                         <li>
                           <h4>{el.attributes.title}</h4>
                           <div>
-                            {el.attributes.contents
-                              .replace(/<[^>]+>/g, "")
-                              .substring(0, 24)}
+                            {parse(
+                              el.attributes.contents
+                                .replace(/<[^>]+>/g, "")
+                                .substring(0, 24)
+                            )}
                           </div>
                           <time>
                             {moment(el.attributes.createdAt).format(
