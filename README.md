@@ -9,10 +9,6 @@
   <p>
     '인공지능 학습용 데이터 구축사업' 참여자를 위한 고객센터
   </p>
-
-  <p>
-    <a href="https://www.nia-help.com">데모 보기</a>
-  </p>
 </div>
 
 <!-- ABOUT THE PROJECT -->
